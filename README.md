@@ -6,7 +6,6 @@ QGIS PlugIn to load and display Open Data from CKAN enabled data portals.
 
 Sponsored by [Amt der Kärntner Landesregierung - KAGIS](http://www.kagis.ktn.gv.at)
 
-??KONTAKT???
 
 __DISCLAMER__
 
