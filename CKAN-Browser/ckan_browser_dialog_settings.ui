@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CKANBrowserDialogSettings</class>
+ <widget class="QDialog" name="CKANBrowserDialogSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>704</width>
+    <height>328</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>704</width>
+    <height>328</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>dlg_set_title</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="6" column="0">
+    <widget class="QPushButton" name="IDC_bSave">
+     <property name="text">
+      <string>dlg_set_btn_save</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QPushButton" name="IDC_bCancel">
+     <property name="text">
+      <string>dlg_set_btn_cancel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <item row="9" column="1">
+      <widget class="QPushButton" name="IDC_pbHelpCache">
+       <property name="minimumSize">
+        <size>
+         <width>14</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>18</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>dlg_set_tool_cache</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="IDC_lblPreCkanApi">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>dlg_set_pre_api</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="label">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>dlg_set_cache_path</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="3">
+      <widget class="QPushButton" name="IDC_bChoosePre">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>dlg_set_choose_pre</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0" colspan="3">
+      <widget class="QComboBox" name="IDC_cbPreCkanApi">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>26</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="IDC_lblCkanApi">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>dlg_set_ckan_api</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPushButton" name="IDC_pbHelpPreset">
+       <property name="minimumSize">
+        <size>
+         <width>14</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>18</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>dlg_set_tool_pre_urls</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="IDC_pbHelpURL">
+       <property name="minimumSize">
+        <size>
+         <width>14</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>18</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>dlg_set_tool_api_url</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0" colspan="4">
+      <widget class="Line" name="line_2">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="4">
+      <widget class="Line" name="line">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0" colspan="4">
+      <widget class="QLabel" name="IDC_lblPreCkan">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>dlg_set_v3_only</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="3">
+      <widget class="QLineEdit" name="IDC_leCkanApi">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QPushButton" name="IDC_bCkanAPI">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>dlg_set_tool_test</string>
+       </property>
+       <property name="text">
+        <string>dlg_set__btn_test</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="3">
+      <widget class="QPushButton" name="IDC_bCacheDir">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>dlg_set_ellipsis</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0" colspan="3">
+      <widget class="QLineEdit" name="IDC_leCacheDir">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>IDC_bSave</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>466</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>295</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>cancel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>694</x>
+     <y>172</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>235</x>
+     <y>86</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bCacheDir</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>select_cache_dir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>691</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>146</x>
+     <y>8</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bCkanAPI</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>test_ckan_url()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>691</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>147</x>
+     <y>110</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_cbPreCkanApi</sender>
+   <signal>activated(QString)</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>pre_ckan_api()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>485</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>369</x>
+     <y>127</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_pbHelpCache</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>help_cache_dir()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>155</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>19</x>
+     <y>154</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_pbHelpPreset</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>help_pre_urls()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>147</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>95</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_pbHelpURL</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>help_api_url()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>176</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bChoosePre</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>choose_pre_api()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>583</x>
+     <y>95</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>608</x>
+     <y>60</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>save()</slot>
+  <slot>cancel()</slot>
+  <slot>select_cache_dir()</slot>
+  <slot>test_ckan_url()</slot>
+  <slot>pre_ckan_api()</slot>
+  <slot>help_cache_dir()</slot>
+  <slot>help_pre_urls()</slot>
+  <slot>help_api_url()</slot>
+  <slot>choose_pre_api()</slot>
+ </slots>
+</ui>

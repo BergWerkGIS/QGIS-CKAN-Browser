@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/plugins/CKANBrowser" >
+        <file>icon.png</file>
+        <file>icon-settings.png</file>
+        <file>ckan_logo_big.png</file>
+        <file>icon-copy.png</file>
+    </qresource>
+</RCC>

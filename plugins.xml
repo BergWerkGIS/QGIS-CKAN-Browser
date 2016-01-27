@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<plugins>
+    <pyqgis_plugin name="CKANBrowser" version="0.2.8">
+        <description><![CDATA[Download and display CKAN enabled Open Data Portals]]></description>
+        <version>0.2.8</version>
+        <qgis_minimum_version>2.0.0</qgis_minimum_version>
+        <qgis_maximum_version>2.99.0</qgis_maximum_version>
+        <homepage>https://github.com/BergWerkGIS/QGIS-CKAN-Browser</homepage>
+        <file_name>CKAN-Browser.zip</file_name>
+        <author_name><![CDATA[BergWerkGIS]]></author_name>
+        <download_url>https://raw.githubusercontent.com/BergWerkGIS/QGIS-CKAN-Browser/master/CKANBrowser.zip</download_url>
+        <uploaded_by><![CDATA[BergWerkGis]]></uploaded_by>
+        <create_date>2014-11-26T21:30:00.000000</create_date>
+        <update_date>2014-11-26T21:30:00.000000</update_date>
+        <experimental>False</experimental>
+        <deprecated>False</deprecated>
+        <tracker><![CDATA[https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues]]></tracker>
+        <repository><![CDATA[https://github.com/BergWerkGIS/QGIS-CKAN-Browser]]></repository>
+        <tags><![CDATA[open data, ckan]]></tags>
+    </pyqgis_plugin>
+</plugins>

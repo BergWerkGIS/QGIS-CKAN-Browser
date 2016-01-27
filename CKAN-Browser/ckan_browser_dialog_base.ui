@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CKANBrowserDialogBase</class>
+ <widget class="QDialog" name="CKANBrowserDialogBase">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>620</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>620</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>2300</width>
+    <height>1600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>dlg_base_title</string>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>dlg_base_search_term</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLineEdit" name="IDC_lineSearch"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_3">
+           <property name="minimumSize">
+            <size>
+             <width>14</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>18</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>dlg_base_ttip_search</string>
+           </property>
+           <property name="text">
+            <string>?</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="IDC_bSearch">
+         <property name="text">
+          <string>dlg_base_btn_strt_srch</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="IDC_bListAll">
+         <property name="toolTip">
+          <string>dlg_base_ttip_show</string>
+         </property>
+         <property name="text">
+          <string>dlg_base_btn_show_all</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>dlg_base_filter_to</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_4">
+           <property name="minimumSize">
+            <size>
+             <width>14</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>18</width>
+             <height>22</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>dlg_base_ttip_filter</string>
+           </property>
+           <property name="text">
+            <string>?</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QListWidget" name="IDC_listGroup">
+         <property name="minimumSize">
+          <size>
+           <width>160</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="IDC_lblApiUrl">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>IDC_lblApiUrl</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="IDC_lblCacheDir">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>60</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>IDC_lblCacheDir</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="IDC_lblVersion">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>IDC_lblVersion</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="IDC_bDisclaimer">
+         <property name="text">
+          <string>dlg_base_btn_disclaimer</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMinimumSize</enum>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="IDC_lblSuchergebnisse">
+         <property name="text">
+          <string>dlg_base_srch_rslt</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="IDC_listResults">
+         <property name="minimumSize">
+          <size>
+           <width>270</width>
+           <height>0</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="IDC_lblPage">
+         <property name="text">
+          <string>IDC_lblPage</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="minimumSize">
+            <size>
+             <width>15</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>dlg_base_ttip_prev</string>
+           </property>
+           <property name="text">
+            <string>dlg_base_btn_lt</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>15</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>dlg_base_ttip_next</string>
+           </property>
+           <property name="text">
+            <string>dlg_base_btn_gt</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>dlg_base_descr</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="IDC_textDetails">
+       <property name="minimumSize">
+        <size>
+         <width>250</width>
+         <height>160</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>dlg_base_data_list</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_5">
+         <property name="minimumSize">
+          <size>
+           <width>14</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>18</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="toolTip">
+          <string>dlg_base_ttip_data_list</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QListWidget" name="IDC_listRessources">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>160</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QLabel" name="IDC_lblRessourceURL">
+         <property name="text">
+          <string>dlg_base_ressource</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="minimumSize">
+          <size>
+           <width>14</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>18</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="toolTip">
+          <string>dlg_base_ttip_resource</string>
+         </property>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QPlainTextEdit" name="IDC_plainTextLink">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QToolButton" name="IDC_bCopy">
+           <property name="toolTip">
+            <string>dlg_base_ttip_copy</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="IDC_bLoadResource">
+       <property name="text">
+        <string>dlg_base_btn_load_data</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="IDC_bClose">
+       <property name="text">
+        <string>dlg_base_btn_close</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>IDC_lineSearch</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>searchtextchanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>126</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_listResults</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>resultitemchanged(QListWidgetItem*,QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>358</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>468</x>
+     <y>59</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bLoadResource</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>load_resource_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>787</x>
+     <y>573</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>496</x>
+     <y>610</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bClose</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>close_dlg()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>787</x>
+     <y>607</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>592</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_listGroup</sender>
+   <signal>itemChanged(QListWidgetItem*)</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>list_group_item_changed(QListWidgetItem, int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>403</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>451</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bSearch</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>suchen()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>62</x>
+     <y>86</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>75</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_listGroup</sender>
+   <signal>itemActivated(QListWidgetItem*)</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>category_item_clicked(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>247</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>246</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>previous_page_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>375</x>
+     <y>605</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>213</x>
+     <y>609</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>next_page_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>513</x>
+     <y>605</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>312</x>
+     <y>610</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bListAll</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>list_all_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>146</x>
+     <y>115</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>184</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bDisclaimer</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>show_disclaimer()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>606</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>205</x>
+     <y>549</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>help_ttip_search()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>11</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>help_ttip_filter()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>177</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>182</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_5</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>help_ttip_data_list()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>781</x>
+     <y>238</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>713</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bCopy</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>copy_clipboard()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>763</x>
+     <y>474</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>757</x>
+     <y>515</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_listRessources</sender>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>resource_item_changed(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>630</x>
+     <y>384</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>536</x>
+     <y>519</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_6</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>help_ttip_resource()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>778</x>
+     <y>444</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>727</x>
+     <y>429</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>searchtextchanged(QString)</slot>
+  <slot>resultitemchanged(QListWidgetItem*,QListWidgetItem*)</slot>
+  <slot>load_resource_clicked()</slot>
+  <slot>close_dlg()</slot>
+  <slot>list_group_item_changed()</slot>
+  <slot>suchen()</slot>
+  <slot>category_item_clicked(QListWidgetItem*)</slot>
+  <slot>next_page_clicked()</slot>
+  <slot>previous_page_clicked()</slot>
+  <slot>list_all_clicked()</slot>
+  <slot>show_disclaimer()</slot>
+  <slot>help_ttip_search()</slot>
+  <slot>help_ttip_filter()</slot>
+  <slot>help_ttip_data_list()</slot>
+  <slot>copy_clipboard()</slot>
+  <slot>resource_item_changed(QListWidgetItem*)</slot>
+  <slot>help_ttip_resource()</slot>
+ </slots>
+</ui>

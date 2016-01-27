@@ -1,0 +1,8 @@
+http://ckan.org/files/2012/03/ckanlogored.png
+
+CKAN Logo by [Open Knowledge](https://okfn.org/) licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
+
+
+https://github.com/qgis/QGIS/blob/master/images/themes/default/console/iconSettingsConsole.png
+
+https://github.com/qgis/QGIS/blob/master/images/themes/default/LICENSE.TXT
