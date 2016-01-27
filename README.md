@@ -11,9 +11,13 @@ __DISCLAMER__
 
 _This plugin has been tested with various CKAN servers (**API v3 supported only**), but we soon came to realize that each data portal implements its very own strategy for structuring the metadata._
 
-_It is very likely that data from some servers cannot be browsed or downloaded!_
+**_It is very likely that data from some servers cannot be browsed or downloaded!_**
 
-_Pull requests that make such servers accessible (and don't break others) are welcome._
+References for the time being are:
+* http://ckan.data.ktn.gv.at/api/3/
+* https://www.data.gv.at/katalog/api/3/)
+
+**_Pull requests that make such servers accessible (and don't break others) are welcome!_**
 
 ## Install
 
