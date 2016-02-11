@@ -45,14 +45,18 @@ class Settings:
         proxy_type = s.value('proxy/proxyType', '')
         proxy_host = s.value('proxy/proxyHost', '')
         proxy_port = s.value('proxy/proxyPort', '')
-        proxy_user = s.value('proxy/proxyUser', '')
-        proxy_password = s.value('proxy/proxyPassword', '')
+        proxy_user = s.value('proxy/proxyUser', None)
+        proxy_password = s.value('proxy/proxyPassword', None)
         if proxy_enabled == 'false' or not proxy_enabled:
             return False, None
         if proxy_type == 'HttpProxy':
+            proxy_string = ''
+            if proxy_user is not None and proxy_password is not None:
+                proxy_string += proxy_user + ':' + proxy_password + '@'
+            proxy_string += proxy_host + ':' + proxy_port
             return True, {
-                'http': proxy_host + ':' + proxy_port,
-                'https': proxy_host + ':' + proxy_port,
+                'http': proxy_string,
+                'https': proxy_string
             }
 
 

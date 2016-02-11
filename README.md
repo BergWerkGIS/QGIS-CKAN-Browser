@@ -6,10 +6,11 @@ QGIS PlugIn to load and display Open Data from CKAN enabled data portals.
 
 Sponsored by [Amt der Kärntner Landesregierung - KAGIS](http://www.kagis.ktn.gv.at)
 
+[Change log](ChangeLog.md)
 
 __DISCLAMER__
 
-_This plugin has been tested with various CKAN servers (**API v3 supported only**), but we soon came to realize that each data portal implements its very own strategy for structuring the metadata._
+_This plugin has been tested with various CKAN servers (**API v3 supported only**), but we soon came to realize that each data portal implements its very own strategy for structuring metadata._
 
 **_It is very likely that data from some servers cannot be browsed or downloaded!_**
 

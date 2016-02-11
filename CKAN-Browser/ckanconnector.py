@@ -116,7 +116,11 @@ class CkanConnector:
         self.util.msg_log(u'Requesting HEAD for: {0}'.format(url))
 
         try:
-            request_head = requests.head(url, timeout=self.settings.request_timeout)
+            request_head = requests.head(
+                url
+                , proxies=self.settings.get_proxies()[1]
+                , timeout=self.settings.request_timeout
+            )
         except requests.exceptions.ConnectTimeout as cte:
             #self.util.msg_log(u'{0}\n{1}\n\n\n{2}'.format(cte, dir(cte), cte.message))
             return False, self.util.tr(u'cc_connection_timeout').format(cte.message)

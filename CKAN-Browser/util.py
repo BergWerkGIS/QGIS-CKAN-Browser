@@ -92,7 +92,9 @@ class Util:
             self.msg_log(u'dest_dir: {0}'.format(dest_dir))
 
             for file_info in f.infolist():
-                file_name = os.path.join(dest_dir, file_info.filename.decode('utf8'))
+                #file_name = os.path.join(dest_dir, file_info.filename.decode('utf8'))
+                #decode('utf8') fails on Windows with umlauts in filenames
+                file_name = os.path.join(dest_dir, file_info.filename)
                 # different types of ZIPs
                 # some have a dedicated entry for folders
                 if file_name[-1] == u'/':
@@ -163,14 +165,14 @@ class Util:
             if len(geo_files) < 1:
                 self.msg_log('len(geo_files)<1')
 #                 return False, u'Keine anzeigbaren Daten gefunden in\n{0}.\n\n\n     ===----!!!TODO!!!----===\n\nBenutzer anbieten Verzeichnis zu öffnen'.format(dir)
-                return False, {"message":"unknown fileytpe", "dir_path": data_dir}
+                return False, {"message": "unknown fileytpe", "dir_path": data_dir}
             for geo_file in geo_files:
                 if os.path.basename(geo_file).lower().endswith('.shp.xml'):
                     self.msg_log(u'skipping {0}'.format(geo_file))
                     continue
                 self.msg_log(geo_file)
                 full_path = os.path.join(data_dir, geo_file)
-                full_layer_name = layer_name + ' - ' + geo_file
+                full_layer_name = layer_name + ' - ' + os.path.basename(geo_file)
                 low_case = os.path.basename(geo_file).lower()
                 lyr = None
                 
