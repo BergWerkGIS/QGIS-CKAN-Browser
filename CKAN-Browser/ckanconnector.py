@@ -27,6 +27,13 @@ class CkanConnector:
         self.limit = self.settings.results_limit
         #self.sort = 'name asc, title asc'
         self.sort = 'name asc'
+        self.ua_chrome = {
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Encoding': 'gzip, deflate, sdch',
+            'Accept-Language': 'en-US,en;q=0.8,de;q=0.6,de-DE;q=0.4,de-CH;q=0.2',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+        }
+
 
     def get_groups(self):
         # return self.__get_data(self.api, 'group_list?all_fields=true')
@@ -135,7 +142,7 @@ class CkanConnector:
         content_length = request_head.headers['content-length']
         file_size = int(content_length) / 1000000  # divide to get MB
 
-        self.util.msg_log(u'Content-Lentgh: {0} MB'.format(file_size))
+        self.util.msg_log(u'Content-Length: {0} MB'.format(file_size))
 
         return True, file_size
 
@@ -147,9 +154,11 @@ class CkanConnector:
 #                     dest_file += '.xml'
             if delete is True:
                 os.remove(dest_file)
-            # name, hdrs = urllib.urlretrieve(url, dest_file)
+            #urls might have line breaks
+            url = self.util.remove_newline(url)
             response = requests.get(
                 url
+                , headers=self.ua_chrome
                 , verify=False
                 , stream=True
                 , proxies=self.settings.get_proxies()[1]
@@ -271,9 +280,10 @@ class CkanConnector:
         #pyperclip.copy(url)
         # url = u'{0}{1}'.format(self.api, unicodedata.normalize('NFKD', action))
         try:
-            # response = urllib2.urlopen(url)
+            url = self.util.remove_newline(url)
             response = requests.get(
                 url
+                , headers=self.ua_chrome
                 , verify=False
                 , proxies=self.settings.get_proxies()[1]
                 , timeout=self.settings.request_timeout
@@ -281,6 +291,9 @@ class CkanConnector:
         except requests.exceptions.ConnectTimeout as cte:
             #self.util.msg_log(u'{0}\n{1}\n\n\n{2}'.format(cte, dir(cte), cte.message))
             return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
+        except requests.exceptions.ConnectionError as ce:
+            self.util.msg_log(u'ConnectionError:{0}'.format(ce))
+            return False, ce
         except UnicodeEncodeError as uee:
             self.util.msg_log(u'msg:{0} enc:{1} args:{2} reason:{3}'.format(uee.message, uee.encoding, uee.args, uee.reason))
             return False, self.util.tr(u'cc_api_not_accessible')
