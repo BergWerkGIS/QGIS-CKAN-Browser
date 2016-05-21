@@ -51,12 +51,14 @@ class Settings:
             return False, None
         if proxy_type == 'HttpProxy':
             proxy_string = ''
-            if proxy_user is not None and proxy_password is not None:
+            if proxy_user is not None and proxy_password is not None\
+                    and proxy_user != '' and proxy_password != '':
                 proxy_string += proxy_user + ':' + proxy_password + '@'
             proxy_string += proxy_host + ':' + proxy_port
+            #print proxy_string
             return True, {
-                'http': proxy_string,
-                'https': proxy_string
+                'http': 'http://' + proxy_string,
+                'https': 'https://' + proxy_string
             }
 
 
