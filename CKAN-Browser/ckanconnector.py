@@ -5,6 +5,7 @@ import json
 import os
 import sys
 import pyperclip
+import string
 
 
 if sys.platform.startswith('darwin') or os.name == 'nt':
@@ -30,27 +31,27 @@ class CkanConnector:
     def get_groups(self):
         # return self.__get_data(self.api, 'group_list?all_fields=true')
         ok, result = self._validate_ckan_url(self.api)
-        
+
         if not ok:
             return ok, result
-        
-        return self.__get_data(result, 'action/group_list?all_fields=true')
-    
-    def test_groups(self, test_path):
-        ok, result = self._validate_ckan_url(test_path)
-        
-        if not ok:
-            return ok,result
-        
+
         return self.__get_data(result, 'action/group_list?all_fields=true')
 
-    
+    def test_groups(self, test_path):
+        ok, result = self._validate_ckan_url(test_path)
+
+        if not ok:
+            return ok,result
+
+        return self.__get_data(result, 'action/group_list?all_fields=true')
+
+
     def package_search(self, text, groups=None, page=None):
         ok, result = self._validate_ckan_url(self.api)
-        
+
         if not ok:
             return ok, result
-        
+
         if groups is None:
             group_filter = ''
         else:
@@ -82,10 +83,10 @@ class CkanConnector:
 
     def show_group(self, group_name, page=None):
         ok, result = self._validate_ckan_url(self.api)
-        
+
         if not ok:
             return ok,result
-        
+
         self.util.msg_log(group_name)
         if page is None:
             start_query = ''
@@ -107,11 +108,11 @@ class CkanConnector:
                 start_query
             )
         )
-        
-    
+
+
     def get_file_size(self, url):
-        """ 
-        Get Headers for specified url and calculate file size in MB from Content-Length.    
+        """
+        Get Headers for specified url and calculate file size in MB from Content-Length.
         """
         self.util.msg_log(u'Requesting HEAD for: {0}'.format(url))
 
@@ -126,18 +127,18 @@ class CkanConnector:
             return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
         except:
             return False, self.util.tr(u'cc_url_error').format(url, sys.exc_info()[1])
-        
+
         if 'content-length' not in request_head.headers:
             self.util.msg_log(u'No content-length in response header! Returning 0.')
             return True, 0
-        
+
         content_length = request_head.headers['content-length']
         file_size = int(content_length) / 1000000  # divide to get MB
-        
+
         self.util.msg_log(u'Content-Lentgh: {0} MB'.format(file_size))
-        
+
         return True, file_size
-    
+
 
     def download_resource(self, url, resource_format, dest_file, delete):
         try:
@@ -176,15 +177,21 @@ class CkanConnector:
                 # set new dest_file name
                 dest_file = os.path.join(os.path.dirname(dest_file), file_name_from_service)
 
+            self.util.msg_log(u'dest_file: {0}'.format(dest_file))
             # hack for WFS/WM(T)S Services, that don't specify the format as wms, wmts or wfs
             url_low = url.lower()
             if 'wfs' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wfs'):
+                if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
                 dest_file += '.wfs'
             if 'wmts' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wmts'):
+                if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
                 dest_file += '.wmts'
             # we use extension wmts for wms too
             if 'wms' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wmts'):
+                if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
                 dest_file += '.wmts'
+
+            self.util.msg_log(u'dest_file: {0}'.format(dest_file))
 
             # if file name has been set from service, set again after above changes for wfs/wm(t)s
             if file_name_from_service:
@@ -210,6 +217,9 @@ class CkanConnector:
         except IOError, e:
             self.util.msg_log("Can't retrieve {0} to {1}: {2}".format(url, dest_file, e))
             return False, self.util.tr(u'cc_download_error').format(e.strerror), None
+        except NameError as ne:
+            self.util.msg_log(u'{0}'.format(ne))
+            return False, ne.message, None
         except:
             return False, self.util.tr(u'cc_download_error').format(sys.exc_info()[0]), None
 
@@ -220,7 +230,7 @@ class CkanConnector:
         return 'chunked' == te
 
     def __file_name_from_service(self, url, cd, ct):
-        self.util.msg_log(u'cd:{0} ct:{1}'.format(cd, ct))
+        self.util.msg_log(u'Content-Description: {0}\nContent-Type: {1}'.format(cd, ct))
 
         url = url.lower() if url else None
         cd = cd.lower() if cd else None
@@ -235,11 +245,15 @@ class CkanConnector:
             return None
 
         if 'attachment' in cd and 'filename=' in cd:
-            return cd.split('filename=')[1]
+            file_name = cd.split('filename=')[1]
+            file_name = file_name.replace('"', '').replace(';', '')
+            self.util.msg_log('file_name (attachment):' + file_name)
+            return file_name
 
         if 'inline' in cd and 'filename=' in cd:
             file_name = cd.split('filename=')[1]
-            self.util.msg_log('file_name:' + file_name)
+            file_name = file_name.replace('"', '').replace(';', '')
+            self.util.msg_log('file_name (inline):' + file_name)
             if ct:
                 ext_ct = ct.split(';')[0].split('/')[1]
                 ext_file_name = os.path.splitext(file_name)[1][1:]
@@ -295,16 +309,16 @@ class CkanConnector:
     def __get_start(self, page):
         start = self.limit * page - self.limit
         return u'&start={0}'.format(start)
-    
+
     def _validate_ckan_url(self, ckan_url):
         """Validate the CKAN API URL - check for trailing slash and correct API Version"""
         if not ckan_url.endswith("/"):
             ckan_url += "/"
-        
+
         if not ckan_url.endswith("3/"):  # was bei neuen APIS > 3?
             self.util.msg_log(u'Falsche API-Version: {0}'.format(ckan_url))
 #             self.util.dlg_warning(self.util.tr(u"cc_wrong_api"))
             return False, self.util.tr(u"cc_wrong_api")
-        
+
         return True, ckan_url
 
