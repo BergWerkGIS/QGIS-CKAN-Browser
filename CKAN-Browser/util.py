@@ -480,6 +480,14 @@ class Util:
         if self.settings.debug is True:
             QgsMessageLog.logMessage(msg, self.dlg_caption)
 
+    def remove_newline(self, url):
+        if '\r\n' in url:
+            self.msg_log(u'Windows style new line found in resource url')
+            url = url.replace('\r\n', '')
+        if '\n' in url:
+            self.msg_log(u'Linux style new line found in resource url')
+            url = url.replace('\n', '')
+        return url
 
     def resolve(self, name, basepath=None):
         """http://gis.stackexchange.com/a/130031/8673"""
