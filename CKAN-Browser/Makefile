@@ -24,7 +24,7 @@
 
 
 #Add iso code for any locales you want to support here (space separated)
-LOCALES = CKANBrowser_en CKANBrowser_de
+LOCALES = CKANBrowser_en CKANBrowser_de CKANBrowser_fi
 
 # translation
 SOURCES = \

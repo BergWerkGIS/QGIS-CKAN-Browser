@@ -11,7 +11,7 @@ name=CKAN-Browser
 qgisMinimumVersion=2.0
 about=Download and display Open Data from CKAN Metadata Servers
 description=Download and display Open Data from CKAN Metadata Servers
-version=0.3.0
+version=0.3.1
 author=BergWerkGIS
 email=wb@BergWerk-GIS.at
 
@@ -20,11 +20,8 @@ email=wb@BergWerk-GIS.at
 # Optional items:
 
 # Uncomment the following line and add your changelog:
-changelog=v0.3.0 2016 (2016-05-21)
-    * data.gv.at WFS fix
-    * remove new lines in resource urls
-    * Error loading resource with ? in its location https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/10
-    * ProxySchemeUnknown error blocks service connection https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/11
+changelog=v0.3.1 (2016-05-25)
+    * Finnish translation by Kari Salovaara
 
 
 # Tags are comma separated with spaces allowed

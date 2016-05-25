@@ -1,10 +1,13 @@
+### v0.3.1 (2016-05-25)
+
+* Finnish translation by Kari Salovaara
+
 ### v0.3.0 (2016-05-21)
 
 * data.gv.at WFS fix
 * remove new lines in resource urls
 * Error loading resource with ? in its location https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/10
 * ProxySchemeUnknown error blocks service connection https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/11
-*
 
 ### v0.2.9 (2016-02-11)
 
@@ -14,4 +17,4 @@
 
 ### v0.2.8 (2016-01-27)
 
-* Inital public version
+* Initial public version
