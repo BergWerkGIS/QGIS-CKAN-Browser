@@ -83,7 +83,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
     def showEvent(self, event):
         self.util.msg_log('showevent')
         QDialog.showEvent(self, event)
-        self.timer.start(500)
+        if self.timer is not None:
+            self.timer.start(500)
         self.util.msg_log('showevent finished')
 
     def window_loaded(self):
@@ -114,8 +115,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
 
     def close_dlg(self):
         QDialog.reject(self)
-        
-    
+
+
     def show_disclaimer(self):
         self.dlg_disclaimer = CKANBrowserDialogDisclaimer(self.settings)
         self.dlg_disclaimer.show()
@@ -388,8 +389,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         if len(res) < 1:
             return None
         return res
-    
-    
+
+
     def _shorten_path(self, s):
         """ private class to shorten string to 33 chars and place a html-linebreak inside"""
         result = u""
@@ -398,15 +399,15 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         else:
             return s
         return result
-    
+
     def help_ttip_search(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_search'))
-        
+
     def help_ttip_filter(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_filter'))
-        
+
     def help_ttip_data_list(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_data_list'))
-        
+
     def help_ttip_resource(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_resource'))
