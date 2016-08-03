@@ -5,7 +5,6 @@ import os
 import sys
 import string
 import urllib2
-import zlib
 
 from PyQt4.QtCore import *
 from qgis.core import *
@@ -431,13 +430,12 @@ class CkanConnector():
         Uses QgsNetworkAccessManager and fall back to requests library if
         QgsAuthManager is not available.
         """
-        try:
-            method = kwargs['http_method']
-            del kwargs['http_method']
-        except KeyError:
-            method = 'get'
+        method = kwargs.get('http_method', 'get')
         if QgsAuthManager is None:
+            # Fall back to requests lib
             return getattr(requests, method)(url, **kwargs)
+
+        headers = kwargs.get('headers', {})
         # Avoid double quoting form QUrl
         url = urllib2.unquote(url)
 
@@ -458,7 +456,8 @@ class CkanConnector():
         url = self.util.remove_newline(url)
         req = QNetworkRequest()
         req.setUrl(QUrl(url))
-        for k, v in self.ua_chrome.items():
+        for k, v in headers.items():
+            self.util.msg_log("%s: %s" % (k, v))
             req.setRawHeader(k, v)
         if self.authcfg:
             QgsAuthManager.instance().updateNetworkRequest(req, self.authcfg)
@@ -532,12 +531,6 @@ class CkanConnector():
                 raise Exception(msg)
         else:
             self.http_call_result.text = str(self.reply.readAll())
-            try:
-                mode = self.http_call_result.headers['content-encoding'].lower()
-                decoder = get_decoder(mode)
-                self.http_call_result.text = decoder.decompress(self.http_call_result.text)
-            except KeyError:
-                pass
             self.http_call_result.ok = True
 
 
