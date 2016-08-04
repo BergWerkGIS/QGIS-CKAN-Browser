@@ -436,6 +436,16 @@ class CkanConnector():
             return getattr(requests, method)(url, **kwargs)
 
         headers = kwargs.get('headers', {})
+        # This fixes a wierd error with compressed content nob being correctly
+        # inflated.
+        # If you set the header on the QNetworkRequest you are basically telling
+        # QNetworkAccessManager "I know what I'm doing, please don't do any content
+        # encoding processing".
+        # See: https://bugs.webkit.org/show_bug.cgi?id=63696#c1
+        try:
+            del headers['Accept-Encoding']
+        except KeyError:
+            pass
         # Avoid double quoting form QUrl
         url = urllib2.unquote(url)
 
@@ -450,7 +460,7 @@ class CkanConnector():
             reason = ''
 
             def iter_content(self, _):
-                return self.text
+                return [self.text]
 
         self.http_call_result = Response()
         url = self.util.remove_newline(url)
