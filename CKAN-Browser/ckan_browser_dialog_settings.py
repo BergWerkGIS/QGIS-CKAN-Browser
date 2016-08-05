@@ -57,9 +57,10 @@ class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
         self.IDC_leCacheDir.setText(self.settings.cache_dir)
         self.IDC_leCkanApi.setText(self.settings.ckan_url)
         if QgsAuthConfigSelect is None:
-            self.IDC_leAuthCfg.setText(self.util.tr(u"AuthCfg is not supported."))
-            self.IDC_bAuthCfgClear.setEnabled(False)
-            self.IDC_bAuthCfgEdit.setEnabled(False)
+            self.IDC_leAuthCfg.hide()
+            self.IDC_bAuthCfgClear.hide()
+            self.IDC_bAuthCfgEdit.hide()
+            self.IDC_lblAuthCfg.hide()
         else:
             self.IDC_leAuthCfg.setText(self.settings.authcfg)
 
