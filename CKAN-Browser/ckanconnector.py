@@ -15,7 +15,6 @@ from qgis.gui import *
 try:
     from qgis.core import QgsAuthManager
     from PyQt4.QtNetwork import *
-    from decoders import get_decoder
 
     class RequestsExceptionsTimeout(Exception):
         pass
