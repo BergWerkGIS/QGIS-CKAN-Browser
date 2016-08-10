@@ -231,7 +231,7 @@ class CkanConnector():
         Get Headers for specified url and calculate file size in MB from Content-Length.
         """
         self.util.msg_log(u'Requesting HEAD for: {0}'.format(url))
-        
+
         try:
             request_head = self._http_call(url, http_method='head')
         except RequestsExceptionsTimeout as cte:
@@ -487,6 +487,7 @@ class CkanConnector():
             QgsAuthManager.instance().updateNetworkReply(self.reply, self.authcfg)
 
         self.reply.finished.connect(self.replyFinished)
+        self.reply.downloadProgress.connect(self.downloadProgress)
 
         # Call and block
         self.el = QEventLoop()
@@ -514,6 +515,11 @@ class CkanConnector():
         if self.http_call_result.exception is not None:
             raise self.http_call_result.exception
         return self.http_call_result
+
+    @pyqtSlot()
+    def downloadProgress(self, bytesReceived, bytesTotal):
+        #self.util.msg_log("downloadProgress %s of %s ..." % (bytesReceived, bytesTotal))
+        pass
 
     @pyqtSlot()
     def replyFinished(self):
