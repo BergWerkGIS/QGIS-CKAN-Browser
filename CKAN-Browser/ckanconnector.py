@@ -231,7 +231,7 @@ class CkanConnector():
         Get Headers for specified url and calculate file size in MB from Content-Length.
         """
         self.util.msg_log(u'Requesting HEAD for: {0}'.format(url))
-
+        
         try:
             request_head = self._http_call(url, http_method='head')
         except RequestsExceptionsTimeout as cte:
@@ -457,6 +457,7 @@ class CkanConnector():
             ok = True
             headers = {}
             reason = ''
+            exception = None
 
             def iter_content(self, _):
                 return [self.text]
@@ -492,28 +493,26 @@ class CkanConnector():
         self.reply.finished.connect(self.el.quit)
 
         # Catch all exceptions (and clean up requests)
-        try:
-            self.el.exec_()
-            # Let's log the whole response for debugging purposes:
-            if self.settings.debug:
-                self.util.msg_log("Got response %s %s from %s" % \
-                                  (self.http_call_result.status_code,
-                                   self.http_call_result.status_message,
-                                   self.reply.url().toString()))
-                headers = {str(h): str(self.reply.rawHeader(h)) for h in self.reply.rawHeaderList()}
-                for k, v in headers.items():
-                    self.util.msg_log("%s: %s" % (k, v))
-                if len(self.http_call_result.text) < 1024:
-                    self.util.msg_log("Payload :\n%s" % self.http_call_result.text)
-                else:
-                    self.util.msg_log("Payload is > 1 KB ...")
-        except Exception, e:
-            raise e
-        finally:
-            self.reply.close()
-            self.util.msg_log("Deleting reply ...")
-            self.reply.deleteLater()
-            self.reply = None
+        self.el.exec_()
+        # Let's log the whole response for debugging purposes:
+        if self.settings.debug:
+            self.util.msg_log("Got response %s %s from %s" % \
+                              (self.http_call_result.status_code,
+                               self.http_call_result.status_message,
+                               self.reply.url().toString()))
+            headers = {str(h): str(self.reply.rawHeader(h)) for h in self.reply.rawHeaderList()}
+            for k, v in headers.items():
+                self.util.msg_log("%s: %s" % (k, v))
+            if len(self.http_call_result.text) < 1024:
+                self.util.msg_log("Payload :\n%s" % self.http_call_result.text)
+            else:
+                self.util.msg_log("Payload is > 1 KB ...")
+        self.reply.close()
+        self.util.msg_log("Deleting reply ...")
+        self.reply.deleteLater()
+        self.reply = None
+        if self.http_call_result.exception is not None:
+            raise self.http_call_result.exception
         return self.http_call_result
 
     @pyqtSlot()
@@ -533,11 +532,11 @@ class CkanConnector():
             self.http_call_result.reason = msg
             self.util.msg_log(msg)
             if err == QNetworkReply.TimeoutError:
-                raise RequestsExceptionsTimeout(msg)
+                self.http_call_result.exception = RequestsExceptionsTimeout(msg)
             if err == QNetworkReply.ConnectionRefusedError:
-                raise RequestsExceptionsConnectionError(msg)
+                self.http_call_result.exception = RequestsExceptionsConnectionError(msg)
             else:
-                raise Exception(msg)
+                self.http_call_result.exception = Exception(msg)
         else:
             self.http_call_result.text = str(self.reply.readAll())
             self.http_call_result.ok = True
