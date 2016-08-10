@@ -61,8 +61,10 @@ class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
             self.IDC_bAuthCfgClear.hide()
             self.IDC_bAuthCfgEdit.hide()
             self.IDC_lblAuthCfg.hide()
+            self.IDC_cbAuthPropagate.hide()
         else:
             self.IDC_leAuthCfg.setText(self.settings.authcfg)
+            self.IDC_cbAuthPropagate.setChecked(self.settings.auth_propagate)
 
         self.cc = CkanConnector(self.settings, self.util)
 
@@ -112,7 +114,7 @@ class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
             self.util.dlg_warning(result)
             return
         else:
-            self.util.dlg_information(self.util.tr(u"py_dlg_set_info_conn_succs"))
+            self.util.dlg_information(self.util.tr(u'py_dlg_set_info_conn_succs'))
 
 #         for entry in result:
 #             self.util.msg_log('Item: {0}'.format(entry))
@@ -155,6 +157,7 @@ class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
 
         authcfg = self.IDC_leAuthCfg.text()
         self.settings.authcfg = authcfg
+        self.settings.auth_propagate = self.IDC_cbAuthPropagate.isChecked()
 
         self.settings.save()
 
@@ -196,3 +199,4 @@ class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
 
         if dlg.exec_():
             self.IDC_leAuthCfg.setText(acs.configId())
+            self.cc.authcfg = acs.configId()
