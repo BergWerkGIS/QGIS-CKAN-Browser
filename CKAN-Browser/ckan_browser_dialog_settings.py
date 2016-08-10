@@ -63,8 +63,11 @@ class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
             self.IDC_lblAuthCfg.hide()
             self.IDC_cbAuthPropagate.hide()
         else:
-            self.IDC_leAuthCfg.setText(self.settings.authcfg)
-            self.IDC_cbAuthPropagate.setChecked(self.settings.auth_propagate)
+            if self.settings.authcfg:
+                self.IDC_leAuthCfg.setText(self.settings.authcfg)
+                self.IDC_cbAuthPropagate.setChecked(self.settings.auth_propagate)
+            else:
+                self.IDC_cbAuthPropagate.setChecked(False)
 
         self.cc = CkanConnector(self.settings, self.util)
 

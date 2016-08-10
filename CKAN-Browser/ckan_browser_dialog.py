@@ -314,10 +314,13 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
                     do_download = False
             if do_download is True:
                 file_size_ok, file_size = self.cc.get_file_size(resource['url'])
-                if not file_size_ok and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'<b>The download size could not be determined, proceed anyway?</b><br> {}.').format(file_size)):
-                    continue
-                else:
+                # Silently ignore the error
+                if not file_size_ok:
                     file_size = 0
+                #if not file_size_ok and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'<b>The download size could not be determined, proceed anyway?</b><br> {}.').format(file_size)):
+                #    continue
+                #else:
+                #    file_size = 0
                 if file_size > 50 and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'py_dlg_base_big_file').format(file_size)):
                     continue  # stop process if user does not want to download the file
                 QApplication.setOverrideCursor(Qt.WaitCursor)
