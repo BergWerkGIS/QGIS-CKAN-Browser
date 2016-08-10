@@ -22,6 +22,7 @@ class Settings:
         self.KEY_CACHE_DIR = 'ckan_browser/cache_dir'
         self.KEY_CKAN_API = 'ckan_browser/ckan_api'
         self.KEY_AUTHCFG = 'ckan_browser/authcfg'
+        self.KEY_AUTH_PROPAGATE = 'ckan_browser/auth_propagate'
         self.version = self._determine_version()
 
 
@@ -33,6 +34,7 @@ class Settings:
 #         self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'http://ckan.data.ktn.gv.at/api/3/action/')
         self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, '')
         self.authcfg = qgis_settings.value(self.KEY_AUTHCFG, '')
+        self.auth_propagate = qgis_settings.value(self.KEY_AUTH_PROPAGATE, False, bool)
         if self.ckan_url is None:
             self.ckan_url = ''
 
@@ -41,6 +43,7 @@ class Settings:
         qgis_settings.setValue(self.KEY_CACHE_DIR, self.cache_dir)
         qgis_settings.setValue(self.KEY_CKAN_API, self.ckan_url)
         qgis_settings.setValue(self.KEY_AUTHCFG, self.authcfg)
+        qgis_settings.setValue(self.KEY_AUTH_PROPAGATE, self.auth_propagate)
 
 
     def get_proxies(self):
