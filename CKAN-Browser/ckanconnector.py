@@ -27,6 +27,7 @@ class CkanConnector:
         self.limit = self.settings.results_limit
         #self.sort = 'name asc, title asc'
         self.sort = 'name asc'
+        #self.sort = 'title asc'
         self.ua_chrome = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Encoding': 'gzip, deflate, sdch',

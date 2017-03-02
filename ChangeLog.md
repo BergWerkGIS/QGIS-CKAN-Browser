@@ -1,3 +1,9 @@
+### v0.3.2 (2017-03-02)
+
+* Merge https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/12 to add server of the State of Alagoas , Brazil.
+* Remove deprecated server: "Open Data Kärnten": "http://ckan.data.ktn.gv.at/api/3/"
+* Remove deprecated server: "Open Government Data Graz": "http://ckan.data.graz.gv.at/api/3/"
+
 ### v0.3.1 (2016-05-25)
 
 * Finnish translation by Kari Salovaara
