@@ -11,7 +11,7 @@ name=CKAN-Browser
 qgisMinimumVersion=2.0
 about=Download and display Open Data from CKAN Metadata Servers
 description=Download and display Open Data from CKAN Metadata Servers
-version=0.3.2
+version=0.3.3
 author=BergWerkGIS
 email=wb@BergWerk-GIS.at
 
@@ -20,10 +20,8 @@ email=wb@BergWerk-GIS.at
 # Optional items:
 
 # Uncomment the following line and add your changelog:
-changelog=v0.3.2 (2017-03-02)
-* Merge https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/12 to add server of the State of Alagoas , Brazil.
-* Remove deprecated server: "Open Data Kärnten": "http://ckan.data.ktn.gv.at/api/3/"
-* Remove deprecated server: "Open Government Data Graz": "http://ckan.data.graz.gv.at/api/3/"
+changelog=v0.3.3 (2017-03-11)
+* Fix https://open.nrw/api/3 WMS https://open.nrw/api/3WMS https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/13
 
 
 

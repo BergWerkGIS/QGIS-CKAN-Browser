@@ -188,16 +188,21 @@ class CkanConnector:
                 dest_file = os.path.join(os.path.dirname(dest_file), file_name_from_service)
 
             self.util.msg_log(u'dest_file: {0}'.format(dest_file))
+            #HACK for https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/13
+            if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')] + dest_file[string.rfind(dest_file, '.'):]
+            self.util.msg_log(u'dest_file: {0}'.format(dest_file))
+
             # hack for WFS/WM(T)S Services, that don't specify the format as wms, wmts or wfs
             url_low = url.lower()
-            if 'wfs' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wfs'):
+            self.util.msg_log(u'url_low: {0}'.format(url_low))
+            if 'service=wfs' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wfs'):
                 if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
                 dest_file += '.wfs'
             if 'wmts' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wmts'):
                 if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
                 dest_file += '.wmts'
             # we use extension wmts for wms too
-            if 'wms' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wmts'):
+            if 'service=wms' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wmts'):
                 if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
                 dest_file += '.wmts'
 

@@ -1,3 +1,7 @@
+### v0.3.3 (2017-03-11)
+
+* Fix https://open.nrw/api/3 WMS https://open.nrw/api/3WMS https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/13
+
 ### v0.3.2 (2017-03-02)
 
 * Merge https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/12 to add server of the State of Alagoas , Brazil.
