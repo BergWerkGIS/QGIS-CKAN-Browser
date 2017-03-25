@@ -31,7 +31,6 @@ import pyperclip
 from ckanconnector import CkanConnector
 from util import Util
 
-
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ckan_browser_dialog_base.ui'))
 
@@ -83,7 +82,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
     def showEvent(self, event):
         self.util.msg_log('showevent')
         QDialog.showEvent(self, event)
-        self.timer.start(500)
+        if self.timer is not None:
+            self.timer.start(500)
         self.util.msg_log('showevent finished')
 
     def window_loaded(self):
@@ -114,8 +114,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
 
     def close_dlg(self):
         QDialog.reject(self)
-        
-    
+
+
     def show_disclaimer(self):
         self.dlg_disclaimer = CKANBrowserDialogDisclaimer(self.settings)
         self.dlg_disclaimer.show()
@@ -314,9 +314,13 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
                     do_download = False
             if do_download is True:
                 file_size_ok, file_size = self.cc.get_file_size(resource['url'])
+                # Silently ignore the error
                 if not file_size_ok:
-                    self.util.dlg_warning(file_size)
-                    continue
+                    file_size = 0
+                #if not file_size_ok and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'<b>The download size could not be determined, proceed anyway?</b><br> {}.').format(file_size)):
+                #    continue
+                #else:
+                #    file_size = 0
                 if file_size > 50 and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'py_dlg_base_big_file').format(file_size)):
                     continue  # stop process if user does not want to download the file
                 QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -388,8 +392,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         if len(res) < 1:
             return None
         return res
-    
-    
+
+
     def _shorten_path(self, s):
         """ private class to shorten string to 33 chars and place a html-linebreak inside"""
         result = u""
@@ -398,15 +402,15 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         else:
             return s
         return result
-    
+
     def help_ttip_search(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_search'))
-        
+
     def help_ttip_filter(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_filter'))
-        
+
     def help_ttip_data_list(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_data_list'))
-        
+
     def help_ttip_resource(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_resource'))

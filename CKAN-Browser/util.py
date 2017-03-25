@@ -71,8 +71,8 @@ class Util:
             # TODO check write permissions
             return True
         return self.create_dir(dir_path)
-    
-    
+
+
     def check_api_url(self, api_url):
         if(
            not api_url or
@@ -175,17 +175,17 @@ class Util:
                 full_layer_name = layer_name + ' - ' + os.path.basename(geo_file)
                 low_case = os.path.basename(geo_file).lower()
                 lyr = None
-                
-                if low_case.endswith('json'): 
+
+                if low_case.endswith('json'):
                     self.msg_log(u'Open JSON')
                     if False is self.__is_geojson(full_path):
                         if self.__open_with_system(full_path) > 0:
                             if QMessageBox.Yes == self.dlg_yes_no(self.tr(u'py_dlg_base_open_manager').format(layer_url)):
                                 self.open_in_manager(data_dir)
                         continue
-                
-                if( 
-                        low_case.endswith('.txt') or 
+
+                if(
+                        low_case.endswith('.txt') or
                         low_case.endswith('.pdf') or
                         low_case.endswith('.xls') or
                         low_case.endswith('.xlsx') or
@@ -217,14 +217,14 @@ class Util:
                     self.msg_log(u'Open CSV')
                     self._open_csv(full_path)
                     continue
-                elif( 
-                        low_case.endswith('.asc') or 
-                        low_case.endswith('.tif') or 
-                        low_case.endswith('.tiff') or 
-                        low_case.endswith('.img') or 
-                        low_case.endswith('.jp2') or 
-                        low_case.endswith('.j2k') or 
-                        low_case.endswith('.rst') or 
+                elif(
+                        low_case.endswith('.asc') or
+                        low_case.endswith('.tif') or
+                        low_case.endswith('.tiff') or
+                        low_case.endswith('.img') or
+                        low_case.endswith('.jp2') or
+                        low_case.endswith('.j2k') or
+                        low_case.endswith('.rst') or
                         low_case.endswith('.dem')
                     ):
                     lyr = self.__add_raster_layer(full_path, full_layer_name)
@@ -329,13 +329,14 @@ class Util:
     def _open_wmts(self, name, capabilites_url):
         # Add new HTTPConnection like in source
         # https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp
-        
+
         self.msg_log(u'add WM(T)S: Name = {0}, URL = {1}'.format(name, capabilites_url))
-        
+
         s = QSettings()
-        
+
         s.setValue(u'Qgis/WMS/{0}/password'.format(name), '')
         s.setValue(u'Qgis/WMS/{0}/username'.format(name), '')
+        s.setValue(u'Qgis/WMS/{0}/authcfg'.format(name), '')
         s.setValue(u'Qgis/connections-wms/{0}/dpiMode'.format(name), 7)  # refer to https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp#L229-L247
         s.setValue(u'Qgis/connections-wms/{0}/ignoreAxisOrientation'.format(name), False)
         s.setValue(u'Qgis/connections-wms/{0}/ignoreGetFeatureInfoURI'.format(name), False)
@@ -344,23 +345,26 @@ class Util:
         s.setValue(u'Qgis/connections-wms/{0}/referer'.format(name), '')
         s.setValue(u'Qgis/connections-wms/{0}/smoothPixmapTransform'.format(name), False)
         s.setValue(u'Qgis/connections-wms/{0}/url'.format(name), capabilites_url)
-        
+
         s.setValue(u'Qgis/connections-wms/selected', name)
-        
+
+        if self.settings.auth_propagate and self.settings.authcfg:
+            s.setValue(u'Qgis/WMS/{0}/authcfg'.format(name), self.settings.authcfg)
+
         # create new dialog
         wms_dlg = QgsProviderRegistry.instance().selectWidget("wms", self.main_win)
-        
+
         QObject.connect(wms_dlg, SIGNAL( "addRasterLayer( QString const &, QString const &, QString const & )" ),
                    self.main_win, SLOT( "addRasterLayer( QString const &, QString const &, QString const & )" ) )
-        
+
         wms_dlg.show()
-        
-        
+
+
     def _open_wfs(self, name, capabilites_url):
         # Add new HTTPConnection like in source
         # https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp
         # https://github.com/qgis/QGIS/blob/79616fd8d8285b4eb93adafdfcb97a3e429b832e/src/app/qgisapp.cpp#L3783
-        
+
         self.msg_log(u'add WFS: Name={0}, original URL={1}'.format(name, capabilites_url))
 
         # remove additional url parameters, otherwise adding wfs works the frist time only
@@ -387,6 +391,7 @@ class Util:
         key_pwd = u'Qgis/WFS/{0}/password'.format(name)
         key_referer = u'Qgis/connections-wfs/{0}/referer'.format(name)
         key_url = u'Qgis/connections-wfs/{0}/url'.format(name)
+        key_authcfg = u'Qgis/WFS/{0}/authcfg'.format(name)
 
         s.remove(key_user)
         s.remove(key_pwd)
@@ -398,38 +403,41 @@ class Util:
         s.setValue(key_pwd, '')
         s.setValue(key_referer, '')
         s.setValue(key_url, capabilites_url)
-        
+
+        if self.settings.auth_propagate and self.settings.authcfg:
+            s.setValue(key_authcfg, self.settings.authcfg)
+
         s.setValue(u'Qgis/connections-wfs/selected', name)
-        
+
         # create new dialog
         wfs_dlg = QgsProviderRegistry.instance().selectWidget("WFS", self.main_win)
-        
+
         QObject.connect(
             wfs_dlg
             , SIGNAL("addWfsLayer( QString, QString )")
             , self.main_win, SLOT("addWfsLayer( QString, QString )")
         )
-        
+
         wfs_dlg.show()
         #wfs_dlg.exec()
-        
-        
+
+
     def _open_csv(self, full_path):
         # Add new HTTPConnection like in source
         # https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp
-        
+
         self.msg_log(u'add CSV file: {0}'.format(full_path))
-        
+
         # create new dialog
         csv_dlg = QgsProviderRegistry.instance().selectWidget("delimitedtext", self.main_win)
-        
+
         QObject.connect(csv_dlg, SIGNAL( "addVectorLayer( QString, QString, QString )" ),
                         self.main_win, SLOT( "addSelectedVectorLayer( QString, QString, QString )" ) )
-        
+
         csv_dlg.children()[1].children()[2].setText(full_path)
-        
+
         csv_dlg.show()
-        
+
 
     def __open_with_system(self, file_name):
         code = None
@@ -446,9 +454,9 @@ class Util:
 
     def __is_geojson(self, file_path):
         try:
-            with open(file_path) as json_file:    
+            with open(file_path) as json_file:
                 data = json.load(json_file)
-                
+
                 if data.get('features') is not None:
                     self.msg_log('is_geojson: "features" found')
                     return True
@@ -494,8 +502,8 @@ class Util:
         if not basepath:
             basepath = os.path.dirname(os.path.realpath(__file__))
         return os.path.join(basepath, name)
-    
-    
+
+
     def open_in_manager(self, file_path):
         """http://stackoverflow.com/a/6631329/1504487"""
         if sys.platform == 'darwin':
@@ -504,8 +512,8 @@ class Util:
             subprocess.Popen(['xdg-open', file_path])
         elif os.name == 'nt':
             subprocess.Popen(['explorer', file_path])
-    
-            
+
+
     def str2bool(self, v):
         """http://stackoverflow.com/a/715468/1504487"""
         return v.lower() in ("yes", "true", "t", "1")
