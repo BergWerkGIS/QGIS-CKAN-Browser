@@ -22,12 +22,12 @@
 """
 
 import os
-from PyQt4.QtCore import Qt
-from PyQt4 import QtGui, uic
-from PyQt4.QtGui import QApplication, QDialog, QFileDialog
+from PyQt5.QtCore import Qt
+from PyQt5 import QtGui, uic
+from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
 from collections import OrderedDict
-from util import Util
-from ckanconnector import CkanConnector
+from .util import Util
+from .ckanconnector import CkanConnector
 import json
 
 try:
@@ -39,7 +39,8 @@ except ImportError:
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ckan_browser_dialog_settings.ui'))
 
-class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
+
+class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
     def __init__(self, settings, iface, parent=None):
         """Constructor."""
         super(CKANBrowserDialogSettings, self).__init__(parent)
@@ -84,8 +85,9 @@ class CKANBrowserDialogSettings(QtGui.QDialog, FORM_CLASS):
             for key in self.pre_ckan_apis.keys():
                 self.IDC_cbPreCkanApi.addItem(key)
 
-            value = self.pre_ckan_apis.itervalues().next()
-            self.IDC_lblPreCkan.setText(value)
+            ##### TODO: what's this doing anyway
+            #value = self.pre_ckan_apis.itervalues().next()
+            #self.IDC_lblPreCkan.setText(value)
 
         except IOError as err:
             self.util.dlg_warning(self.util.tr(u"py_dlg_set_warn_urls_not_load").format(err))

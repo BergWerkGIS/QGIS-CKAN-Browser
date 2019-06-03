@@ -9,7 +9,7 @@ import subprocess
 import sys
 import zipfile
 import json
-from PyQt4.QtCore import \
+from PyQt5.QtCore import \
     QCoreApplication, \
     QDateTime, \
     QDir, \
@@ -18,14 +18,14 @@ from PyQt4.QtCore import \
     QIODevice, \
     QObject, \
     QSettings, \
-    QUrl, \
-    SIGNAL, \
-    SLOT
-from PyQt4.QtGui import QMessageBox
-from PyQt4.QtXml import QDomNode, QDomElement, QDomDocument, QDomNodeList
-from qgis.core import QgsMapLayerRegistry, QgsMessageLog, QgsVectorLayer, QgsRasterLayer, QgsProviderRegistry
+    QUrl
+    #SIGNAL, \
+    #SLOT
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtXml import QDomNode, QDomElement, QDomDocument, QDomNodeList
+from qgis.core import QgsMessageLog, QgsVectorLayer, QgsRasterLayer, QgsProviderRegistry
 from qgis.core import QgsLayerTreeGroup, QgsProject
-from qgis._core import QgsMapLayer
+from qgis.core import QgsMapLayer
 
 
 class Util:
@@ -49,7 +49,7 @@ class Util:
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('CKANBrowser', message, encoding=QCoreApplication.UnicodeUTF8)
+        return QCoreApplication.translate('CKANBrowser', message)
 
     def create_dir(self, dir_path):
         if not os.path.exists(dir_path):
@@ -236,7 +236,7 @@ class Util:
                         if QMessageBox.Yes == self.dlg_yes_no(self.tr(u'py_dlg_base_open_manager').format(layer_url)):
                             self.open_in_manager(data_dir)
                         continue
-                    QgsMapLayerRegistry.instance().addMapLayer(lyr)
+                    QgsProject.instance().addMapLayer(lyr)
                 else:
                     self.msg_log(u'could not add layer: {0}'.format(full_path))
             return True, None
@@ -298,7 +298,7 @@ class Util:
         QDir.setCurrent(file_info.absoluteDir().path())
         root = QgsLayerTreeGroup()
         ids = doc.elementsByTagName('id')
-        for i in xrange(0, ids.size()):
+        for i in range(0, ids.size()):
             id_node = ids.at(i)
             id_elem = id_node.toElement()
             old_id = id_elem.text()
@@ -307,7 +307,7 @@ class Util:
             new_id = layer_name + date_time.toString('yyyyMMddhhmmsszzz')
             id_elem.firstChild().setNodeValue(new_id)
             tree_layer_nodes = doc.elementsByTagName('layer-tree-layer')
-            for j in xrange(0, tree_layer_nodes.count()):
+            for j in range(0, tree_layer_nodes.count()):
                 layer_node = tree_layer_nodes.at(j)
                 layer_elem = layer_node.toElement()
                 if old_id == layer_elem.attribute('id'):
@@ -318,7 +318,7 @@ class Util:
             root.readChildrenFromXML(layer_tree_elem)
             load_in_legend = False
         layers = QgsMapLayer.fromLayerDefinition(doc)
-        QgsMapLayerRegistry.instance().addMapLayers(layers, load_in_legend)
+        QgsProject.instance().addMapLayers(layers, load_in_legend)
         nodes = root.children()
         for node in nodes:
             root.takeChild(node)
@@ -354,8 +354,16 @@ class Util:
         # create new dialog
         wms_dlg = QgsProviderRegistry.instance().selectWidget("wms", self.main_win)
 
-        QObject.connect(wms_dlg, SIGNAL( "addRasterLayer( QString const &, QString const &, QString const & )" ),
-                   self.main_win, SLOT( "addRasterLayer( QString const &, QString const &, QString const & )" ) )
+
+        ###########
+        ############
+        ###########
+        ####### TODO fix
+        #QObject.connect(
+        #    wms_dlg,
+        #    SIGNAL("addRasterLayer( QString const &, QString const &, QString const & )"),
+        #    self.main_win, SLOT("addRasterLayer( QString const &, QString const &, QString const & )")
+        #)
 
         wms_dlg.show()
 
@@ -412,11 +420,15 @@ class Util:
         # create new dialog
         wfs_dlg = QgsProviderRegistry.instance().selectWidget("WFS", self.main_win)
 
-        QObject.connect(
-            wfs_dlg
-            , SIGNAL("addWfsLayer( QString, QString )")
-            , self.main_win, SLOT("addWfsLayer( QString, QString )")
-        )
+        ###########
+        ############
+        ###########
+        ####### TODO fix
+        #QObject.connect(
+        #    wfs_dlg
+        #    , SIGNAL("addWfsLayer( QString, QString )")
+        #    , self.main_win, SLOT("addWfsLayer( QString, QString )")
+        #)
 
         wfs_dlg.show()
         #wfs_dlg.exec()
@@ -431,8 +443,15 @@ class Util:
         # create new dialog
         csv_dlg = QgsProviderRegistry.instance().selectWidget("delimitedtext", self.main_win)
 
-        QObject.connect(csv_dlg, SIGNAL( "addVectorLayer( QString, QString, QString )" ),
-                        self.main_win, SLOT( "addSelectedVectorLayer( QString, QString, QString )" ) )
+        ###########
+        ############
+        ###########
+        ####### TODO fix
+        #QObject.connect(
+        #    csv_dlg,
+        #    SIGNAL("addVectorLayer( QString, QString, QString )"),
+        #    self.main_win, SLOT( "addSelectedVectorLayer( QString, QString, QString )")
+        #)
 
         csv_dlg.children()[1].children()[2].setText(full_path)
 

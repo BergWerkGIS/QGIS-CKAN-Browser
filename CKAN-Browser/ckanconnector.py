@@ -4,17 +4,18 @@ import json
 import os
 import sys
 import string
-import urllib2
+#from urllib3
 
-from PyQt4.QtCore import *
+from PyQt5.QtCore import *
 from qgis.core import *
-from qgis.gui import *
+from urllib.parse import unquote
+from .pyperclip import copy
 
 
 # Determine is the new QgsAuthManager is available
 try:
     from qgis.core import QgsAuthManager
-    from PyQt4.QtNetwork import *
+    from PyQt5.QtNetwork import *
 
     class RequestsExceptionsTimeout(Exception):
         pass
@@ -88,7 +89,7 @@ class CkanConnector():
             group_filter = ''
         else:
             group_filter = '&fq=('
-            for i in xrange(len(groups)):
+            for i in range(len(groups)):
                 groups[i] = u'groups:{0}'.format(groups[i])
             group_filter += '+OR+'.join(groups) + ')'
         self.util.msg_log(u'group_filter: {0}'.format(group_filter))
@@ -222,7 +223,7 @@ class CkanConnector():
         except RequestsExceptionsTimeout as cte:
             #self.util.msg_log(u'{0}\n{1}\n\n\n{2}'.format(cte, dir(cte), cte.message))
             return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
-        except IOError, e:
+        except IOError as e:
             self.util.msg_log("Can't retrieve {0} to {1}: {2}".format(url, dest_file, e))
             return False, self.util.tr(u'cc_download_error').format(e.strerror), None
         except NameError as ne:
@@ -373,7 +374,7 @@ class CkanConnector():
         except RequestsExceptionsTimeout as cte:
             #self.util.msg_log(u'{0}\n{1}\n\n\n{2}'.format(cte, dir(cte), cte.message))
             return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
-        except IOError, e:
+        except IOError as e:
             self.util.msg_log("Can't retrieve {0} to {1}: {2}".format(url, dest_file, e))
             return False, self.util.tr(u'cc_download_error').format(e.strerror), None
         except NameError as ne:
@@ -386,7 +387,7 @@ class CkanConnector():
     def __get_data(self, api, action):
         url = u'{0}{1}'.format(api, action)
         self.util.msg_log(u'api request: {0}'.format(url))
-        #pyperclip.copy(url)
+        copy(url)
         # url = u'{0}{1}'.format(self.api, unicodedata.normalize('NFKD', action))
         try:
             url = self.util.remove_newline(url)
@@ -434,13 +435,17 @@ class CkanConnector():
         Uses QgsNetworkAccessManager and fall back to requests library if
         QgsAuthManager is not available.
         """
+        if self.settings.debug:
+            self.util.msg_log('trying to use "http_call"')
         method = kwargs.get('http_method', 'get')
         if QgsAuthManager is None:
             # Fall back to requests lib
+            if self.settings.debug:
+                self.util.msg_log('falling back to requests lib')
             return getattr(requests, method)(url, **kwargs)
 
         headers = kwargs.get('headers', {})
-        # This fixes a wierd error with compressed content nob being correctly
+        # This fixes a weird error with compressed content not being correctly
         # inflated.
         # If you set the header on the QNetworkRequest you are basically telling
         # QNetworkAccessManager "I know what I'm doing, please don't do any content
@@ -448,14 +453,20 @@ class CkanConnector():
         # See: https://bugs.webkit.org/show_bug.cgi?id=63696#c1
         try:
             del headers['Accept-Encoding']
-        except KeyError:
+        except KeyError as ke:
+            if self.settings.debug:
+                self.util.msg_log(u'{}'.format(ke))
             pass
         # Avoid double quoting form QUrl
-        url = urllib2.unquote(url)
+        if self.settings.debug:
+            self.util.msg_log(u'url before unquote: {}'.format(url))
+        url = unquote(url)
+        if self.settings.debug:
+            self.util.msg_log(u'url after unquote: {}'.format(url))
 
         self.util.msg_log(u'http_call request: {0}'.format(url))
 
-        class Response():
+        class Response:
             status_code = 200
             status_message = 'OK'
             text = ''
@@ -470,7 +481,11 @@ class CkanConnector():
         self.http_call_result = Response()
         url = self.util.remove_newline(url)
         req = QNetworkRequest()
+        if self.settings.debug:
+            self.util.msg_log(u'setting url on request: {}'.format(url))
         req.setUrl(QUrl(url))
+        if self.settings.debug:
+            self.util.msg_log(u'setting headers on request: {}'.format(headers.items()))
         for k, v in headers.items():
             self.util.msg_log("%s: %s" % (k, v))
             req.setRawHeader(k, v)
@@ -478,6 +493,8 @@ class CkanConnector():
             QgsAuthManager.instance().updateNetworkRequest(req, self.authcfg)
         if self.reply is not None and self.reply.isRunning():
             self.reply.close()
+        if self.settings.debug:
+            self.util.msg_log(u'getting QgsNetworkAccessManager.instance()')
         func = getattr(QgsNetworkAccessManager.instance(), method)
         # Calling the server ...
         # Let's log the whole call for debugging purposes:

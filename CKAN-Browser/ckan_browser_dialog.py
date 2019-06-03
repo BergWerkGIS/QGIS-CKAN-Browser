@@ -23,18 +23,18 @@
 
 import math
 import os
-from PyQt4.QtCore import Qt, QTimer
-from PyQt4 import QtGui, uic
-from PyQt4.QtGui import QApplication, QListWidgetItem, QDialog, QMessageBox
-from ckan_browser_dialog_disclaimer import CKANBrowserDialogDisclaimer
-import pyperclip
-from ckanconnector import CkanConnector
-from util import Util
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5 import QtGui, uic
+from PyQt5.QtWidgets import QApplication, QListWidgetItem, QDialog, QMessageBox
+from .ckan_browser_dialog_disclaimer import CKANBrowserDialogDisclaimer
+from .pyperclip import copy
+from .ckanconnector import CkanConnector
+from .util import Util
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ckan_browser_dialog_base.ui'))
 
-class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
+class CKANBrowserDialog(QDialog, FORM_CLASS):
 
     def __init__(self, settings, iface, parent=None):
         """Constructor."""
@@ -365,7 +365,7 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         self.__search_package(page=-1)
 
     def copy_clipboard(self):
-        pyperclip.copy(self.IDC_plainTextLink.toPlainText())
+        copy(self.IDC_plainTextLink.toPlainText())
 
     def __fill_link_box(self, url):
         self.IDC_plainTextLink.setPlainText(url)

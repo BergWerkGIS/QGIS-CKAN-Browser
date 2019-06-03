@@ -20,16 +20,18 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction
 # Initialize Qt resources from file resources.py
-import resources_rc
+#import resources_rc
 # Import the code for the dialog
-from ckan_browser_dialog import CKANBrowserDialog
-from ckan_browser_dialog_settings import CKANBrowserDialogSettings
+from .ckan_browser_dialog import CKANBrowserDialog
+from .ckan_browser_dialog_settings import CKANBrowserDialogSettings
 import os.path
-from settings import Settings
-from util import Util
+from .settings import Settings
+from .util import Util
+
 
 
 class CKANBrowser:
@@ -77,6 +79,7 @@ class CKANBrowser:
         self.settings = Settings()
         self.settings.load()
         self.util = Util(self.settings, self.iface.mainWindow())
+        self.util.msg_log('__init__')
 
         # TODO ping API
 

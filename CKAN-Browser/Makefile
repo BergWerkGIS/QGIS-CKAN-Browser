@@ -24,7 +24,9 @@
 
 
 #Add iso code for any locales you want to support here (space separated)
-LOCALES = CKANBrowser_en CKANBrowser_de CKANBrowser_fi
+LOCALES = CKANBrowser_en CKANBrowser_de CKANBrowser_fi CKANBrowser_fr CKANBrowser_ja
+
+LRELEASE = lrelease
 
 # translation
 SOURCES = \
@@ -68,14 +70,14 @@ HELP = help/build/html
 
 PLUGIN_UPLOAD = $(c)/plugin_upload.py
 
-QGISDIR=.qgis2
+QGISDIR=.local/share/QGIS/QGIS3/profiles/default
 
 default: compile
 
 compile: $(COMPILED_RESOURCE_FILES)
 
 %_rc.py : %.qrc
-	pyrcc4 -o $*_rc.py  $<
+	pyrcc5 -o $*_rc.py  $<
 
 %.qm : %.ts
 	lrelease $<
@@ -98,7 +100,7 @@ test: compile transcompile
 	@echo "e.g. source run-env-linux.sh <path to qgis install>; make test"
 	@echo "----------------------"
 
-deploy: compile doc transcompile
+deploy: compile transcompile
 	@echo
 	@echo "------------------------------------------"
 	@echo "Deploying plugin to your .qgis2 directory."
@@ -117,15 +119,17 @@ deploy: compile doc transcompile
 	cp -vfr pyperclip $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	#cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
 
+
+
 # The dclean target removes compiled python files from plugin directory
-# also deletes any .svn entry
+# also deletes any .git entry
 dclean:
 	@echo
 	@echo "-----------------------------------"
 	@echo "Removing any compiled python files."
 	@echo "-----------------------------------"
 	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname "*.pyc" -delete
-	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname ".svn" -prune -exec rm -Rf {} \;
+	find $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME) -iname ".git" -prune -exec rm -Rf {} \;
 
 
 derase:
@@ -142,10 +146,8 @@ zip: deploy dclean
 	@echo "---------------------------"
 	# The zip target deploys the plugin and creates a zip file with the deployed
 	# content. You can then upload the zip file on http://plugins.qgis.org
-	rm -f $(CURDIR)/../$(PLUGINNAME).zip
-	#rm -r $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help/
-	#rm -r $(CURDIR)/help/
-	cd $(HOME)/$(QGISDIR)/python/plugins; zip -9r $(CURDIR)/../$(PLUGINNAME).zip $(PLUGINNAME)
+	rm -f $(PLUGINNAME).zip
+	cd $(HOME)/$(QGISDIR)/python/plugins; zip -9r $(CURDIR)/$(PLUGINNAME).zip $(PLUGINNAME)
 
 package: compile
 	# Create a zip package of the plugin named $(PLUGINNAME).zip.
@@ -182,7 +184,7 @@ transcompile:
 	@echo "Compiled translation files to .qm files."
 	@echo "----------------------------------------"
 	@chmod +x scripts/compile-strings.sh
-	@scripts/compile-strings.sh $(LOCALES)
+	@scripts/compile-strings.sh $(LRELEASE) $(LOCALES)
 
 transclean:
 	@echo
@@ -203,7 +205,7 @@ doc:
 	@echo "------------------------------------"
 	@echo "Building documentation using sphinx."
 	@echo "------------------------------------"
-	#cd help; make html
+	cd help; make html
 
 pylint:
 	@echo
@@ -226,4 +228,7 @@ pep8:
 	@echo "-----------"
 	@echo "PEP8 issues"
 	@echo "-----------"
-	@pep8 --repeat --ignore=E203,E121,E122,E123,E124,E125,E126,E127,E128 --exclude pydev,resources_rc.py,conf.py . || true
+	@pep8 --repeat --ignore=E203,E121,E122,E123,E124,E125,E126,E127,E128 --exclude $(PEP8EXCLUDE) . || true
+	@echo "-----------"
+	@echo "Ignored in PEP8 check:"
+	@echo $(PEP8EXCLUDE)
