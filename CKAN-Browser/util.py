@@ -26,6 +26,7 @@ from PyQt5.QtXml import QDomNode, QDomElement, QDomDocument, QDomNodeList
 from qgis.core import QgsMessageLog, QgsVectorLayer, QgsRasterLayer, QgsProviderRegistry
 from qgis.core import QgsLayerTreeGroup, QgsProject
 from qgis.core import QgsMapLayer
+from qgis.core import Qgis
 
 
 class Util:
@@ -89,7 +90,7 @@ class Util:
             # zf.extractall(dest_dir) fails for umlauts
             # https://github.com/joeferraro/MavensMate/pull/27/files
             f = zipfile.ZipFile(archive, 'r')
-            self.msg_log(u'dest_dir: {0}'.format(dest_dir))
+            self.msg_log_debug(u'dest_dir: {0}'.format(dest_dir))
 
             for file_info in f.infolist():
                 #file_name = os.path.join(dest_dir, file_info.filename.decode('utf8'))
@@ -114,7 +115,7 @@ class Util:
         except AttributeError as ae:
             return False, u'AttributeError: {0}'.format(ae.message)
         except:
-            self.msg_log(u'Except: {0}'.format(sys.exc_info()[1]))
+            self.msg_log_debug(u'Except: {0}'.format(sys.exc_info()[1]))
             return False, u'Except: {0}'.format(sys.exc_info()[1])
 
     def add_lyrs_from_dir(self, data_dir, layer_name, layer_url):
@@ -159,25 +160,25 @@ class Util:
                     for file_name in filter(file_names, file_type):
                         geo_files.append(os.path.join(root, file_name))
 
-            self.msg_log(u'add lyrs: {0}'.format(data_dir))
-            self.msg_log(u'add lyrs: {0}'.format('\n'.join(geo_files)))
+            self.msg_log_debug(u'add lyrs: {0}'.format(data_dir))
+            self.msg_log_debug(u'add lyrs: {0}'.format('\n'.join(geo_files)))
 
             if len(geo_files) < 1:
-                self.msg_log('len(geo_files)<1')
+                self.msg_log_debug('len(geo_files)<1')
 #                 return False, u'Keine anzeigbaren Daten gefunden in\n{0}.\n\n\n     ===----!!!TODO!!!----===\n\nBenutzer anbieten Verzeichnis zu öffnen'.format(dir)
                 return False, {"message": "unknown fileytpe", "dir_path": data_dir}
             for geo_file in geo_files:
                 if os.path.basename(geo_file).lower().endswith('.shp.xml'):
-                    self.msg_log(u'skipping {0}'.format(geo_file))
+                    self.msg_log_debug(u'skipping {0}'.format(geo_file))
                     continue
-                self.msg_log(geo_file)
+                self.msg_log_debug(geo_file)
                 full_path = os.path.join(data_dir, geo_file)
                 full_layer_name = layer_name + ' - ' + os.path.basename(geo_file)
                 low_case = os.path.basename(geo_file).lower()
                 lyr = None
 
                 if low_case.endswith('json'):
-                    self.msg_log(u'Open JSON')
+                    self.msg_log_debug(u'Open JSON')
                     if False is self.__is_geojson(full_path):
                         if self.__open_with_system(full_path) > 0:
                             if QMessageBox.Yes == self.dlg_yes_no(self.tr(u'py_dlg_base_open_manager').format(layer_url)):
@@ -205,16 +206,16 @@ class Util:
                         QgsProject.instance().layerTreeRoot()
                     )
                 elif low_case.endswith('.wmts') or low_case.endswith('.wms'): # for now, we assume it's a WMTS
-                    self.msg_log(u'Open WM(T)S')
+                    self.msg_log_debug(u'Open WM(T)S')
                     self._open_wmts(layer_name, layer_url)
                     continue
                 elif low_case.endswith('.wfs'): # for now, we assume it's a WMTS
-                    self.msg_log(u'Open WFS')
+                    self.msg_log_debug(u'Open WFS')
                     self._open_wfs(layer_name, layer_url)
                     continue
                 elif low_case.endswith('.csv'):
 #                     lyr = self.__add_csv_table(full_path, full_layer_name)
-                    self.msg_log(u'Open CSV')
+                    self.msg_log_debug(u'Open CSV')
                     self._open_csv(full_path)
                     continue
                 elif(
@@ -232,13 +233,13 @@ class Util:
                     lyr = self.__add_vector_layer(full_path, full_layer_name)
                 if lyr is not None:
                     if not lyr.isValid():
-                        self.msg_log(u'not valid: {0}'.format(full_path))
+                        self.msg_log_debug(u'not valid: {0}'.format(full_path))
                         if QMessageBox.Yes == self.dlg_yes_no(self.tr(u'py_dlg_base_open_manager').format(layer_url)):
                             self.open_in_manager(data_dir)
                         continue
                     QgsProject.instance().addMapLayer(lyr)
                 else:
-                    self.msg_log(u'could not add layer: {0}'.format(full_path))
+                    self.msg_log_debug(u'could not add layer: {0}'.format(full_path))
             return True, None
         except AttributeError as ae:
             return False, ae.message
@@ -248,7 +249,7 @@ class Util:
             return False, sys.exc_info()[0]
 
     def __add_vector_layer(self, file_name, full_layer_name):
-        self.msg_log(u'vector layer'.format(file_name))
+        self.msg_log_debug(u'vector layer'.format(file_name))
         lyr = QgsVectorLayer(
             file_name,
             full_layer_name,
@@ -257,7 +258,7 @@ class Util:
         return lyr
 
     def __add_raster_layer(self, file_name, full_layer_name):
-        self.msg_log(u'raster layer'.format(file_name))
+        self.msg_log_debug(u'raster layer'.format(file_name))
         lyr = QgsRasterLayer(
             file_name,
             full_layer_name
@@ -265,7 +266,7 @@ class Util:
         return lyr
 
     def __add_csv_table(self, file_name, full_layer_name):
-        self.msg_log(u'csv layer'.format(file_name))
+        self.msg_log_debug(u'csv layer'.format(file_name))
         # file:///f:/scripts/map/points.csv?delimiter=%s&
         # file:///home/bergw/open-data-ktn-cache-dir/42b67af7-f795-48af-9de0-25c8d777bb50/d5ea898b-2ee7-4b52-9b7d-412826d73e45/schuler-und-klassen-kaernten-gesamt-sj-2014-15.csv?encoding=ISO-8859-1&type=csv&delimiter=;&geomType=none&subsetIndex=no&watchFile=no
         # file:///C:/Users/bergw/_TEMP/open-data-ktn-cache-2/wohnbevgemeinzeljahre-2014-WINDOWS.csv?encoding=windows-1252&type=csv&delimiter=%5Ct;&geomType=none&subsetIndex=no&watchFile=no
@@ -330,7 +331,7 @@ class Util:
         # Add new HTTPConnection like in source
         # https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp
 
-        self.msg_log(u'add WM(T)S: Name = {0}, URL = {1}'.format(name, capabilites_url))
+        self.msg_log_debug(u'add WM(T)S: Name = {0}, URL = {1}'.format(name, capabilites_url))
 
         s = QSettings()
 
@@ -373,7 +374,7 @@ class Util:
         # https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp
         # https://github.com/qgis/QGIS/blob/79616fd8d8285b4eb93adafdfcb97a3e429b832e/src/app/qgisapp.cpp#L3783
 
-        self.msg_log(u'add WFS: Name={0}, original URL={1}'.format(name, capabilites_url))
+        self.msg_log_debug(u'add WFS: Name={0}, original URL={1}'.format(name, capabilites_url))
 
         # remove additional url parameters, otherwise adding wfs works the frist time only
         # https://github.com/qgis/QGIS/blob/9eee12111567a84f4d4de7e020392b3c01c28598/src/gui/qgsnewhttpconnection.cpp#L199-L214
@@ -389,11 +390,11 @@ class Util:
         url.removeQueryItem('version')
 
         capabilites_url = url.toString()
-        self.msg_log(u'add WFS: Name={0}, base URL={1}'.format(name, capabilites_url))
+        self.msg_log_debug(u'add WFS: Name={0}, base URL={1}'.format(name, capabilites_url))
 
         s = QSettings()
 
-        self.msg_log(u'existing WFS url: {0}'.format(s.value(u'Qgis/connections-wfs/{0}/url'.format(name), '')))
+        self.msg_log_debug(u'existing WFS url: {0}'.format(s.value(u'Qgis/connections-wfs/{0}/url'.format(name), '')))
 
         key_user = u'Qgis/WFS/{0}/username'.format(name)
         key_pwd = u'Qgis/WFS/{0}/password'.format(name)
@@ -438,7 +439,7 @@ class Util:
         # Add new HTTPConnection like in source
         # https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp
 
-        self.msg_log(u'add CSV file: {0}'.format(full_path))
+        self.msg_log_debug(u'add CSV file: {0}'.format(full_path))
 
         # create new dialog
         csv_dlg = QgsProviderRegistry.instance().selectWidget("delimitedtext", self.main_win)
@@ -468,7 +469,7 @@ class Util:
                 code = -1
         elif os.name == 'posix':
             code = subprocess.call(('xdg-open', file_name))
-        self.msg_log(u'Exit Code: {0}'.format(code))
+        self.msg_log_debug(u'Exit Code: {0}'.format(code))
         return code
 
     def __is_geojson(self, file_path):
@@ -477,15 +478,15 @@ class Util:
                 data = json.load(json_file)
 
                 if data.get('features') is not None:
-                    self.msg_log('is_geojson: "features" found')
+                    self.msg_log_debug('is_geojson: "features" found')
                     return True
                 elif data.get('type') =="FeatureCollection":
-                    self.msg_log('is_geojson: "FeatureCollection" found')
+                    self.msg_log_debug('is_geojson: "FeatureCollection" found')
                     return True
                 else:
                     return False
         except:
-            self.msg_log(u'Error reading json'.format(sys.exc_info()[1]))
+            self.msg_log_debug(u'Error reading json'.format(sys.exc_info()[1]))
             return False
 
     def dlg_information(self, msg):
@@ -503,16 +504,29 @@ class Util:
             QMessageBox.No
         )
 
-    def msg_log(self, msg):
+    def msg_log_debug(self, msg):
         if self.settings.debug is True:
-            QgsMessageLog.logMessage(msg, self.dlg_caption)
+            QgsMessageLog.logMessage(msg, self.dlg_caption, Qgis.Info)
+
+    def msg_log_warning(self, msg):
+        QgsMessageLog.logMessage(msg, self.dlg_caption, Qgis.Warning)
+
+    def msg_log_error(self, msg):
+        QgsMessageLog.logMessage(msg, self.dlg_caption, Qgis.Critical)
+
+    def msg_log_last_exception(self):
+        exc_type, exc_value, exc_traceback = sys.exc_info()
+        self.msg_log_error(
+            u'\nexc_type: {}\nexc_value: {}\nexc_traceback: {}'
+            .format(exc_type, exc_value, exc_traceback)
+        )
 
     def remove_newline(self, url):
         if '\r\n' in url:
-            self.msg_log(u'Windows style new line found in resource url')
+            self.msg_log_debug(u'Windows style new line found in resource url')
             url = url.replace('\r\n', '')
         if '\n' in url:
-            self.msg_log(u'Linux style new line found in resource url')
+            self.msg_log_debug(u'Linux style new line found in resource url')
             url = url.replace('\n', '')
         return url
 

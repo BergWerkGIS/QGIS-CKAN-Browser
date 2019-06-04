@@ -24,7 +24,7 @@
 import os
 from PyQt5.QtCore import Qt
 from PyQt5 import QtGui, uic
-from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
+from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog, QVBoxLayout, QDialogButtonBox
 from collections import OrderedDict
 from .util import Util
 from .ckanconnector import CkanConnector
@@ -85,9 +85,8 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
             for key in self.pre_ckan_apis.keys():
                 self.IDC_cbPreCkanApi.addItem(key)
 
-            ##### TODO: what's this doing anyway
-            #value = self.pre_ckan_apis.itervalues().next()
-            #self.IDC_lblPreCkan.setText(value)
+            value = next(iter(list(self.pre_ckan_apis.values())))
+            self.IDC_lblPreCkan.setText(value)
 
         except IOError as err:
             self.util.dlg_warning(self.util.tr(u"py_dlg_set_warn_urls_not_load").format(err))
@@ -101,7 +100,7 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
             QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
         )
         if '' == cache_dir:
-            self.util.msg_log('no cachedir selected')
+            self.util.msg_log_debug('no cachedir selected')
         else:
             self.IDC_leCacheDir.setText(cache_dir)
 
@@ -109,7 +108,7 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
     def test_ckan_url(self):
         """ Test if URL in LineEdit is a valid CKAN API URL """
         api_url = self.IDC_leCkanApi.text()
-        self.util.msg_log('URL: {0}'.format(api_url))
+        self.util.msg_log_debug('URL: {0}'.format(api_url))
 
         QApplication.setOverrideCursor(Qt.WaitCursor)
         ok, result = self.cc.test_groups(api_url)
@@ -132,7 +131,7 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
             value = self.pre_ckan_apis[key]
             self.IDC_lblPreCkan.setText(value)
         except TypeError as err:
-            self.util.msg_log('Error: No items in Preselected-Combo-Box: {0}'.format(err))
+            self.util.msg_log_debug('Error: No items in Preselected-Combo-Box: {0}'.format(err))
             pass
 
 
@@ -183,15 +182,15 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
     def authcfg_edit(self):
         dlg = QDialog(None)
         dlg.setWindowTitle(self.util.tr("Select Authentication"))
-        layout = QtGui.QVBoxLayout(dlg)
+        layout = QVBoxLayout(dlg)
 
         acs = QgsAuthConfigSelect(dlg)
         if self.IDC_leAuthCfg.text():
             acs.setConfigId(self.IDC_leAuthCfg.text())
         layout.addWidget(acs)
 
-        buttonbox = QtGui.QDialogButtonBox(
-            QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel,
+        buttonbox = QDialogButtonBox(
+            QDialogButtonBox.Ok | QDialogButtonBox.Cancel,
             Qt.Horizontal, dlg
         )
 

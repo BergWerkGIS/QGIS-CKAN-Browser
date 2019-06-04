@@ -115,7 +115,7 @@ deploy: compile transcompile
 	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr i18n $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
-	cp -vfr request $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	#cp -vfr request $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vfr pyperclip $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	#cp -vfr $(HELP) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/help
 

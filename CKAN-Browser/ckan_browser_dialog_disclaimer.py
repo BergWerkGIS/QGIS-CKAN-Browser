@@ -27,8 +27,12 @@ from PyQt5 import QtGui, uic
 from PyQt5.QtWidgets import QDialog
 from .util import Util
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'ckan_browser_dialog_disclaimer.ui'))
+FORM_CLASS, _ = uic.loadUiType(
+    os.path.join(
+        os.path.dirname(__file__),
+        'ckan_browser_dialog_disclaimer.ui'
+    )
+)
 
 
 class CKANBrowserDialogDisclaimer(QDialog, FORM_CLASS):
