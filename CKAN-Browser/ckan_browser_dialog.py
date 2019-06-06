@@ -23,19 +23,21 @@
 
 import math
 import os
-from PyQt4.QtCore import Qt, QTimer
-from PyQt4 import QtGui, uic
-from PyQt4.QtGui import QApplication, QListWidgetItem, QDialog, QMessageBox
-from ckan_browser_dialog_disclaimer import CKANBrowserDialogDisclaimer
-import pyperclip
-from ckanconnector import CkanConnector
-from util import Util
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5 import QtGui, uic
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QApplication, QListWidgetItem, QDialog, QMessageBox
+from .ckan_browser_dialog_disclaimer import CKANBrowserDialogDisclaimer
+from .pyperclip import copy
+from .ckanconnector import CkanConnector
+from .util import Util
 
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ckan_browser_dialog_base.ui'))
 
-class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
+
+class CKANBrowserDialog(QDialog, FORM_CLASS):
 
     def __init__(self, settings, iface, parent=None):
         """Constructor."""
@@ -81,18 +83,19 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         QApplication.setOverrideCursor(Qt.WaitCursor)
 
     def showEvent(self, event):
-        self.util.msg_log('showevent')
+        self.util.msg_log_debug('showevent')
         QDialog.showEvent(self, event)
-        self.timer.start(500)
-        self.util.msg_log('showevent finished')
+        if self.timer is not None:
+            self.timer.start(500)
+        self.util.msg_log_debug('showevent finished')
 
     def window_loaded(self):
         try:
-            self.util.msg_log('window_loaded')
-            self.util.msg_log('before stop')
+            self.util.msg_log_debug('window_loaded')
+            self.util.msg_log_debug('before stop')
             self.timer.stop()
             self.timer = None
-            self.util.msg_log('before get_groupds')
+            self.util.msg_log_debug('before get_groupds')
             ok, result = self.cc.get_groups()
             if ok is False:
                 QApplication.restoreOverrideCursor()
@@ -114,8 +117,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
 
     def close_dlg(self):
         QDialog.reject(self)
-        
-    
+
+
     def show_disclaimer(self):
         self.dlg_disclaimer = CKANBrowserDialogDisclaimer(self.settings)
         self.dlg_disclaimer.show()
@@ -138,7 +141,7 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         self.__search_package()
 
     def category_item_clicked(self, item):
-        self.util.msg_log(item.data(Qt.UserRole)['name'])
+        self.util.msg_log_debug(item.data(Qt.UserRole)['name'])
         self.current_group = item.data(Qt.UserRole)['name']
         self.current_page = 1
         self.__search_package()
@@ -148,23 +151,23 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         #if self.search_txt == u'' and self.current_group is None:
         #    return
         if page is not None:
-            self.util.msg_log(u'page is not None, cp:{0} pg:{1}'.format(self.current_page, page))
+            self.util.msg_log_debug(u'page is not None, cp:{0} pg:{1}'.format(self.current_page, page))
             self.current_page = self.current_page + page
             if self.current_page > self.page_count:
                 self.current_page = self.page_count
             if self.current_page < 1:
                 self.current_page = 1
-            self.util.msg_log(u'page is not None, cp:{0} pg:{1}'.format(self.current_page, page))
+            self.util.msg_log_debug(u'page is not None, cp:{0} pg:{1}'.format(self.current_page, page))
         QApplication.setOverrideCursor(Qt.WaitCursor)
         if self.current_group is None:
             # normal query: limit query to checked groups, or all if unchecked
-            self.util.msg_log(u'normal query')
+            self.util.msg_log_debug(u'normal query')
             groups = self.__get_selected_groups()
             ok, result = self.cc.package_search(self.search_txt, groups, self.current_page)
         else:
             # double click on group in list, ignore query and return all
             # packages for group
-            self.util.msg_log(u'query everything for group:{0}'.format(self.current_group))
+            self.util.msg_log_debug(u'query everything for group:{0}'.format(self.current_group))
             ok, result = self.cc.show_group(self.current_group, self.current_page)
         QApplication.restoreOverrideCursor()
         if ok is False:
@@ -206,7 +209,7 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
                 title_txt = 'no title'
             elif isinstance(e, dict):
                 # HACK! use first value
-                title_txt = e.itervalues().next()
+                title_txt = next(iter(list(e.values())))
             elif isinstance(e, list):
                 # HACK! use first value
                 title_txt = e[0]
@@ -251,7 +254,7 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         if new_item is None:
             return
         url = new_item.data(Qt.UserRole)['url']
-        self.util.msg_log(url)
+        self.util.msg_log_debug(url)
         self.__fill_link_box(url)
 
 
@@ -266,8 +269,7 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
 #                 self.util.dlg_warning(self.util.tr(u'py_dlg_base_warn_no_resource_name').format(resource['id']))
 #                 continue
                 resource['name'] = "Unnamed resource"
-            if self.settings.debug:
-                self.util.msg_log(u'Bearbeite: {0}'.format(resource['name']))
+            self.util.msg_log_debug(u'Bearbeite: {0}'.format(resource['name']))
             dest_dir = os.path.join(
                 self.settings.cache_dir,
                 self.cur_package['id'],
@@ -313,13 +315,29 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
                 else:
                     do_download = False
             if do_download is True:
-                file_size_ok, file_size = self.cc.get_file_size(resource['url'])
+                # set wait cursor if request take it time, low latency, server not reachable, ...
+                QApplication.setOverrideCursor(Qt.WaitCursor)
+                QtWidgets.qApp.processEvents()
+                file_size_ok, file_size, hdr_exception = self.cc.get_file_size(resource['url'])
+                QApplication.restoreOverrideCursor()
+                # Silently ignore the error
                 if not file_size_ok:
-                    self.util.dlg_warning(file_size)
-                    continue
+                    file_size = 0
                 if file_size > 50 and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'py_dlg_base_big_file').format(file_size)):
                     continue  # stop process if user does not want to download the file
+                if hdr_exception:
+                    self.util.dlg_warning(u'{}'.format(hdr_exception))
+                    continue
+
+                self.util.msg_log_debug('setting wait cursor')
                 QApplication.setOverrideCursor(Qt.WaitCursor)
+                # pump GUI messages, otherwise wait cursor might not get displayed
+                # as we are running the downloads on the main thread and if the request
+                # gets stuck immediately (eg low latency or connection refused only after some time)
+                # wait cursor might not appear
+                QtWidgets.qApp.processEvents()
+                self.util.msg_log_debug('wait cursor set')
+
                 ok, err_msg, new_file_name = self.cc.download_resource(
                     resource['url']
                     , resource['format']
@@ -361,7 +379,7 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         self.__search_package(page=-1)
 
     def copy_clipboard(self):
-        pyperclip.copy(self.IDC_plainTextLink.toPlainText())
+        copy(self.IDC_plainTextLink.toPlainText())
 
     def __fill_link_box(self, url):
         self.IDC_plainTextLink.setPlainText(url)
@@ -388,8 +406,8 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         if len(res) < 1:
             return None
         return res
-    
-    
+
+
     def _shorten_path(self, s):
         """ private class to shorten string to 33 chars and place a html-linebreak inside"""
         result = u""
@@ -398,15 +416,15 @@ class CKANBrowserDialog(QtGui.QDialog, FORM_CLASS):
         else:
             return s
         return result
-    
+
     def help_ttip_search(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_search'))
-        
+
     def help_ttip_filter(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_filter'))
-        
+
     def help_ttip_data_list(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_data_list'))
-        
+
     def help_ttip_resource(self):
         self.util.dlg_information(self.util.tr(u'dlg_base_ttip_resource'))

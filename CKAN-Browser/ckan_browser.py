@@ -20,16 +20,18 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon
+from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QAction
 # Initialize Qt resources from file resources.py
-import resources_rc
+#import resources_rc
 # Import the code for the dialog
-from ckan_browser_dialog import CKANBrowserDialog
-from ckan_browser_dialog_settings import CKANBrowserDialogSettings
+from .ckan_browser_dialog import CKANBrowserDialog
+from .ckan_browser_dialog_settings import CKANBrowserDialogSettings
 import os.path
-from settings import Settings
-from util import Util
+from .settings import Settings
+from .util import Util
+
 
 
 class CKANBrowser:
@@ -77,6 +79,7 @@ class CKANBrowser:
         self.settings = Settings()
         self.settings.load()
         self.util = Util(self.settings, self.iface.mainWindow())
+        self.util.msg_log_debug('__init__')
 
         # TODO ping API
 
@@ -167,7 +170,7 @@ class CKANBrowser:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/CKANBrowser/icon.png'
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon.png')
 
         self.add_action(
             icon_path,
@@ -176,7 +179,7 @@ class CKANBrowser:
             parent=self.iface.mainWindow()
         )
         
-        icon_settings = ':/plugins/CKANBrowser/icon-settings.png'
+        icon_settings = os.path.join(os.path.dirname(__file__), 'icon-settings.png')
         
         self.add_action(
             icon_settings,
@@ -199,15 +202,15 @@ class CKANBrowser:
         is_open = QSettings().value("ckan_browser/isopen", False)
         #Python treats almost everything as True````
         #is_open = bool(is_open)
-        self.util.msg_log(u'isopen: {0}'.format(is_open))
+        self.util.msg_log_debug(u'isopen: {0}'.format(is_open))
         
         #!!!string comparison - Windows and Linux treat it as string, Mac as bool
         # so we convert string to bool
-        if isinstance(is_open, basestring):
+        if isinstance(is_open, str):
             is_open = self.util.str2bool(is_open)
         
         if is_open:
-            self.util.msg_log(u'Dialog already opened')
+            self.util.msg_log_debug(u'Dialog already opened')
             return
         
         # auf URL testen

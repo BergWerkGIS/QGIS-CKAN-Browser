@@ -1,5 +1,5 @@
 {
+	"City of Toronto": "https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/",
 	"data.gv.at": "https://www.data.gv.at/katalog/api/3/",
-	"European Data Portal": "http://www.europeandataportal.eu/data/en/api/3",
-	"Alagoas em Dados e Informações": "http://dados.al.gov.br/api/3/"  
+	"demo.ckan.org": "https://demo.ckan.org/api/3/"
 }

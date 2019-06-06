@@ -8,10 +8,10 @@
 
 [general]
 name=CKAN-Browser
-qgisMinimumVersion=2.0
+qgisMinimumVersion=3.0
 about=Download and display Open Data from CKAN Metadata Servers
 description=Download and display Open Data from CKAN Metadata Servers
-version=0.3.3
+version=0.3.90
 author=BergWerkGIS
 email=wb@BergWerk-GIS.at
 
@@ -33,7 +33,7 @@ tracker=https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues
 repository=https://github.com/BergWerkGIS/QGIS-CKAN-Browser
 icon=icon.png
 # experimental flag
-experimental=False
+experimental=True
 
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>704</width>
-    <height>328</height>
+    <width>804</width>
+    <height>503</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -51,7 +51,278 @@
      <property name="sizeConstraint">
       <enum>QLayout::SetMinimumSize</enum>
      </property>
-     <item row="9" column="1">
+     <item row="2" column="0">
+      <widget class="QLabel" name="IDC_lblAuthCfg">
+       <property name="text">
+        <string>Authentication</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="IDC_leAuthCfg">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="IDC_lblCkanApi">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>dlg_set_ckan_api</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="IDC_pbHelpURL">
+       <property name="minimumSize">
+        <size>
+         <width>14</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>18</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>dlg_set_tool_api_url</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="IDC_bAuthCfgClear">
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="IDC_bAuthCfgEdit">
+         <property name="text">
+          <string>Edit</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="3">
+      <widget class="QPushButton" name="IDC_bCkanAPI">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>dlg_set_tool_test</string>
+       </property>
+       <property name="text">
+        <string>dlg_set__btn_test</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0" colspan="4">
+      <widget class="Line" name="line_2">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="0" colspan="3">
+      <widget class="QLineEdit" name="IDC_leCacheDir">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="IDC_lblPreCkanApi">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>dlg_set_pre_api</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="3">
+      <widget class="QLineEdit" name="IDC_leCkanApi">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>22</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="3">
+      <widget class="QPushButton" name="IDC_bCacheDir">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>dlg_set_ellipsis</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0" colspan="4">
+      <widget class="QLabel" name="IDC_lblPreCkan">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>dlg_set_v3_only</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0" colspan="3">
+      <widget class="QComboBox" name="IDC_cbPreCkanApi">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>26</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0" colspan="4">
+      <widget class="Line" name="line">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="3">
+      <widget class="QPushButton" name="IDC_bChoosePre">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>dlg_set_choose_pre</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QPushButton" name="IDC_pbHelpPreset">
+       <property name="minimumSize">
+        <size>
+         <width>14</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>18</width>
+         <height>22</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>dlg_set_tool_pre_urls</string>
+       </property>
+       <property name="text">
+        <string>?</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
       <widget class="QPushButton" name="IDC_pbHelpCache">
        <property name="minimumSize">
         <size>
@@ -88,23 +359,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="IDC_lblPreCkanApi">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>dlg_set_pre_api</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="label">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -120,210 +375,13 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="3">
-      <widget class="QPushButton" name="IDC_bChoosePre">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>dlg_set_choose_pre</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0" colspan="3">
-      <widget class="QComboBox" name="IDC_cbPreCkanApi">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>26</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="IDC_lblCkanApi">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>dlg_set_ckan_api</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QPushButton" name="IDC_pbHelpPreset">
-       <property name="minimumSize">
-        <size>
-         <width>14</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>18</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
+     <item row="3" column="0" colspan="4">
+      <widget class="QCheckBox" name="IDC_cbAuthPropagate">
        <property name="toolTip">
-        <string>dlg_set_tool_pre_urls</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Warning: &lt;/span&gt;if this option is enabled, the same authentication configuration will be implicitely propagated to &lt;span style=&quot; font-weight:600;&quot;&gt;all&lt;/span&gt; OGC layers (WMS, WFS ...) returned by this catalog, this may leak credentials to the result endpoint  if it is not supposed to use the same authentication configuration.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="IDC_pbHelpURL">
-       <property name="minimumSize">
-        <size>
-         <width>14</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>18</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="toolTip">
-        <string>dlg_set_tool_api_url</string>
-       </property>
-       <property name="text">
-        <string>?</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0" colspan="4">
-      <widget class="Line" name="line_2">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0" colspan="4">
-      <widget class="Line" name="line">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>20</height>
-        </size>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0" colspan="4">
-      <widget class="QLabel" name="IDC_lblPreCkan">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <weight>50</weight>
-         <bold>false</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>dlg_set_v3_only</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" colspan="3">
-      <widget class="QLineEdit" name="IDC_leCkanApi">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>22</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QPushButton" name="IDC_bCkanAPI">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="toolTip">
-        <string>dlg_set_tool_test</string>
-       </property>
-       <property name="text">
-        <string>dlg_set__btn_test</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="3">
-      <widget class="QPushButton" name="IDC_bCacheDir">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>dlg_set_ellipsis</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0" colspan="3">
-      <widget class="QLineEdit" name="IDC_leCacheDir">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>22</height>
-        </size>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
+        <string>Use the same authentication settings for all OGC layers</string>
        </property>
       </widget>
      </item>
@@ -484,6 +542,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>IDC_bAuthCfgClear</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>authcfg_clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>489</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>251</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bAuthCfgEdit</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogSettings</receiver>
+   <slot>authcfg_edit()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>662</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>251</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>save()</slot>
@@ -495,5 +585,7 @@
   <slot>help_pre_urls()</slot>
   <slot>help_api_url()</slot>
   <slot>choose_pre_api()</slot>
+  <slot>authcfg_edit()</slot>
+  <slot>authcfg_clear()</slot>
  </slots>
 </ui>

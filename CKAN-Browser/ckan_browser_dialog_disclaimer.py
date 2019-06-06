@@ -23,14 +23,19 @@
 
 import os
 
-from PyQt4 import QtGui, uic
-from util import Util
+from PyQt5 import QtGui, uic
+from PyQt5.QtWidgets import QDialog
+from .util import Util
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'ckan_browser_dialog_disclaimer.ui'))
+FORM_CLASS, _ = uic.loadUiType(
+    os.path.join(
+        os.path.dirname(__file__),
+        'ckan_browser_dialog_disclaimer.ui'
+    )
+)
 
 
-class CKANBrowserDialogDisclaimer(QtGui.QDialog, FORM_CLASS):
+class CKANBrowserDialogDisclaimer(QDialog, FORM_CLASS):
     def __init__(self, settings, parent=None):
         """Constructor."""
         super(CKANBrowserDialogDisclaimer, self).__init__(parent)
@@ -49,4 +54,3 @@ class CKANBrowserDialogDisclaimer(QtGui.QDialog, FORM_CLASS):
         self.IDC_lblLogo.setPixmap(QtGui.QPixmap(logo_path))
         self.IDC_brInfo.setOpenExternalLinks(True)
         self.IDC_brInfo.setHtml(self.util.tr('py_disc_info_html'))
-        
