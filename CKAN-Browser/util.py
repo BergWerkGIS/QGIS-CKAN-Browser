@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import errno
-import glob
 import os
 from fnmatch import filter
 import shutil
@@ -9,6 +8,7 @@ import subprocess
 import sys
 import zipfile
 import json
+
 from PyQt5.QtCore import \
     QCoreApplication, \
     QDateTime, \
@@ -18,15 +18,18 @@ from PyQt5.QtCore import \
     QIODevice, \
     QObject, \
     QSettings, \
-    QUrl
+    QUrl, \
+    QUrlQuery
     #SIGNAL, \
     #SLOT
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtXml import QDomNode, QDomElement, QDomDocument, QDomNodeList
+
 from qgis.core import QgsMessageLog, QgsVectorLayer, QgsRasterLayer, QgsProviderRegistry
 from qgis.core import QgsLayerTreeGroup, QgsProject
 from qgis.core import QgsMapLayer
 from qgis.core import Qgis
+from qgis.utils import iface
 
 
 class Util:
@@ -111,9 +114,9 @@ class Util:
                 shutil.copyfileobj(f.open(file_info.filename), out_file)
             return True, None
         except UnicodeDecodeError as ude:
-            return False, u'UnicodeDecodeError: {0}'.format(ude.reason)
+            return False, u'UnicodeDecodeError: {0}'.format(ude)
         except AttributeError as ae:
-            return False, u'AttributeError: {0}'.format(ae.message)
+            return False, u'AttributeError: {0}'.format(ae)
         except:
             self.msg_log_debug(u'Except: {0}'.format(sys.exc_info()[1]))
             return False, u'Except: {0}'.format(sys.exc_info()[1])
@@ -242,9 +245,9 @@ class Util:
                     self.msg_log_debug(u'could not add layer: {0}'.format(full_path))
             return True, None
         except AttributeError as ae:
-            return False, ae.message
+            return False, u'AttributeError: {}'.format(ae)
         except TypeError as te:
-            return False, te.message
+            return False, u'TypeError: {}'.format(te)
         except:
             return False, sys.exc_info()[0]
 
@@ -335,37 +338,26 @@ class Util:
 
         s = QSettings()
 
-        s.setValue(u'Qgis/WMS/{0}/password'.format(name), '')
-        s.setValue(u'Qgis/WMS/{0}/username'.format(name), '')
-        s.setValue(u'Qgis/WMS/{0}/authcfg'.format(name), '')
-        s.setValue(u'Qgis/connections-wms/{0}/dpiMode'.format(name), 7)  # refer to https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp#L229-L247
-        s.setValue(u'Qgis/connections-wms/{0}/ignoreAxisOrientation'.format(name), False)
-        s.setValue(u'Qgis/connections-wms/{0}/ignoreGetFeatureInfoURI'.format(name), False)
-        s.setValue(u'Qgis/connections-wms/{0}/ignoreGetMapURI'.format(name), False)
-        s.setValue(u'Qgis/connections-wms/{0}/invertAxisOrientation'.format(name), False)
-        s.setValue(u'Qgis/connections-wms/{0}/referer'.format(name), '')
-        s.setValue(u'Qgis/connections-wms/{0}/smoothPixmapTransform'.format(name), False)
-        s.setValue(u'Qgis/connections-wms/{0}/url'.format(name), capabilites_url)
+        s.setValue(u'qgis/WMS/{0}/password'.format(name), '')
+        s.setValue(u'qgis/WMS/{0}/username'.format(name), '')
+        s.setValue(u'qgis/WMS/{0}/authcfg'.format(name), '')
+        s.setValue(u'qgis/connections-wms/{0}/dpiMode'.format(name), 7)  # refer to https://github.com/qgis/QGIS/blob/master/src/gui/qgsnewhttpconnection.cpp#L229-L247
+        s.setValue(u'qgis/connections-wms/{0}/ignoreAxisOrientation'.format(name), False)
+        s.setValue(u'qgis/connections-wms/{0}/ignoreGetFeatureInfoURI'.format(name), False)
+        s.setValue(u'qgis/connections-wms/{0}/ignoreGetMapURI'.format(name), False)
+        s.setValue(u'qgis/connections-wms/{0}/invertAxisOrientation'.format(name), False)
+        s.setValue(u'qgis/connections-wms/{0}/referer'.format(name), '')
+        s.setValue(u'qgis/connections-wms/{0}/smoothPixmapTransform'.format(name), False)
+        s.setValue(u'qgis/connections-wms/{0}/url'.format(name), capabilites_url)
 
-        s.setValue(u'Qgis/connections-wms/selected', name)
+        s.setValue(u'qgis/connections-wms/selected', name)
 
         if self.settings.auth_propagate and self.settings.authcfg:
-            s.setValue(u'Qgis/WMS/{0}/authcfg'.format(name), self.settings.authcfg)
+            s.setValue(u'qgis/WMS/{0}/authcfg'.format(name), self.settings.authcfg)
 
         # create new dialog
-        wms_dlg = QgsProviderRegistry.instance().selectWidget("wms", self.main_win)
-
-
-        ###########
-        ############
-        ###########
-        ####### TODO fix
-        #QObject.connect(
-        #    wms_dlg,
-        #    SIGNAL("addRasterLayer( QString const &, QString const &, QString const & )"),
-        #    self.main_win, SLOT("addRasterLayer( QString const &, QString const &, QString const & )")
-        #)
-
+        wms_dlg = QgsProviderRegistry.instance().createSelectionWidget("wms", self.main_win)
+        wms_dlg.addRasterLayer.connect(iface.addRasterLayer)
         wms_dlg.show()
 
 
@@ -379,28 +371,33 @@ class Util:
         # remove additional url parameters, otherwise adding wfs works the frist time only
         # https://github.com/qgis/QGIS/blob/9eee12111567a84f4d4de7e020392b3c01c28598/src/gui/qgsnewhttpconnection.cpp#L199-L214
         url = QUrl(capabilites_url)
-        url.removeQueryItem('SERVICE')
-        url.removeQueryItem('REQUEST')
-        url.removeQueryItem('FORMAT')
-        url.removeQueryItem('service')
-        url.removeQueryItem('request')
-        url.removeQueryItem('format')
-        #also remove VERSION: shouldn't be necessary, but QGIS sometimes seems to append version=1.0.0
-        url.removeQueryItem('VERSION')
-        url.removeQueryItem('version')
+        query_string = url.query()
+
+        if query_string:
+            query_string = QUrlQuery(query_string)
+            query_string.removeQueryItem('SERVICE')
+            query_string.removeQueryItem('REQUEST')
+            query_string.removeQueryItem('FORMAT')
+            query_string.removeQueryItem('service')
+            query_string.removeQueryItem('request')
+            query_string.removeQueryItem('format')
+            #also remove VERSION: shouldn't be necessary, but QGIS sometimes seems to append version=1.0.0
+            query_string.removeQueryItem('VERSION')
+            query_string.removeQueryItem('version')
+            url.setQuery(query_string)
 
         capabilites_url = url.toString()
         self.msg_log_debug(u'add WFS: Name={0}, base URL={1}'.format(name, capabilites_url))
 
         s = QSettings()
 
-        self.msg_log_debug(u'existing WFS url: {0}'.format(s.value(u'Qgis/connections-wfs/{0}/url'.format(name), '')))
+        self.msg_log_debug(u'existing WFS url: {0}'.format(s.value(u'qgis/connections-wfs/{0}/url'.format(name), '')))
 
-        key_user = u'Qgis/WFS/{0}/username'.format(name)
-        key_pwd = u'Qgis/WFS/{0}/password'.format(name)
-        key_referer = u'Qgis/connections-wfs/{0}/referer'.format(name)
-        key_url = u'Qgis/connections-wfs/{0}/url'.format(name)
-        key_authcfg = u'Qgis/WFS/{0}/authcfg'.format(name)
+        key_user = u'qgis/WFS/{0}/username'.format(name)
+        key_pwd = u'qgis/WFS/{0}/password'.format(name)
+        key_referer = u'qgis/connections-wfs/{0}/referer'.format(name)
+        key_url = u'qgis/connections-wfs/{0}/url'.format(name)
+        key_authcfg = u'qgis/WFS/{0}/authcfg'.format(name)
 
         s.remove(key_user)
         s.remove(key_pwd)
@@ -416,23 +413,14 @@ class Util:
         if self.settings.auth_propagate and self.settings.authcfg:
             s.setValue(key_authcfg, self.settings.authcfg)
 
-        s.setValue(u'Qgis/connections-wfs/selected', name)
+        s.setValue(u'qgis/connections-wfs/selected', name)
 
         # create new dialog
         wfs_dlg = QgsProviderRegistry.instance().selectWidget("WFS", self.main_win)
 
-        ###########
-        ############
-        ###########
-        ####### TODO fix
-        #QObject.connect(
-        #    wfs_dlg
-        #    , SIGNAL("addWfsLayer( QString, QString )")
-        #    , self.main_win, SLOT("addWfsLayer( QString, QString )")
-        #)
-
+        wfs_dlg = QgsProviderRegistry.instance().createSelectionWidget("WFS", self.main_win)
+        wfs_dlg.addVectorLayer.connect(lambda url: iface.addVectorLayer(url, name, "WFS"))
         wfs_dlg.show()
-        #wfs_dlg.exec()
 
 
     def _open_csv(self, full_path):
@@ -441,20 +429,12 @@ class Util:
 
         self.msg_log_debug(u'add CSV file: {0}'.format(full_path))
 
+        name = os.path.basename(full_path)
+
         # create new dialog
-        csv_dlg = QgsProviderRegistry.instance().selectWidget("delimitedtext", self.main_win)
-
-        ###########
-        ############
-        ###########
-        ####### TODO fix
-        #QObject.connect(
-        #    csv_dlg,
-        #    SIGNAL("addVectorLayer( QString, QString, QString )"),
-        #    self.main_win, SLOT( "addSelectedVectorLayer( QString, QString, QString )")
-        #)
-
-        csv_dlg.children()[1].children()[2].setText(full_path)
+        csv_dlg = QgsProviderRegistry.instance().createSelectionWidget("delimitedtext", self.main_win)
+        csv_dlg.addVectorLayer.connect(lambda url: iface.addVectorLayer(url, name, "delimitedtext"))
+        csv_dlg.children()[1].children()[2].setFilePath(full_path)
 
         csv_dlg.show()
 

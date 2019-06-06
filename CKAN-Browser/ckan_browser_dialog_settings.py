@@ -203,4 +203,4 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
 
         if dlg.exec_():
             self.IDC_leAuthCfg.setText(acs.configId())
-            self.cc.authcfg = acs.configId()
+            self.cc.auth_cfg = acs.configId()

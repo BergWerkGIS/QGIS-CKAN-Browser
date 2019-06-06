@@ -25,14 +25,17 @@ import math
 import os
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5 import QtGui, uic
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QListWidgetItem, QDialog, QMessageBox
 from .ckan_browser_dialog_disclaimer import CKANBrowserDialogDisclaimer
 from .pyperclip import copy
 from .ckanconnector import CkanConnector
 from .util import Util
 
+
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'ckan_browser_dialog_base.ui'))
+
 
 class CKANBrowserDialog(QDialog, FORM_CLASS):
 
@@ -312,17 +315,29 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
                 else:
                     do_download = False
             if do_download is True:
-                file_size_ok, file_size = self.cc.get_file_size(resource['url'])
+                # set wait cursor if request take it time, low latency, server not reachable, ...
+                QApplication.setOverrideCursor(Qt.WaitCursor)
+                QtWidgets.qApp.processEvents()
+                file_size_ok, file_size, hdr_exception = self.cc.get_file_size(resource['url'])
+                QApplication.restoreOverrideCursor()
                 # Silently ignore the error
                 if not file_size_ok:
                     file_size = 0
-                #if not file_size_ok and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'<b>The download size could not be determined, proceed anyway?</b><br> {}.').format(file_size)):
-                #    continue
-                #else:
-                #    file_size = 0
                 if file_size > 50 and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'py_dlg_base_big_file').format(file_size)):
                     continue  # stop process if user does not want to download the file
+                if hdr_exception:
+                    self.util.dlg_warning(u'{}'.format(hdr_exception))
+                    continue
+
+                self.util.msg_log_debug('setting wait cursor')
                 QApplication.setOverrideCursor(Qt.WaitCursor)
+                # pump GUI messages, otherwise wait cursor might not get displayed
+                # as we are running the downloads on the main thread and if the request
+                # gets stuck immediately (eg low latency or connection refused only after some time)
+                # wait cursor might not appear
+                QtWidgets.qApp.processEvents()
+                self.util.msg_log_debug('wait cursor set')
+
                 ok, err_msg, new_file_name = self.cc.download_resource(
                     resource['url']
                     , resource['format']

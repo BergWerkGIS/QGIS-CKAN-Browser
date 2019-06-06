@@ -5,19 +5,16 @@ import json
 import os
 import sys
 import string
-import traceback
-#from urllib3
 
-from PyQt5.QtCore import *
-from PyQt5 import QtNetwork
+from PyQt5.QtCore import QUrl
+from PyQt5.QtCore import QEventLoop
+from qgis.core import QgsApplication
 from qgis.core import QgsNetworkAccessManager
-
 
 from urllib.parse import unquote
 from .pyperclip import copy
 
 
-from qgis.core import QgsAuthManager
 from PyQt5.QtNetwork import *
 
 
@@ -46,16 +43,17 @@ class CkanConnector:
         self.api = self.settings.ckan_url
         self.cache = self.settings.cache_dir
         self.limit = self.settings.results_limit
-        self.authcfg = self.settings.authcfg
-        #self.sort = 'name asc, title asc'
+        self.auth_cfg = self.settings.authcfg
+        # self.sort = 'name asc, title asc'
         self.sort = 'name asc'
+        self.mb_downloaded = 0
         self.reply = None
         self.ua_chrome = {
             b'Accept': b'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             # DON'T use: haven't found a way to tell QNetworkRequest to decompress on the fly
             # although it should automatically when this header is present
             # https://code.qt.io/cgit/qt/qtbase.git/tree/src/network/access/qhttpnetworkconnection.cpp?h=5.11#n299
-            #b'Accept-Encoding': b'gzip, deflate',
+            b'Accept-Encoding': b'gzip, deflate',
             b'Accept-Language': b'en-US,en;q=0.8,de;q=0.6,de-DE;q=0.4,de-CH;q=0.2',
             b'User-Agent': b'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
         }
@@ -99,8 +97,8 @@ class CkanConnector:
 
         # autocomplete http://ckan.data.ktn.gv.at/api/3/action/package_autocomplete?q=wasser
         # return self.__get_data(u'package_search?q={0}&rows=10'.format(text))
-        # limit für ausgabe: http://demo.ckan.org/api/3/action/package_search?q=spending&rows=10
-        # mehrere begriffe: http://demo.ckan.org/api/3/action/term_translation_show?terms=russian&terms=romantic%20novel
+        # limit results: http://demo.ckan.org/api/3/action/package_search?q=spending&rows=10
+        # several terms: http://demo.ckan.org/api/3/action/term_translation_show?terms=russian&terms=romantic%20novel
         return self.__get_data(
                 result,
                 u'action/package_search?q={0}{1}&sort={2}&rows={3}{4}'.format(
@@ -123,14 +121,9 @@ class CkanConnector:
             start_query = ''
         else:
             start_query = self.__get_start(page)
+
         self.util.msg_log_debug(u'show_group, start: {0}'.format(start_query))
-        #return self.__get_data(
-        #    result, u'action/group_package_show?id={0}&rows={1}{2}'.format(
-        #        group_name,
-        #        #1000,
-        #        self.limit,
-        #        start_query
-        #    )
+
         return self.__get_data(
             result, u'action/package_search?q=&fq=(groups:{0})&sort={1}&rows={2}{3}'.format(
                 group_name,
@@ -149,24 +142,49 @@ class CkanConnector:
         try:
             request_head = self._http_call(url, http_method='head')
 
-            self.util.msg_log_error(u'response:\n{}'.format(request_head))
+            self.util.msg_log_debug(
+                u'get_file_size response:\nex:{0}\nhdr:{1}\nok:{2}\nreason:{3}\nstcode:{4}\nstmsg:{5}\ncontent:{6}'
+                .format(
+                    request_head.exception,
+                    request_head.headers,
+                    request_head.ok,
+                    request_head.reason,
+                    request_head.status_code,
+                    request_head.status_message,
+                    request_head.text[:255]
+                )
+            )
 
-        #except RequestsExceptionsTimeout as cte:
-            #self.util.msg_log(u'{0}\n{1}\n\n\n{2}'.format(cte, dir(cte), cte.message))
-            #return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
+            if not request_head.ok:
+                the_exception = request_head.exception if request_head.exception else Exception(self.util.tr(u'cc_url_error'))
+                return False, self.util.tr(u'cc_url_error'), the_exception
+
+        except RequestsExceptionTimeout as cte:
+            self.util.msg_log(u'{0}\n{1}\n\n\n{2}'.format(cte, dir(cte), cte.message))
+            return False, self.util.tr(u'cc_connection_timeout').format(cte.message), cte
         except:
-            return False, self.util.tr(u'cc_url_error').format(url, sys.exc_info()[1])
+            return False, self.util.tr(u'cc_url_error').format(url, sys.exc_info()[1]), Exception(self.util.tr(u'cc_url_error'))
 
-        if 'content-length' not in request_head.headers:
+        # HACK
+        # headers and their values are returned as strings like this:
+        # "b'95140771'"
+        # how to fix this properly???
+        if "b'Content-Length'" not in request_head.headers:
             self.util.msg_log_debug(u'No content-length in response header! Returning 0.')
-            return True, 0
+            for h in request_head.headers:
+                self.util.msg_log_debug(u'{}'.format(h))
+            return True, 0, None
 
-        content_length = request_head.headers['content-length']
+        # HACK
+        # headers are returned as strings like this: "b'95140771'"
+        # how to fix this properly???
+        #content_length = request_head.headers[b'content-length']
+        content_length = request_head.headers["b'Content-Length'"].replace('b', '').replace("'", '')
         file_size = int(content_length) / 1000000  # divide to get MB
 
         self.util.msg_log_debug(u'Content-Length: {0} MB'.format(file_size))
 
-        return True, file_size
+        return True, file_size, None
 
     def __is_chunked(self, te):
         if not te:
@@ -177,16 +195,10 @@ class CkanConnector:
     def __file_name_from_service(self, url, cd, ct):
         self.util.msg_log_debug(u'Content-Description: {0}\nContent-Type: {1}'.format(cd, ct))
 
-        url = url.lower() if url else None
         cd = cd.lower() if cd else None
         ct = ct.lower() if ct else None
 
         if not cd:
-            ## disabled: Bildungsstandorte Vorarlberg, should be shape
-            ## but if an error xml
-            #if url:
-            #    if 'outputformat=shape-zip' in url:
-            #        return 'zipped-shape-no-name.zip'
             return None
 
         if 'attachment' in cd and 'filename=' in cd:
@@ -216,8 +228,10 @@ class CkanConnector:
 #                     dest_file += '.xml'
             if delete is True:
                 os.remove(dest_file)
-            #urls might have line breaks
+
+            # urls might have line breaks
             url = self.util.remove_newline(url)
+
             response = self._http_call(
                 url
                 , headers=self.ua_chrome
@@ -227,8 +241,8 @@ class CkanConnector:
                 , timeout=self.settings.request_timeout
             )
 
-            self.util.msg_log_error(
-                u'response:\nex:{0}\nhdr:{1}\nok:{2}\nreason:{3}\nstcode:{4}\nstmsg:{5}\ncontent:{6}'
+            self.util.msg_log_debug(
+                u'download_resource response:\nex:{0}\nhdr:{1}\nok:{2}\nreason:{3}\nstcode:{4}\nstmsg:{5}\ncontent:{6}'
                 .format(
                     response.exception,
                     response.headers,
@@ -318,14 +332,28 @@ class CkanConnector:
                 , timeout=self.settings.request_timeout
             )
 
-            self.util.msg_log_error(u'response:\n{}'.format(response))
+            self.util.msg_log_debug(
+                u'__get_data response:\nex:{0}\nhdr:{1}\nok:{2}\nreason:{3}\nstcode:{4}\nstmsg:{5}\ncontent:{6}'
+                .format(
+                    response.exception,
+                    response.headers,
+                    response.ok,
+                    response.reason,
+                    response.status_code,
+                    response.status_message,
+                    response.text[:255]
+                )
+            )
 
-        #except RequestsExceptionsTimeout as cte:
-            #self.util.msg_log_error(u'connection timeout for: {0}'.format(url))
-            #return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
-        #except RequestsExceptionsConnectionError as ce:
-            #self.util.msg_log_error(u'ConnectionError:{0}'.format(ce))
-            #return False, ce
+            if not response.ok:
+                return False, self.util.tr(u'cc_api_not_accessible').format(response.reason), None
+
+        except RequestsExceptionTimeout as cte:
+            self.util.msg_log_error(u'connection timeout for: {0}'.format(url))
+            return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
+        except RequestsExceptionConnectionError as ce:
+            self.util.msg_log_error(u'ConnectionError:{0}'.format(ce))
+            return False, ce
         except UnicodeEncodeError as uee:
             self.util.msg_log_error(u'msg:{0} enc:{1} args:{2} reason:{3}'.format(uee.message, uee.encoding, uee.args, uee.reason))
             return False, self.util.tr(u'cc_api_not_accessible')
@@ -343,10 +371,10 @@ class CkanConnector:
             self.util.msg_log_debug(u'resp_msg (decoded):\n{} .......'.format(json_txt[:255]))
             result = json.loads(json_txt)
         except TypeError as te:
-            self.util.msg_log_error(u'unexpected TypeError: {0}'.format(te.message))
+            self.util.msg_log_error(u'unexpected TypeError: {0}'.format(te))
             return False, self.util.tr(u'cc_api_not_accessible')
         except AttributeError as ae:
-            self.util.msg_log_error(u'unexpected AttributeError: {0}'.format(ae.message))
+            self.util.msg_log_error(u'unexpected AttributeError: {0}'.format(ae))
             return False, self.util.tr(u'cc_api_not_accessible')
         except:
             self.util.msg_log_error(u'unexpected error during request or parsing of response:')
@@ -359,10 +387,8 @@ class CkanConnector:
 
     def _http_call(self, url, **kwargs):
         """
-        Uses QgsNetworkAccessManager and fall back to requests library if
-        QgsAuthManager is not available.
+        Uses QgsNetworkAccessManager and QgsAuthManager.
         """
-        self.util.msg_log_debug('trying to use "http_call"')
         method = kwargs.get('http_method', 'get')
 
         headers = kwargs.get('headers', {})
@@ -373,15 +399,16 @@ class CkanConnector:
         # encoding processing".
         # See: https://bugs.webkit.org/show_bug.cgi?id=63696#c1
         try:
-            del headers['Accept-Encoding']
+            del headers[b'Accept-Encoding']
         except KeyError as ke:
-            self.util.msg_log_debug(u'{}'.format(ke))
+            # only debugging here as after 1st remove it isn't there anymore
+            self.util.msg_log_debug(u'unexpected error deleting request header: {}'.format(ke))
             pass
 
         # Avoid double quoting form QUrl
         url = unquote(url)
 
-        self.util.msg_log_debug(u'http_call request: {0}'.format(url))
+        self.util.msg_log_debug(u'http_call request: {} {}'.format(method, url))
 
         class Response:
             status_code = 200
@@ -408,9 +435,9 @@ class CkanConnector:
             except:
                 self.util.msg_log_error(u'FAILED to set header: {} => {}'.format(k, v))
                 self.util.msg_log_last_exception()
-        if self.authcfg:
+        if self.auth_cfg:
             self.util.msg_log_debug(u'before updateNetworkRequest')
-            QgsAuthManager.instance().updateNetworkRequest(req, self.authcfg)
+            QgsApplication.authManager().updateNetworkRequest(req, self.auth_cfg)
             self.util.msg_log_debug(u'before updateNetworkRequest')
 
         if self.reply is not None and self.reply.isRunning():
@@ -443,8 +470,12 @@ class CkanConnector:
         # Calling the server ...
         self.util.msg_log_debug('before self.reply = func(req)')
         #self.reply = func(req)
-        self.reply = QgsNetworkAccessManager.instance().get(req)
-        #self.reply = QNetworkAccessManager().get(req)
+        #self.reply = QgsNetworkAccessManager.instance().get(req)
+        method_call = getattr(QgsNetworkAccessManager.instance(), method)
+        self.reply = method_call(req)
+        #self.reply.setReadBufferSize(1024*1024*1024)
+        #self.reply.setReadBufferSize(1024 * 1024 * 1024 * 1024)
+        self.reply.setReadBufferSize(0)
         self.util.msg_log_debug('after self.reply = func(req)')
 
         # Let's log the whole call for debugging purposes:
@@ -457,9 +488,9 @@ class CkanConnector:
                 except:
                     self.util.msg_log_debug('error logging headers')
 
-        if self.authcfg:
-            self.util.msg_log_debug("update reply w/ authcfg: {0}".format(self.authcfg))
-            QgsAuthManager.instance().updateNetworkReply(self.reply, self.authcfg)
+        if self.auth_cfg:
+            self.util.msg_log_debug("update reply w/ authcfg: {0}".format(self.auth_cfg))
+            QgsApplication.authManager().updateNetworkReply(self.reply, self.auth_cfg)
 
         self.util.msg_log_debug('before connecting to events')
 
@@ -488,39 +519,50 @@ class CkanConnector:
             self.util.msg_log_error('error connecting reply "finished" progress event to event loop quit')
             self.util.msg_log_last_exception()
 
+        self.mb_downloaded = 0
         # Catch all exceptions (and clean up requests)
         self.event_loop.exec()
 
         # Let's log the whole response for debugging purposes:
         if self.settings.debug:
             self.util.msg_log_debug(
-                u'\nGot response [{}/{}] ({} bytes) from:\n{}'.format(
+                u'\nGot response [{}/{}] ({} bytes) from:\n{}\nexception:{}'.format(
                     self.http_call_result.status_code,
                     self.http_call_result.status_message,
                     len(self.http_call_result.text),
-                    self.reply.url().toString()
+                    self.reply.url().toString(),
+                    self.http_call_result.exception
                 )
             )
             headers = {str(h): str(self.reply.rawHeader(h)) for h in self.reply.rawHeaderList()}
             for k, v in headers.items():
                 self.util.msg_log_debug("%s: %s" % (k, v))
             self.util.msg_log_debug("Payload :\n%s ......" % self.http_call_result.text[:255])
+
         self.reply.close()
         self.util.msg_log_debug("Deleting reply ...")
         try:
             self.reply.deleteLater()
         except:
+            self.util.msg_log_error('unexpected error deleting QNetworkReply')
             self.util.msg_log_last_exception()
+
         self.reply = None
+
         if self.http_call_result.exception is not None:
-            raise self.http_call_result.exception
+            self.util.msg_log_error('http_call_result.exception is not None')
+            self.http_call_result.ok = False
+            # raise self.http_call_result.exception
         return self.http_call_result
 
     def download_progress(self, bytes_received, bytes_total):
-        self.util.msg_log_debug(
-            u'downloadProgress {:.1f} of {:.1f} MB" '
-            .format(bytes_received / (1024 * 1024), bytes_total / (1024 * 1024))
-        )
+        mb_received = bytes_received / (1024 * 1024)
+        if mb_received - self.mb_downloaded >= 1:
+            self.mb_downloaded = mb_received
+            self.util.msg_log_debug(
+                u'downloadProgress {:.1f} of {:.1f} MB" '
+                .format(mb_received, bytes_total / (1024 * 1024))
+            )
 
     def reply_finished(self):
         self.util.msg_log_debug('------- reply_finished')
@@ -533,23 +575,26 @@ class CkanConnector:
             for k, v in self.reply.rawHeaderPairs():
                 self.http_call_result.headers[str(k)] = str(v)
                 self.http_call_result.headers[str(k).lower()] = str(v)
-            if err != QNetworkReply.NoError:
-                self.util.msg_log_debug('!QNetworkReply.NoError')
+            if err == QNetworkReply.NoError:
+                self.util.msg_log_debug('QNetworkReply.NoError')
+                self.http_call_result.text = self.reply.readAll()
+                self.http_call_result.ok = True
+            else:
+                self.util.msg_log_error('QNetworkReply Error')
                 self.http_call_result.ok = False
-                msg = "Network error #{0}: {1}".format(
-                    self.reply.error(), self.reply.errorString())
+                msg = "Network error #{0}: {1}"\
+                    .format(
+                        self.reply.error(),
+                        self.reply.errorString()
+                )
                 self.http_call_result.reason = msg
-                self.util.msg_log_debug(msg)
+                self.util.msg_log_error(msg)
                 if err == QNetworkReply.TimeoutError:
                     self.http_call_result.exception = RequestsExceptionTimeout(msg)
                 if err == QNetworkReply.ConnectionRefusedError:
                     self.http_call_result.exception = RequestsExceptionConnectionError(msg)
                 else:
                     self.http_call_result.exception = Exception(msg)
-            else:
-                self.util.msg_log_debug('QNetworkReply.NoError')
-                self.http_call_result.text = self.reply.readAll()
-                self.http_call_result.ok = True
         except:
             self.util.msg_log_error(u'unexpected error in {}'.format(inspect.stack()[0][3]))
             self.util.msg_log_last_exception()
