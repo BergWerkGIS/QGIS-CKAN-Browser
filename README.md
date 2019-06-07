@@ -1,3 +1,6 @@
+
+# Update for QGIS 3.x is in the works!
+
 QGIS CKAN-Browser
 =============
 
