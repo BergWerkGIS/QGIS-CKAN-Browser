@@ -28,6 +28,7 @@ from PyQt5 import QtGui, uic
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QListWidgetItem, QDialog, QMessageBox
 from .ckan_browser_dialog_disclaimer import CKANBrowserDialogDisclaimer
+from .ckan_browser_dialog_dataproviders import CKANBrowserDialogDataProviders
 from .pyperclip import copy
 from .ckanconnector import CkanConnector
 from .util import Util
@@ -63,13 +64,8 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.settings = settings
         self.util = Util(self.settings, self.main_win)
 
-        self.IDC_lblApiUrl.setText(self.util.tr('py_dlg_base_server') + self.settings.ckan_url)
-        self.IDC_lblCacheDir.setText(self.util.tr('py_dlg_base_cache_path') + self.settings.cache_dir)
-        # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # TODO: automatically populate version
-        # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
-        self.IDC_lblVersion.setText(self.util.tr('py_dlg_base_version').format(self.settings.version))
-        self.IDC_lblSuchergebnisse.setText(self.util.tr('py_dlg_base_search_result'))
+        self.IDC_lblVersion.setText(self.IDC_lblVersion.text().format(self.settings.version))
+        #self.IDC_lblSuchergebnisse.setText(self.util.tr('py_dlg_base_search_result'))
         self.IDC_lblPage.setText(self.util.tr('py_dlg_base_page_1_1'))
 
         icon_path = self.util.resolve(u'icon-copy.png')
@@ -81,6 +77,10 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(self.window_loaded)
         QApplication.setOverrideCursor(Qt.WaitCursor)
+        # don't initialized dialogs here, WaitCursor would be set several times
+        # self.dlg_disclaimer = CKANBrowserDialogDisclaimer(self.settings)
+        # self.dlg_dataproviders = CKANBrowserDialogDataProviders(self.settings, self.util)
+
 
     def showEvent(self, event):
         self.util.msg_log_debug('showevent')
@@ -91,11 +91,21 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
 
     def window_loaded(self):
         try:
-            self.util.msg_log_debug('window_loaded')
-            self.util.msg_log_debug('before stop')
-            self.timer.stop()
-            self.timer = None
-            self.util.msg_log_debug('before get_groupds')
+            self.settings.load()
+            self.IDC_lblApiUrl.setText(self.util.tr('py_dlg_base_current_server').format(self.settings.ckan_url))
+            self.IDC_lblCacheDir.setText(self.util.tr('py_dlg_base_cache_path').format(self.settings.cache_dir))
+            if self.timer is not None:
+                self.timer.stop()
+                self.timer = None
+
+            self.IDC_listResults.clear()
+            self.IDC_listGroup.clear()
+            self.IDC_textDetails.setText('')
+            self.IDC_listRessources.clear()
+            self.IDC_plainTextLink.setPlainText('')
+
+            self.util.msg_log_debug('before get_groups')
+
             ok, result = self.cc.get_groups()
             if ok is False:
                 QApplication.restoreOverrideCursor()
@@ -114,10 +124,8 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         finally:
             QApplication.restoreOverrideCursor()
 
-
     def close_dlg(self):
         QDialog.reject(self)
-
 
     def show_disclaimer(self):
         self.dlg_disclaimer = CKANBrowserDialogDisclaimer(self.settings)
@@ -145,6 +153,14 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.current_group = item.data(Qt.UserRole)['name']
         self.current_page = 1
         self.__search_package()
+
+    def select_data_provider_clicked(self):
+        self.util.msg_log_debug('select data provider clicked')
+        self.dlg_dataproviders = CKANBrowserDialogDataProviders(self.settings)
+        self.dlg_dataproviders.show()
+        if self.dlg_dataproviders.exec_():
+            QApplication.setOverrideCursor(Qt.WaitCursor)
+            self.window_loaded()
 
     def __search_package(self, page=None):
         self.IDC_listResults.clear()
@@ -189,9 +205,10 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
 
         # self.current_page = 1
         self.page_count = int(math.ceil(self.result_count / self.settings.results_limit))
-        if self.result_count % self.settings.results_limit != 0:
-            self.page_count += 1
+        #if self.result_count % self.settings.results_limit != 0:
+        #    self.page_count += 1
         erg_text = self.util.tr(u'py_dlg_base_result_count').format(self.result_count)
+        self.util.msg_log_debug(erg_text)
         page_text = self.util.tr(u'py_dlg_base_page_count').format(self.current_page, self.page_count)
         self.IDC_lblSuchergebnisse.setText(erg_text)
         self.IDC_lblPage.setText(page_text)
@@ -204,6 +221,8 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
 
         for entry in results:
             title_txt = u'no title available'
+            if 'title' not in entry:
+                continue
             e = entry['title']
             if e is None:
                 title_txt = 'no title'
@@ -257,17 +276,16 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.util.msg_log_debug(url)
         self.__fill_link_box(url)
 
-
     def load_resource_clicked(self):
         res = self.__get_selected_resources()
         if res is None:
             self.util.dlg_warning(self.util.tr(u'py_dlg_base_warn_no_resource'))
             return
-        #self.util.dlg_warning(u'pkg:{0} res:{1} {2}'.format(self.cur_package['id'], res[0]['id'], res[0]['url']))
+        # self.util.dlg_warning(u'pkg:{0} res:{1} {2}'.format(self.cur_package['id'], res[0]['id'], res[0]['url']))
         for resource in res:
             if resource['name'] is None:
-#                 self.util.dlg_warning(self.util.tr(u'py_dlg_base_warn_no_resource_name').format(resource['id']))
-#                 continue
+                # self.util.dlg_warning(self.util.tr(u'py_dlg_base_warn_no_resource_name').format(resource['id']))
+                # continue
                 resource['name'] = "Unnamed resource"
             self.util.msg_log_debug(u'Bearbeite: {0}'.format(resource['name']))
             dest_dir = os.path.join(
@@ -326,8 +344,10 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
                 if file_size > 50 and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'py_dlg_base_big_file').format(file_size)):
                     continue  # stop process if user does not want to download the file
                 if hdr_exception:
-                    self.util.dlg_warning(u'{}'.format(hdr_exception))
-                    continue
+                    # self.util.dlg_warning(u'{}'.format(hdr_exception))
+                    # continue
+                    # just log exception and continue, some servers dont support HEAD request
+                    self.util.msg_log_error(u'error getting size of response, HEAD request failed: {}'.format(hdr_exception))
 
                 self.util.msg_log_debug('setting wait cursor')
                 QApplication.setOverrideCursor(Qt.WaitCursor)
@@ -374,7 +394,6 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
     def next_page_clicked(self):
         self.__search_package(page=+1)
 
-
     def previous_page_clicked(self):
         self.__search_package(page=-1)
 
@@ -406,7 +425,6 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         if len(res) < 1:
             return None
         return res
-
 
     def _shorten_path(self, s):
         """ private class to shorten string to 33 chars and place a html-linebreak inside"""

@@ -32,7 +32,8 @@ LRELEASE = lrelease
 SOURCES = \
 	__init__.py \
 	ckan_browser.py \
-	ckan_browser_dialog.py
+	ckan_browser_dialog.py \
+	ckan_browser_dialog_dataproviders.py
 
 PLUGINNAME = CKANBrowser
 
@@ -41,14 +42,17 @@ PY_FILES = \
 	ckanconnector.py \
 	ckan_browser.py \
 	ckan_browser_dialog.py \
+	ckan_browser_dialog_dataproviders.py \
 	ckan_browser_dialog_settings.py \
 	ckan_browser_dialog_disclaimer.py \
 	httpcall.py \
+	serverinstance.py \
 	settings.py \
 	util.py
 
 UI_FILES = \
 	ckan_browser_dialog_base.ui \
+	ckan_browser_dialog_dataproviders.ui \
 	ckan_browser_dialog_settings.ui \
 	ckan_browser_dialog_disclaimer.ui
 
@@ -57,8 +61,7 @@ EXTRAS = \
 	icon-settings.png \
 	icon-copy.png \
 	ckan_logo_big.png \
-	metadata.txt \
-	CKAN_APIs.json
+	metadata.txt
 
 COMPILED_RESOURCE_FILES = resources_rc.py
 

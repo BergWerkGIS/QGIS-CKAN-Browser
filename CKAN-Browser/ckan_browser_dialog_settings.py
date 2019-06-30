@@ -56,7 +56,8 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
         self.util = Util(self.settings, self.main_win)
 
         self.IDC_leCacheDir.setText(self.settings.cache_dir)
-        self.IDC_leCkanApi.setText(self.settings.ckan_url)
+        self.IDC_chkbox_show_debug_info.setChecked(self.settings.debug)
+
         if QgsAuthConfigSelect is None:
             self.IDC_leAuthCfg.hide()
             self.IDC_bAuthCfgClear.hide()
@@ -72,26 +73,6 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
 
         self.cc = CkanConnector(self.settings, self.util)
 
-        self.pre_ckan_apis = None
-        self.fill_combobox();
-
-    def fill_combobox(self):
-        """ Fill Combobox with predefined CKAN API Urls """
-        try:
-            json_path = self.util.resolve(u'CKAN_APIs.json')
-            with open(json_path) as json_file:
-                self.pre_ckan_apis = json.load(json_file, object_pairs_hook=OrderedDict)
-
-            for key in self.pre_ckan_apis.keys():
-                self.IDC_cbPreCkanApi.addItem(key)
-
-            value = next(iter(list(self.pre_ckan_apis.values())))
-            self.IDC_lblPreCkan.setText(value)
-
-        except IOError as err:
-            self.util.dlg_warning(self.util.tr(u"py_dlg_set_warn_urls_not_load").format(err))
-
-
     def select_cache_dir(self):
         cache_dir = QFileDialog.getExistingDirectory(
             self.main_win,
@@ -104,41 +85,6 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
         else:
             self.IDC_leCacheDir.setText(cache_dir)
 
-
-    def test_ckan_url(self):
-        """ Test if URL in LineEdit is a valid CKAN API URL """
-        api_url = self.IDC_leCkanApi.text()
-        self.util.msg_log_debug('URL: {0}'.format(api_url))
-
-        QApplication.setOverrideCursor(Qt.WaitCursor)
-        ok, result = self.cc.test_groups(api_url)
-        QApplication.restoreOverrideCursor()
-
-        if ok is False:
-            self.util.dlg_warning(result)
-            return
-        else:
-            self.util.dlg_information(self.util.tr(u'py_dlg_set_info_conn_succs'))
-
-#         for entry in result:
-#             self.util.msg_log('Item: {0}'.format(entry))
-
-
-    def pre_ckan_api(self):
-        """select CKAN API from predefined file"""
-        try:
-            key = self.IDC_cbPreCkanApi.currentText()
-            value = self.pre_ckan_apis[key]
-            self.IDC_lblPreCkan.setText(value)
-        except TypeError as err:
-            self.util.msg_log_debug('Error: No items in Preselected-Combo-Box: {0}'.format(err))
-            pass
-
-
-    def choose_pre_api(self):
-        value = self.IDC_lblPreCkan.text()
-        self.IDC_leCkanApi.setText(value)
-
     def cancel(self):
         QDialog.reject(self)
 
@@ -150,14 +96,7 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
             )
             return
 
-        # check URL - must not be empty
-        api_url = self.IDC_leCkanApi.text()
-        if self.util.check_api_url(api_url) is False:
-            self.util.dlg_warning(self.util.tr(u'py_dlg_set_warn_ckan_url'))
-            return
-
-        self.settings.cache_dir = cache_dir
-        self.settings.ckan_url = api_url
+        self.settings.debug = self.IDC_chkbox_show_debug_info.isChecked()
 
         authcfg = self.IDC_leAuthCfg.text()
         self.settings.authcfg = authcfg
@@ -169,12 +108,6 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
 
     def help_cache_dir(self):
         self.util.dlg_information(self.util.tr(u'dlg_set_tool_cache'))
-
-    def help_pre_urls(self):
-        self.util.dlg_information(self.util.tr(u'dlg_set_tool_pre_urls'))
-
-    def help_api_url(self):
-        self.util.dlg_information(self.util.tr(u'dlg_set_tool_api_url'))
 
     def authcfg_clear(self):
          self.IDC_leAuthCfg.clear()
