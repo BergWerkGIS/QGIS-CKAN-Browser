@@ -51,8 +51,11 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         self.main_win = parent
         self.settings = settings
         self.util = Util(self.settings, self.main_win)
+        self.instances = None
         self.util.msg_log_debug('CKANBrowserDialogDataProviders constructor')
-        self.IDC_grpManualDataProvider.collapsed = True
+        # self.IDC_grpManualDataProvider.collapsed = True
+        # self.IDC_grpManualDataProvider.setCollapsed(True)
+        #self.IDC_listProviders.setStyleSheet("QListWidget::item { border-bottom: 1px solid black; }");
         self.timer = QTimer()
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(self.window_loaded)
@@ -104,8 +107,24 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                 instances_cnt = len(result)
                 self.IDC_lbInstanceCount.setText(u'{} instances'.format(instances_cnt))
                 self.util.msg_log_debug(u'{} instances'.format(instances_cnt))
+                self.instances = result
+
                 for entry in result:
-                    item = QListWidgetItem(u'{} - {}'.format(entry['title'], entry['description']))
+                    title = entry['title'].strip()
+                    title = '' if not title or title.isspace() else ' ---  ' + title + '  ---'
+                    description = entry['description'].replace('\n', ' ').strip()
+                    new_line = '' if not title or title.isspace() or not description or description.isspace() else '\n'
+                    item = QListWidgetItem(u'{}{}{}'.format(title, new_line, description))
+                    if entry['title'] == 'OpenColorado' or entry['title'] == 'Graz Open Data':
+                        # item.setBackground(Qt.yellow)
+                        self.util.msg_log_debug(u'ENTRY:{}'.format(entry))
+                        self.util.msg_log_debug(u'title: [{}]'.format(title))
+                        self.util.msg_log_debug(u'title.isspace(): [{}]'.format(title.isspace()))
+                        self.util.msg_log_debug(u'description: [{}]'.format(description))
+                        self.util.msg_log_debug(u'description.isspace(): [{}]'.format(description.isspace()))
+                        self.util.msg_log_debug(u'new_line: [{}]'.format(new_line))
+                    if 'url-api' in entry:
+                        item.setBackground(Qt.green)
                     item.setData(Qt.UserRole, entry)
                     #item.setCheckState(Qt.Checked)
                     item.setCheckState(Qt.Unchecked)
