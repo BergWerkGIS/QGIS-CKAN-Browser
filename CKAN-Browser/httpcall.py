@@ -84,6 +84,7 @@ class HttpCall:
 
         req = QNetworkRequest()
         req.setUrl(QUrl(url))
+        req.setAttribute(QNetworkRequest.FollowRedirectsAttribute, True)
 
         for k, v in headers.items():
             self.util.msg_log_debug("%s: %s" % (k, v))
@@ -230,8 +231,8 @@ class HttpCall:
             self.http_call_result.status_code = httpStatus
             self.http_call_result.status_message = httpStatusMessage
             for k, v in self.reply.rawHeaderPairs():
-                self.http_call_result.headers[str(k)] = str(v)
-                self.http_call_result.headers[str(k).lower()] = str(v)
+                self.http_call_result.headers[k.data().decode()] = v.data().decode()
+                self.http_call_result.headers[k.data().decode().lower()] = v.data().decode()
             if err == QNetworkReply.NoError:
                 self.util.msg_log_debug('QNetworkReply.NoError')
                 self.http_call_result.text = self.reply.readAll()

@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5.QtCore import QSettings
-from PyQt5.QtNetwork import QNetworkProxy
 import os
 import configparser
 
+
 class Settings:
 
-    # http://ckan.data.ktn.gv.at/api/3/action/
-    # http://ckan.data.ktn.gv.at/api/3
     def __init__(self):
         self.debug = True
         self.results_limit = 50
-        # API timeout in seconds
-        #self.request_timeout = 0.0001
         self.request_timeout = 15
         self.ckan_url = None
+        self.selected_ckan_servers = ''
+        self.custom_servers = {}
         self.authcfg = None
         self.cache_dir = None
         self.DLG_CAPTION = u'CKAN-Browser'
@@ -23,20 +21,22 @@ class Settings:
         self.KEY_CKAN_API = 'ckan_browser/ckan_api'
         self.KEY_AUTHCFG = 'ckan_browser/authcfg'
         self.KEY_AUTH_PROPAGATE = 'ckan_browser/auth_propagate'
+        self.KEY_SELECTED_CKAN_SERVERS = 'ckan_browser/selected_ckan_servers'
+        self.KEY_CUSTOM_SERVERS = 'ckan_browser/custom_ckan_servers'
+        self.KEY_SHOW_DEBUG_INFO = 'ckan_browser/show_debug_info'
         self.version = self._determine_version()
-
 
     def load(self):
         qgis_settings = QSettings()
         self.cache_dir = qgis_settings.value(self.KEY_CACHE_DIR, '')
         if self.cache_dir is None:
             self.cache_dir = ''
-#         self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'http://ckan.data.ktn.gv.at/api/3/action/')
-        self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, '')
+        self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/')
+        self.selected_ckan_servers = qgis_settings.value(self.KEY_SELECTED_CKAN_SERVERS, '')
+        self.custom_servers = qgis_settings.value(self.KEY_CUSTOM_SERVERS, {})
+        self.debug = qgis_settings.value(self.KEY_SHOW_DEBUG_INFO, False, bool)
         self.authcfg = qgis_settings.value(self.KEY_AUTHCFG, '')
         self.auth_propagate = qgis_settings.value(self.KEY_AUTH_PROPAGATE, False, bool)
-        if self.ckan_url is None:
-            self.ckan_url = ''
 
     def save(self):
         qgis_settings = QSettings()
@@ -44,7 +44,9 @@ class Settings:
         qgis_settings.setValue(self.KEY_CKAN_API, self.ckan_url)
         qgis_settings.setValue(self.KEY_AUTHCFG, self.authcfg)
         qgis_settings.setValue(self.KEY_AUTH_PROPAGATE, self.auth_propagate)
-
+        qgis_settings.setValue(self.KEY_SELECTED_CKAN_SERVERS, self.selected_ckan_servers)
+        qgis_settings.setValue(self.KEY_CUSTOM_SERVERS, self.custom_servers)
+        qgis_settings.setValue(self.KEY_SHOW_DEBUG_INFO, self.debug)
 
     def get_proxies(self):
         s = QSettings()
@@ -75,6 +77,6 @@ class Settings:
         """http://gis.stackexchange.com/a/169266/8673"""
         # error handling?
         config = configparser.ConfigParser()
-        config.read(os.path.join(os.path.dirname(__file__),'metadata.txt'))
+        config.read(os.path.join(os.path.dirname(__file__), 'metadata.txt'))
 
         return config.get('general', 'version')

@@ -53,7 +53,8 @@ class Util:
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('CKANBrowser', message)
+        #return QCoreApplication.translate('CKANBrowser', message, None)
+        return QCoreApplication.translate('self.util', message, None)
 
     def create_dir(self, dir_path):
         if not os.path.exists(dir_path):
@@ -510,22 +511,26 @@ class Util:
             url = url.replace('\n', '')
         return url
 
-    def resolve(self, name, basepath=None):
+    def resolve(self, name, base_path=None):
         """http://gis.stackexchange.com/a/130031/8673"""
-        if not basepath:
-            basepath = os.path.dirname(os.path.realpath(__file__))
-        return os.path.join(basepath, name)
-
+        if not base_path:
+            base_path = os.path.dirname(os.path.realpath(__file__))
+        return os.path.join(base_path, name)
 
     def open_in_manager(self, file_path):
         """http://stackoverflow.com/a/6631329/1504487"""
+        self.msg_log_debug(
+            u'open_in_manager, os.name: {} platform: {}\npath: {}'
+            .format(os.name, sys.platform, file_path)
+        )
         if sys.platform == 'darwin':
             subprocess.Popen(['open', file_path])
-        elif sys.platform == 'linux2':
+        elif sys.platform == 'linux' or sys.platform == 'linux2':
             subprocess.Popen(['xdg-open', file_path])
-        elif os.name == 'nt':
+        elif os.name == 'nt' or sys.platform == 'win32':
+            file_path = os.path.normpath(file_path)
+            self.msg_log_debug(u'normalized path: {}'.format(file_path))
             subprocess.Popen(['explorer', file_path])
-
 
     def str2bool(self, v):
         """http://stackoverflow.com/a/715468/1504487"""
