@@ -254,6 +254,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="IDC_bSelectDataProvider">
+         <property name="text">
+          <string>dlg_base_btn_select_dataprovider</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="IDC_bDisclaimer">
          <property name="text">
           <string>dlg_base_btn_disclaimer</string>
@@ -663,8 +670,8 @@
    <slot>list_group_item_changed(QListWidgetItem, int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>81</x>
-     <y>403</y>
+     <x>92</x>
+     <y>379</y>
     </hint>
     <hint type="destinationlabel">
      <x>2</x>
@@ -775,8 +782,8 @@
    <slot>help_ttip_search()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>224</x>
-     <y>62</y>
+     <x>256</x>
+     <y>56</y>
     </hint>
     <hint type="destinationlabel">
      <x>226</x>
@@ -791,8 +798,8 @@
    <slot>help_ttip_filter()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>224</x>
-     <y>177</y>
+     <x>256</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
      <x>234</x>
@@ -807,8 +814,8 @@
    <slot>help_ttip_data_list()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>781</x>
-     <y>238</y>
+     <x>788</x>
+     <y>221</y>
     </hint>
     <hint type="destinationlabel">
      <x>713</x>
@@ -823,8 +830,8 @@
    <slot>copy_clipboard()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>763</x>
-     <y>474</y>
+     <x>787</x>
+     <y>456</y>
     </hint>
     <hint type="destinationlabel">
      <x>757</x>
@@ -855,12 +862,28 @@
    <slot>help_ttip_resource()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>778</x>
-     <y>444</y>
+     <x>788</x>
+     <y>417</y>
     </hint>
     <hint type="destinationlabel">
      <x>727</x>
      <y>429</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bSelectDataProvider</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogBase</receiver>
+   <slot>select_data_provider_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>44</x>
+     <y>557</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>559</y>
     </hint>
    </hints>
   </connection>
@@ -883,5 +906,6 @@
   <slot>copy_clipboard()</slot>
   <slot>resource_item_changed(QListWidgetItem*)</slot>
   <slot>help_ttip_resource()</slot>
+  <slot>select_data_provider_clicked()</slot>
  </slots>
 </ui>

@@ -41,6 +41,7 @@ PY_FILES = \
 	ckanconnector.py \
 	ckan_browser.py \
 	ckan_browser_dialog.py \
+	ckan_browser_dialog_dataproviders.py \
 	ckan_browser_dialog_settings.py \
 	ckan_browser_dialog_disclaimer.py \
 	httpcall.py \
@@ -49,6 +50,7 @@ PY_FILES = \
 
 UI_FILES = \
 	ckan_browser_dialog_base.ui \
+	ckan_browser_dialog_dataproviders.ui \
 	ckan_browser_dialog_settings.ui \
 	ckan_browser_dialog_disclaimer.ui
 

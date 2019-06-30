@@ -75,6 +75,6 @@ class Settings:
         """http://gis.stackexchange.com/a/169266/8673"""
         # error handling?
         config = configparser.ConfigParser()
-        config.read(os.path.join(os.path.dirname(__file__),'metadata.txt'))
+        config.read(os.path.join(os.path.dirname(__file__), 'metadata.txt'))
 
         return config.get('general', 'version')
