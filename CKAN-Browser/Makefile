@@ -45,6 +45,7 @@ PY_FILES = \
 	ckan_browser_dialog_settings.py \
 	ckan_browser_dialog_disclaimer.py \
 	httpcall.py \
+	serverinstance.py \
 	settings.py \
 	util.py
 

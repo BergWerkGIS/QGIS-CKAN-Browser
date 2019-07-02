@@ -103,26 +103,14 @@
    <item>
     <widget class="QLabel" name="IDC_lbInstanceCount">
      <property name="text">
-      <string>instances</string>
+      <string>dlg_dataproviders_lbl_nr_of_instances</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="IDC_listProviders">
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
+    <widget class="QListView" name="IDC_listProviders">
      <property name="alternatingRowColors">
       <bool>true</bool>
-     </property>
-     <property name="textElideMode">
-      <enum>Qt::ElideNone</enum>
-     </property>
-     <property name="isWrapping" stdset="0">
-      <bool>false</bool>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -135,7 +123,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
      </property>
      <property name="centerButtons">
       <bool>false</bool>
@@ -186,5 +174,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>lineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>CKANBrowserDialogDataProviders</receiver>
+   <slot>searchTermChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>387</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>CKANBrowserDialogDataProviders</receiver>
+   <slot>save_btn_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>610</x>
+     <y>733</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>750</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>searchTermChanged(QString)</slot>
+  <slot>save_btn_clicked()</slot>
+ </slots>
 </ui>

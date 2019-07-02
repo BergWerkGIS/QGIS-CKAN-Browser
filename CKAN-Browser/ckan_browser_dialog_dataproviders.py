@@ -24,9 +24,11 @@ import json
 import os
 
 from PyQt5 import QtGui, uic
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtCore import QTimer, Qt, QStringListModel, QModelIndex
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtWidgets import QDialog, QApplication, QListWidgetItem
 from .httpcall import HttpCall
+from .serverinstance import ServerInstance
 from .util import Util
 
 FORM_CLASS, _ = uic.loadUiType(
@@ -51,7 +53,11 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         self.main_win = parent
         self.settings = settings
         self.util = Util(self.settings, self.main_win)
-        self.instances = None
+        self.list_model = QStandardItemModel(self)
+        self.list_model.itemChanged.connect(self.item_checked_changed)
+        self.IDC_listProviders.setModel(self.list_model)
+        # self.list_model.setHorizontalHeaderLabels(['CKAN Servers'])
+        self.servers = []
         self.util.msg_log_debug('CKANBrowserDialogDataProviders constructor')
         # self.IDC_grpManualDataProvider.collapsed = True
         # self.IDC_grpManualDataProvider.setCollapsed(True)
@@ -107,27 +113,58 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                 instances_cnt = len(result)
                 self.IDC_lbInstanceCount.setText(u'{} instances'.format(instances_cnt))
                 self.util.msg_log_debug(u'{} instances'.format(instances_cnt))
-                self.instances = result
 
+                self.servers = []
                 for entry in result:
-                    title = entry['title'].strip()
-                    title = '' if not title or title.isspace() else ' ---  ' + title + '  ---'
-                    description = entry['description'].replace('\n', ' ').strip()
-                    new_line = '' if not title or title.isspace() or not description or description.isspace() else '\n'
-                    item = QListWidgetItem(u'{}{}{}'.format(title, new_line, description))
-                    if entry['title'] == 'OpenColorado' or entry['title'] == 'Graz Open Data':
-                        # item.setBackground(Qt.yellow)
-                        self.util.msg_log_debug(u'ENTRY:{}'.format(entry))
-                        self.util.msg_log_debug(u'title: [{}]'.format(title))
-                        self.util.msg_log_debug(u'title.isspace(): [{}]'.format(title.isspace()))
-                        self.util.msg_log_debug(u'description: [{}]'.format(description))
-                        self.util.msg_log_debug(u'description.isspace(): [{}]'.format(description.isspace()))
-                        self.util.msg_log_debug(u'new_line: [{}]'.format(new_line))
-                    if 'url-api' in entry:
-                        item.setBackground(Qt.green)
-                    item.setData(Qt.UserRole, entry)
-                    #item.setCheckState(Qt.Checked)
-                    item.setCheckState(Qt.Unchecked)
-                    self.IDC_listProviders.addItem(item)
+                    url_api = entry['url-api'] if 'url-api' in entry else None
+                    si = ServerInstance(entry['title'], entry['description'], url_api)
+                    self.servers.append(si)
+
+                for server in self.servers:
+                    i = QStandardItem(server.title)
+                    if server.api_url:
+                        i.setBackground(Qt.green)
+                    i.setData(server, Qt.UserRole)
+                    i.setCheckable(True)
+                    i.setCheckState(Qt.Unchecked)
+                    self.list_model.appendRow(i)
+                for i in range(self.list_model.rowCount()):
+                    xx = self.list_model.item(i, 0)
+                    self.util.msg_log_debug(u'itemdata {}'.format(xx.data(Qt.UserRole)))
         finally:
             QApplication.restoreOverrideCursor()
+
+    def searchTermChanged(self, text):
+        results = []
+        for s in self.servers:
+            if s.search(text) > 0:
+                results.append(s)
+        self.list_model.clear()
+        if len(results) < 1:
+            return
+        self.IDC_lbInstanceCount.setText(u'{} instances'.format(len(results)))
+        for result in sorted(results, key=lambda r: r.last_search_result, reverse=True):
+            i = QStandardItem(u'{} - {}'.format(result.last_search_result, result.title))
+            if result.api_url:
+                i.setBackground(Qt.green)
+            i.setCheckable(True)
+            i.setCheckState(Qt.Unchecked)
+            self.list_model.appendRow(i)
+
+    def item_checked_changed(self, item):
+        self.util.msg_log_debug(
+            u'item changed, checked:{} item:{} item.data:{}'.format(
+                item.checkState() == Qt.Checked,
+                item,
+                item.data(Qt.UserRole)
+            )
+        )
+        if item.checkState() == Qt.Checked:
+            data = item.data(Qt.UserRole)
+            data.selected = True
+            item.setData(data, Qt.UserRole)
+
+
+    def save_btn_clicked(self):
+        self.util.msg_log_debug('save clicked')
+
