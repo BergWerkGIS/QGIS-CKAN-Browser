@@ -110,28 +110,32 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                     self.util.msg_log_last_exception()
                     return False, self.util.tr(u'cc_invalid_json')
 
-                instances_cnt = len(result)
-                self.IDC_lbInstanceCount.setText(u'{} instances'.format(instances_cnt))
-                self.util.msg_log_debug(u'{} instances'.format(instances_cnt))
-
+                self.settings.load()
+                selected_servers = self.settings.selected_ckan_servers.split('|')
                 self.servers = []
                 for entry in result:
-                    url_api = entry['url-api'] if 'url-api' in entry else None
-                    si = ServerInstance(entry['title'], entry['description'], url_api)
+                    url_api = None
+                    if 'url-api' in entry:
+                        url_api = entry['url-api']
+                        if 'geothermaldata' not in url_api:
+                            url_api = url_api.replace('http://', 'https://')
+                        url_api += '/api/3/'
+                    si = ServerInstance(entry['title'], entry['description'], entry['url'], url_api)
+                    si.selected = True if si.settings_key in selected_servers else False
                     self.servers.append(si)
 
-                for server in self.servers:
+                for idx, server in enumerate(self.servers):
                     i = QStandardItem(server.title)
-                    if server.api_url:
+                    i.setData(server)
+                    if server.api_url is not None:
                         i.setBackground(Qt.green)
-                    i.setData(server, Qt.UserRole)
-                    i.setCheckable(True)
-                    i.setCheckState(Qt.Unchecked)
+                        i.setCheckable(True)
+                        i.setCheckState(Qt.Checked if server.selected else Qt.Unchecked)
+                    else:
+                        i.setToolTip(self.util.tr('dlg_dataprovders_server_has_no_apiurl'))
                     self.list_model.appendRow(i)
-                for i in range(self.list_model.rowCount()):
-                    xx = self.list_model.item(i, 0)
-                    self.util.msg_log_debug(u'itemdata {}'.format(xx.data(Qt.UserRole)))
         finally:
+            self.__update_server_count()
             QApplication.restoreOverrideCursor()
 
     def searchTermChanged(self, text):
@@ -140,31 +144,64 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
             if s.search(text) > 0:
                 results.append(s)
         self.list_model.clear()
+
         if len(results) < 1:
+            # early exit
+            self.__update_server_count()
             return
-        self.IDC_lbInstanceCount.setText(u'{} instances'.format(len(results)))
+
         for result in sorted(results, key=lambda r: r.last_search_result, reverse=True):
-            i = QStandardItem(u'{} - {}'.format(result.last_search_result, result.title))
-            if result.api_url:
+            # debug: show score of string matching in title
+            # i = QStandardItem(u'{} - {}'.format(result.last_search_result, result.title))
+            i = QStandardItem(result.title)
+            i.setData(result)
+            if result.api_url is not None:
                 i.setBackground(Qt.green)
-            i.setCheckable(True)
-            i.setCheckState(Qt.Unchecked)
+                i.setCheckable(True)
+                i.setCheckState(Qt.Checked if result.selected else Qt.Unchecked)
+            else:
+                i.setToolTip(self.util.tr('dlg_dataprovders_server_has_no_apiurl'))
             self.list_model.appendRow(i)
+        self.__update_server_count()
 
     def item_checked_changed(self, item):
         self.util.msg_log_debug(
             u'item changed, checked:{} item:{} item.data:{}'.format(
                 item.checkState() == Qt.Checked,
                 item,
-                item.data(Qt.UserRole)
+                item.data()
             )
         )
-        if item.checkState() == Qt.Checked:
-            data = item.data(Qt.UserRole)
-            data.selected = True
-            item.setData(data, Qt.UserRole)
+        if item.checkState() == Qt.Unchecked:
+            item.data().selected = False
+            return
 
+        for row in range(self.list_model.rowCount()):
+            i = self.list_model.item(row, 0)
+            if i != item and i.checkState() == Qt.Checked:
+                i.setCheckState(Qt.Unchecked)
+
+        item.data().selected = True if item.checkState() == Qt.Checked else False
 
     def save_btn_clicked(self):
         self.util.msg_log_debug('save clicked')
+        selected_servers = [s.settings_key for s in self.servers if s.selected]
+        if len(selected_servers) < 1:
+            self.settings.save(self.settings.KEY_SELECTED_CKAN_SERVERS, '')
+        else:
+            self.util.msg_log_debug(u'selected servers: {}'.format(selected_servers))
+            self.settings.selected_ckan_servers = '|'.join(selected_servers)
+            self.settings.ckan_url = [s for s in self.servers if s.selected][0].api_url
+            self.settings.save()
+
+    def __update_server_count(self):
+        self.IDC_lbInstanceCount.setText(
+            u'{} / {} ({} selectable, have an API URL defined)'
+            .format(
+                self.list_model.rowCount(),
+                len(self.servers),
+                len([s for s in self.servers if s.api_url is not None])
+                # len([s for s in self.servers if s.selected])
+            )
+        )
 

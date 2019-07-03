@@ -64,8 +64,6 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.settings = settings
         self.util = Util(self.settings, self.main_win)
 
-        self.IDC_lblApiUrl.setText(self.util.tr('py_dlg_base_server') + self.settings.ckan_url)
-        self.IDC_lblCacheDir.setText(self.util.tr('py_dlg_base_cache_path') + self.settings.cache_dir)
         # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         # TODO: automatically populate version
         # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
@@ -96,11 +94,21 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
 
     def window_loaded(self):
         try:
-            self.util.msg_log_debug('window_loaded')
-            self.util.msg_log_debug('before stop')
-            self.timer.stop()
-            self.timer = None
-            self.util.msg_log_debug('before get_groupds')
+            self.settings.load()
+            self.IDC_lblApiUrl.setText(self.util.tr('py_dlg_base_server') + self.settings.ckan_url)
+            self.IDC_lblCacheDir.setText(self.util.tr('py_dlg_base_cache_path') + self.settings.cache_dir)
+            if self.timer is not None:
+                self.timer.stop()
+                self.timer = None
+
+            self.IDC_listResults.clear()
+            self.IDC_listGroup.clear()
+            self.IDC_textDetails.setText('')
+            self.IDC_listRessources.clear()
+            self.IDC_plainTextLink.setPlainText('')
+
+            self.util.msg_log_debug('before get_groups')
+
             ok, result = self.cc.get_groups()
             if ok is False:
                 QApplication.restoreOverrideCursor()
@@ -153,6 +161,9 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.util.msg_log_debug('select data provider clicked')
         self.dlg_dataproviders = CKANBrowserDialogDataProviders(self.settings)
         self.dlg_dataproviders.show()
+        if self.dlg_dataproviders.exec_():
+            QApplication.setOverrideCursor(Qt.WaitCursor)
+            self.window_loaded()
 
     def __search_package(self, page=None):
         self.IDC_listResults.clear()

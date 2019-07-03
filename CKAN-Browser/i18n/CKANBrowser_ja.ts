@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="ja_JP" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="ja_JP">
 <context>
     <name>CKANBrowserDialogBase</name>
     <message>
@@ -350,27 +351,27 @@
     <message>
         <location filename="../ckan_browser_dialog.py" line="204"/>
         <source>py_dlg_base_page_count</source>
-        <translation type="unfinished">ページ {0}/{1:.0f}</translation>
+        <translation>ページ {0}/{1:.0f}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="272"/>
         <source>py_dlg_base_warn_no_resource</source>
-        <translation type="unfinished">リソースが選択されていません</translation>
+        <translation>リソースが選択されていません</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="287"/>
         <source>py_dlg_base_warn_cache_dir_not_created</source>
-        <translation type="unfinished">キャッシュディレクトリを作れません: {0}</translation>
+        <translation>キャッシュディレクトリを作れません: {0}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="320"/>
         <source>py_dlg_base_data_already_loaded</source>
-        <translation type="unfinished">データセットはすでにダウンロードされています. 再ダウンロードしますか?</translation>
+        <translation>データセットはすでにダウンロードされています. 再ダウンロードしますか?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="334"/>
         <source>py_dlg_base_big_file</source>
-        <translation type="unfinished">ファイルのサイズは {0} MBです. それでもダウンロードしますか?</translation>
+        <translation>ファイルのサイズは {0} MBです. それでもダウンロードしますか?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="367"/>
@@ -423,7 +424,7 @@
         <translation type="unfinished">ダウンロードエラー: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="105"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="107"/>
         <source>cc_api_not_accessible</source>
         <translation type="unfinished">CKAN API がアクセスできません</translation>
     </message>
@@ -433,7 +434,7 @@
         <translation type="unfinished">サーバエラー</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="109"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="111"/>
         <source>cc_invalid_json</source>
         <translation type="unfinished">サーバの返答が正しくないJSONオブジェクトです</translation>
     </message>
@@ -501,6 +502,11 @@
         <location filename="../ckan_browser.py" line="184"/>
         <source>ckan_browser_settings</source>
         <translation type="unfinished">設定</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="131"/>
+        <source>dlg_dataprovders_server_has_no_apiurl</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

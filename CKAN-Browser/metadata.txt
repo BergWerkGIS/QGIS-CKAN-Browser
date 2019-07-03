@@ -11,7 +11,7 @@ name=CKAN-Browser
 qgisMinimumVersion=3.0
 about=Download and display Open Data from CKAN Metadata Servers
 description=Download and display Open Data from CKAN Metadata Servers
-version=0.3.91
+version=0.3.92
 author=BergWerkGIS
 email=wb@BergWerk-GIS.at
 

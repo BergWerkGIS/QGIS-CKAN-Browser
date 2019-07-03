@@ -136,12 +136,12 @@
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="517"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="259"/>
         <source>dlg_base_btn_select_dataprovider</source>
-        <translation type="unfinished">CKAN Server auswählen</translation>
+        <translation>CKAN Server auswählen</translation>
     </message>
 </context>
 <context>
@@ -351,27 +351,27 @@
     <message>
         <location filename="../ckan_browser_dialog.py" line="204"/>
         <source>py_dlg_base_page_count</source>
-        <translation type="unfinished">Seite {0}/{1:.0f}</translation>
+        <translation>Seite {0}/{1:.0f}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="272"/>
         <source>py_dlg_base_warn_no_resource</source>
-        <translation type="unfinished">Keine Ressource gewählt</translation>
+        <translation>Keine Ressource gewählt</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="287"/>
         <source>py_dlg_base_warn_cache_dir_not_created</source>
-        <translation type="unfinished">Konnte Cache Verzeichnis nicht erstellen: {0}</translation>
+        <translation>Konnte Cache Verzeichnis nicht erstellen: {0}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="320"/>
         <source>py_dlg_base_data_already_loaded</source>
-        <translation type="unfinished">Datensatz wurde bereits heruntergeladen. Erneut laden?</translation>
+        <translation>Datensatz wurde bereits heruntergeladen. Erneut laden?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="334"/>
         <source>py_dlg_base_big_file</source>
-        <translation type="unfinished">Datei hat {0} MB. Trotzdem laden?</translation>
+        <translation>Datei hat {0} MB. Trotzdem laden?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="367"/>
@@ -401,7 +401,7 @@
     <message>
         <location filename="../ckan_browser_dialog.py" line="434"/>
         <source>dlg_base_ttip_data_list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lädt die gewählten Daten herunter und versucht diese in QGIS anzuzeigen. Können die Daten nicht angezeigt werden, wird das Downloadverzeichnis geöffnet.</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="437"/>
@@ -424,7 +424,7 @@
         <translation type="unfinished">Downloadfehler: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="101"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="107"/>
         <source>cc_api_not_accessible</source>
         <translation type="unfinished">CKAN API nicht erreichbar</translation>
     </message>
@@ -434,7 +434,7 @@
         <translation type="unfinished">Serverfehler</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="105"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="111"/>
         <source>cc_invalid_json</source>
         <translation type="unfinished">Serverantwort ist kein gültiges JSON Objekt</translation>
     </message>
@@ -502,6 +502,11 @@
         <location filename="../ckan_browser.py" line="184"/>
         <source>ckan_browser_settings</source>
         <translation type="unfinished">Einstellungen</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="131"/>
+        <source>dlg_dataprovders_server_has_no_apiurl</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -19,11 +19,12 @@ class CkanConnector:
 
     def __init__(self, settings, util):
         self.settings = settings
+        self.settings.load()
         self.util = util
-        self.api = self.settings.ckan_url
-        self.cache = self.settings.cache_dir
-        self.limit = self.settings.results_limit
-        self.auth_cfg = self.settings.authcfg
+        #self.api = self.settings.ckan_url
+        #self.cache = self.settings.cache_dir
+        #self.limit = self.settings.results_limit
+        #self.auth_cfg = self.settings.authcfg
         # self.sort = 'name asc, title asc'
         self.sort = 'name asc'
         self.mb_downloaded = 0
@@ -39,7 +40,7 @@ class CkanConnector:
 
     def get_groups(self):
         # return self.__get_data(self.api, 'group_list?all_fields=true')
-        ok, result = self._validate_ckan_url(self.api)
+        ok, result = self._validate_ckan_url(self.settings.ckan_url)
 
         if not ok:
             return ok, result
@@ -55,7 +56,7 @@ class CkanConnector:
         return self.__get_data(result, 'action/group_list?all_fields=true')
 
     def package_search(self, text, groups=None, page=None):
-        ok, result = self._validate_ckan_url(self.api)
+        ok, result = self._validate_ckan_url(self.settings.ckan_url)
 
         if not ok:
             return ok, result
@@ -84,13 +85,13 @@ class CkanConnector:
                     text,
                     group_filter,
                     self.sort,
-                    self.limit,
+                    self.settings.results_limit,
                     start_query
                 )
         )
 
     def show_group(self, group_name, page=None):
-        ok, result = self._validate_ckan_url(self.api)
+        ok, result = self._validate_ckan_url(self.settings.ckan_url)
 
         if not ok:
             return ok, result
@@ -107,7 +108,7 @@ class CkanConnector:
             result, u'action/package_search?q=&fq=(groups:{0})&sort={1}&rows={2}{3}'.format(
                 group_name,
                 self.sort,
-                self.limit,
+                self.settings.results_limit,
                 start_query
             )
         )
@@ -328,7 +329,7 @@ class CkanConnector:
             )
 
             if not response.ok:
-                return False, self.util.tr(u'cc_api_not_accessible').format(response.reason), None
+                return False, self.util.tr(u'cc_api_not_accessible').format(response.reason)
 
         except RequestsExceptionTimeout as cte:
             self.util.msg_log_error(u'connection timeout for: {0}'.format(url))
@@ -368,7 +369,7 @@ class CkanConnector:
         return True, result['result']
 
     def __get_start(self, page):
-        start = self.limit * page - self.limit
+        start = self.settings.results_limit * page - self.settings.results_limit
         return u'&start={0}'.format(start)
 
     def _validate_ckan_url(self, ckan_url):

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr_FR" sourcelanguage="en_US">
+<!DOCTYPE TS>
+<TS version="2.1" language="fr_FR" sourcelanguage="en_US">
 <context>
     <name>CKANBrowserDialogBase</name>
     <message>
@@ -355,22 +356,22 @@
     <message>
         <location filename="../ckan_browser_dialog.py" line="272"/>
         <source>py_dlg_base_warn_no_resource</source>
-        <translation type="unfinished">Aucune ressource sélectionnée</translation>
+        <translation>Aucune ressource sélectionnée</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="287"/>
         <source>py_dlg_base_warn_cache_dir_not_created</source>
-        <translation type="unfinished">Création répertoire cache impossible: {0}</translation>
+        <translation>Création répertoire cache impossible: {0}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="320"/>
         <source>py_dlg_base_data_already_loaded</source>
-        <translation type="unfinished">Jeu de données déjà téléchargé. Recommencer?</translation>
+        <translation>Jeu de données déjà téléchargé. Recommencer?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="334"/>
         <source>py_dlg_base_big_file</source>
-        <translation type="unfinished">Taille du fichier {0} MB. Télécharger quand même?</translation>
+        <translation>Taille du fichier {0} MB. Télécharger quand même?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="367"/>
@@ -423,7 +424,7 @@
         <translation type="unfinished">Erreur de téléchargement: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="105"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="107"/>
         <source>cc_api_not_accessible</source>
         <translation type="unfinished">API CKAN inaccessible</translation>
     </message>
@@ -433,7 +434,7 @@
         <translation type="unfinished">Serveur:&lt;br /&gt;</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="109"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="111"/>
         <source>cc_invalid_json</source>
         <translation type="unfinished">Réponse serveur objet JSON invalide</translation>
     </message>
@@ -501,6 +502,11 @@
         <location filename="../ckan_browser.py" line="184"/>
         <source>ckan_browser_settings</source>
         <translation type="unfinished">Paramétres</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="131"/>
+        <source>dlg_dataprovders_server_has_no_apiurl</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -136,12 +136,12 @@
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="517"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="259"/>
         <source>dlg_base_btn_select_dataprovider</source>
-        <translation type="unfinished">Select CKAN Servers</translation>
+        <translation>Select CKAN Server</translation>
     </message>
 </context>
 <context>
@@ -174,7 +174,7 @@
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="96"/>
         <source>dlg_dataproviders_lbl_search_for_provider</source>
-        <translation>Search for CKAN Server</translation>
+        <translation type="unfinished">Search for CKAN Servers - list powered by https://ckan.org/about/instances/</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="106"/>
@@ -351,27 +351,27 @@
     <message>
         <location filename="../ckan_browser_dialog.py" line="204"/>
         <source>py_dlg_base_page_count</source>
-        <translation type="unfinished">Page {0}/{1:.0f}</translation>
+        <translation>Page {0}/{1:.0f}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="272"/>
         <source>py_dlg_base_warn_no_resource</source>
-        <translation type="unfinished">No resource selected</translation>
+        <translation>No resource selected</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="287"/>
         <source>py_dlg_base_warn_cache_dir_not_created</source>
-        <translation type="unfinished">Can not create cache directory: {0}</translation>
+        <translation>Can not create cache directory: {0}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="320"/>
         <source>py_dlg_base_data_already_loaded</source>
-        <translation type="unfinished">Dataset already downloaded. Redownload?</translation>
+        <translation>Dataset already downloaded. Redownload?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="334"/>
         <source>py_dlg_base_big_file</source>
-        <translation type="unfinished">Size of File is {0} MB. Download anyway?</translation>
+        <translation>Size of File is {0} MB. Download anyway?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog.py" line="367"/>
@@ -424,7 +424,7 @@
         <translation type="unfinished">Download error: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="101"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="107"/>
         <source>cc_api_not_accessible</source>
         <translation type="unfinished">CKAN API not accessible</translation>
     </message>
@@ -434,7 +434,7 @@
         <translation type="unfinished">Server error</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="105"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="111"/>
         <source>cc_invalid_json</source>
         <translation type="unfinished">Server response is not a valid JSON Object</translation>
     </message>
@@ -502,6 +502,11 @@
         <location filename="../ckan_browser.py" line="184"/>
         <source>ckan_browser_settings</source>
         <translation type="unfinished">Settings</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="131"/>
+        <source>dlg_dataprovders_server_has_no_apiurl</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
