@@ -13,6 +13,7 @@ class Settings:
         self.request_timeout = 15
         self.ckan_url = None
         self.selected_ckan_servers = ''
+        self.custom_servers = {}
         self.authcfg = None
         self.cache_dir = None
         self.DLG_CAPTION = u'CKAN-Browser'
@@ -21,6 +22,7 @@ class Settings:
         self.KEY_AUTHCFG = 'ckan_browser/authcfg'
         self.KEY_AUTH_PROPAGATE = 'ckan_browser/auth_propagate'
         self.KEY_SELECTED_CKAN_SERVERS = 'ckan_browser/selected_ckan_servers'
+        self.KEY_CUSTOM_SERVERS = 'ckan_browser/custom_ckan_servers'
         self.version = self._determine_version()
 
     def load(self):
@@ -30,6 +32,7 @@ class Settings:
             self.cache_dir = ''
         self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/')
         self.selected_ckan_servers = qgis_settings.value(self.KEY_SELECTED_CKAN_SERVERS, '')
+        self.custom_servers = qgis_settings.value(self.KEY_CUSTOM_SERVERS, {'City of Toronto': 'https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/'})
         self.authcfg = qgis_settings.value(self.KEY_AUTHCFG, '')
         self.auth_propagate = qgis_settings.value(self.KEY_AUTH_PROPAGATE, False, bool)
 
@@ -40,6 +43,7 @@ class Settings:
         qgis_settings.setValue(self.KEY_AUTHCFG, self.authcfg)
         qgis_settings.setValue(self.KEY_AUTH_PROPAGATE, self.auth_propagate)
         qgis_settings.setValue(self.KEY_SELECTED_CKAN_SERVERS, self.selected_ckan_servers)
+        qgis_settings.setValue(self.KEY_CUSTOM_SERVERS, self.custom_servers)
 
     def get_proxies(self):
         s = QSettings()

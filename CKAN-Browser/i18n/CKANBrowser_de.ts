@@ -174,12 +174,12 @@
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="96"/>
         <source>dlg_dataproviders_lbl_search_for_provider</source>
-        <translation>Nach CKAN Server suchen</translation>
+        <translation>Nach CKAN Server suchen  - Liste von https://ckan.org/about/instances/</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="106"/>
         <source>dlg_dataproviders_lbl_nr_of_instances</source>
-        <translation></translation>
+        <translation>{} / {} wählbar (die anderen haben keine API URL)</translation>
     </message>
 </context>
 <context>

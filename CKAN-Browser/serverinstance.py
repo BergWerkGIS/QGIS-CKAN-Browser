@@ -11,6 +11,7 @@ class ServerInstance:
         self.url = url
         self.api_url = api_url
         self.selected = selected
+        self.is_custom = custom_entry
         # try with just the url for now, let's see how that goes
         self.settings_key = self.url
         self.last_search_result = 0
@@ -35,5 +36,8 @@ class ServerInstance:
             for title_token in self.title.split():
                 if QgsStringUtils.levenshteinDistance(title_token, search_token, False) < 2:
                     ret_val += 1
+        # always put custom instances first
+        if self.is_custom:
+            ret_val *= 100
         self.last_search_result = ret_val
         return ret_val

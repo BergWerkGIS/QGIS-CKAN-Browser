@@ -154,7 +154,7 @@
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="38"/>
         <source>dlg_dataproviders_grp_manual</source>
-        <translation type="unfinished">Add a new CKAN Server</translation>
+        <translation>Add a new CKAN Server</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="50"/>
@@ -179,7 +179,7 @@
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="106"/>
         <source>dlg_dataproviders_lbl_nr_of_instances</source>
-        <translation></translation>
+        <translation type="unfinished">{} / {} selectable (others do not have an API URL defined)</translation>
     </message>
 </context>
 <context>

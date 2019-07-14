@@ -64,9 +64,6 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.settings = settings
         self.util = Util(self.settings, self.main_win)
 
-        # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # TODO: automatically populate version
-        # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111
         self.IDC_lblVersion.setText(self.util.tr('py_dlg_base_version').format(self.settings.version))
         self.IDC_lblSuchergebnisse.setText(self.util.tr('py_dlg_base_search_result'))
         self.IDC_lblPage.setText(self.util.tr('py_dlg_base_page_1_1'))

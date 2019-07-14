@@ -25,7 +25,7 @@ import os
 
 from PyQt5 import QtGui, uic
 from PyQt5.QtCore import QTimer, Qt, QStringListModel, QModelIndex
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor
 from PyQt5.QtWidgets import QDialog, QApplication, QListWidgetItem
 from .httpcall import HttpCall
 from .serverinstance import ServerInstance
@@ -113,6 +113,11 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                 self.settings.load()
                 selected_servers = self.settings.selected_ckan_servers.split('|')
                 self.servers = []
+                for cs_name in self.settings.custom_servers:
+                    url = self.settings.custom_servers[cs_name]
+                    si = ServerInstance(cs_name, cs_name, url, url, custom_entry=True)
+                    si.selected = True if si.settings_key in selected_servers else False
+                    self.servers.append(si)
                 for entry in result:
                     url_api = None
                     if 'url-api' in entry:
@@ -128,12 +133,11 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                     i = QStandardItem(server.title)
                     i.setData(server)
                     if server.api_url is not None:
-                        i.setBackground(Qt.green)
+                        if server.is_custom:
+                            i.setBackground(QColor(0, 0, 255, 50))
                         i.setCheckable(True)
                         i.setCheckState(Qt.Checked if server.selected else Qt.Unchecked)
-                    else:
-                        i.setToolTip(self.util.tr('dlg_dataprovders_server_has_no_apiurl'))
-                    self.list_model.appendRow(i)
+                        self.list_model.appendRow(i)
         finally:
             self.__update_server_count()
             QApplication.restoreOverrideCursor()
@@ -156,12 +160,11 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
             i = QStandardItem(result.title)
             i.setData(result)
             if result.api_url is not None:
-                i.setBackground(Qt.green)
+                if result.is_custom:
+                    i.setBackground(QColor(0, 0, 255, 50))
                 i.setCheckable(True)
                 i.setCheckState(Qt.Checked if result.selected else Qt.Unchecked)
-            else:
-                i.setToolTip(self.util.tr('dlg_dataprovders_server_has_no_apiurl'))
-            self.list_model.appendRow(i)
+                self.list_model.appendRow(i)
         self.__update_server_count()
 
     def item_checked_changed(self, item):
@@ -195,13 +198,8 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
             self.settings.save()
 
     def __update_server_count(self):
-        self.IDC_lbInstanceCount.setText(
-            u'{} / {} ({} selectable, have an API URL defined)'
-            .format(
-                self.list_model.rowCount(),
-                len(self.servers),
-                len([s for s in self.servers if s.api_url is not None])
-                # len([s for s in self.servers if s.selected])
-            )
+        txt = self.IDC_lbInstanceCount.text().format(
+            len([s for s in self.servers if s.api_url is not None]),
+            len(self.servers)
         )
-
+        self.IDC_lbInstanceCount.setText(txt)

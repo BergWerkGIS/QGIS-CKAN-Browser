@@ -84,6 +84,7 @@ class HttpCall:
 
         req = QNetworkRequest()
         req.setUrl(QUrl(url))
+        req.setAttribute(QNetworkRequest.FollowRedirectsAttribute, True)
 
         for k, v in headers.items():
             self.util.msg_log_debug("%s: %s" % (k, v))
