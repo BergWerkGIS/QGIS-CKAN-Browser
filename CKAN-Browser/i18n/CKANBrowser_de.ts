@@ -29,21 +29,6 @@
         <translation>Suche nach Kategorie filtern:</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_base.ui" line="208"/>
-        <source>IDC_lblApiUrl</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_base.ui" line="230"/>
-        <source>IDC_lblCacheDir</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_base.ui" line="252"/>
-        <source>IDC_lblVersion</source>
-        <translation></translation>
-    </message>
-    <message>
         <location filename="../ckan_browser_dialog_base.ui" line="266"/>
         <source>dlg_base_btn_disclaimer</source>
         <translation>Nutzungshinweis</translation>
@@ -142,6 +127,21 @@
         <location filename="../ckan_browser_dialog_base.ui" line="259"/>
         <source>dlg_base_btn_select_dataprovider</source>
         <translation>CKAN Server auswählen</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_base.ui" line="208"/>
+        <source>dlg_base_current_server</source>
+        <translation>Aktiver Server</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_base.ui" line="230"/>
+        <source>dlg_base_lbl_cache_dir</source>
+        <translation>Cache Verzeichnis</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_base.ui" line="252"/>
+        <source>dlg_base_lbl_plugin_version</source>
+        <translation type="unfinished">Plugin Version: {}</translation>
     </message>
 </context>
 <context>
@@ -301,7 +301,7 @@
 <context>
     <name>Util</name>
     <message>
-        <location filename="../util.py" line="242"/>
+        <location filename="../util.py" line="243"/>
         <source>py_dlg_base_open_manager</source>
         <translation type="unfinished">Unbekannter Dateityp. &lt;br /&gt;&lt;br /&gt; Heruntergeladen von: &lt;br /&gt;{0} &lt;br /&gt;&lt;br /&gt; Ordner öffnen?&lt;br /&gt;</translation>
     </message>
@@ -309,179 +309,159 @@
 <context>
     <name>self.util</name>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="68"/>
-        <source>py_dlg_base_server</source>
-        <translation type="unfinished">Server:&lt;br /&gt;</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog.py" line="69"/>
-        <source>py_dlg_base_cache_path</source>
-        <translation type="unfinished">Cache Verzeichnis:&lt;br /&gt;</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog.py" line="73"/>
-        <source>py_dlg_base_version</source>
-        <translation type="unfinished">Version: {0}</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog.py" line="74"/>
-        <source>py_dlg_base_search_result</source>
-        <translation type="unfinished">Suchergebnis:</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog.py" line="75"/>
+        <location filename="../ckan_browser_dialog.py" line="70"/>
         <source>py_dlg_base_page_1_1</source>
-        <translation type="unfinished">Seite 1/1</translation>
+        <translation>Seite 1/1</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="193"/>
+        <location filename="../ckan_browser_dialog.py" line="201"/>
         <source>py_dlg_base_search_result_0</source>
-        <translation type="unfinished">Suchergebnisse: 0</translation>
+        <translation>Suchergebnisse: 0</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="194"/>
+        <location filename="../ckan_browser_dialog.py" line="202"/>
         <source>py_dlg_base_no_result</source>
-        <translation type="unfinished">Keine Ergebnisse</translation>
+        <translation>Keine Ergebnisse</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="203"/>
+        <location filename="../ckan_browser_dialog.py" line="211"/>
         <source>py_dlg_base_result_count</source>
-        <translation type="unfinished">Suchergebnis: {0} Datensätze</translation>
+        <translation>Suchergebnis: {0} Datensätze</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="204"/>
+        <location filename="../ckan_browser_dialog.py" line="213"/>
         <source>py_dlg_base_page_count</source>
         <translation>Seite {0}/{1:.0f}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="272"/>
+        <location filename="../ckan_browser_dialog.py" line="283"/>
         <source>py_dlg_base_warn_no_resource</source>
         <translation>Keine Ressource gewählt</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="287"/>
+        <location filename="../ckan_browser_dialog.py" line="298"/>
         <source>py_dlg_base_warn_cache_dir_not_created</source>
         <translation>Konnte Cache Verzeichnis nicht erstellen: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="320"/>
+        <location filename="../ckan_browser_dialog.py" line="331"/>
         <source>py_dlg_base_data_already_loaded</source>
         <translation>Datensatz wurde bereits heruntergeladen. Erneut laden?</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="334"/>
+        <location filename="../ckan_browser_dialog.py" line="345"/>
         <source>py_dlg_base_big_file</source>
         <translation>Datei hat {0} MB. Trotzdem laden?</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="367"/>
+        <location filename="../ckan_browser_dialog.py" line="378"/>
         <source>py_dlg_base_warn_not_extracted</source>
-        <translation type="unfinished">Konnte Archiv nicht entpacken:&lt;br /&gt;{0}</translation>
+        <translation>Konnte Archiv nicht entpacken:&lt;br /&gt;{0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="376"/>
+        <location filename="../ckan_browser_dialog.py" line="387"/>
         <source>py_dlg_base_open_manager</source>
-        <translation type="unfinished">Unbekannter Dateityp. &lt;br /&gt;&lt;br /&gt; Heruntergeladen von: &lt;br /&gt;{0} &lt;br /&gt;&lt;br /&gt; Ordner öffnen?&lt;br /&gt;</translation>
+        <translation>Unbekannter Dateityp. &lt;br /&gt;&lt;br /&gt; Heruntergeladen von: &lt;br /&gt;{0} &lt;br /&gt;&lt;br /&gt; Ordner öffnen?&lt;br /&gt;</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="379"/>
+        <location filename="../ckan_browser_dialog.py" line="390"/>
         <source>py_dlg_base_lyr_not_loaded</source>
-        <translation type="unfinished">Konnte Layer nicht laden:&lt;br /&gt;{0}&lt;br /&gt;{1}</translation>
+        <translation>Konnte Layer nicht laden:&lt;br /&gt;{0}&lt;br /&gt;{1}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="428"/>
+        <location filename="../ckan_browser_dialog.py" line="439"/>
         <source>dlg_base_ttip_search</source>
-        <translation type="unfinished">Geben Sie hier Ihren Suchbegriff ein.</translation>
+        <translation>Geben Sie hier Ihren Suchbegriff ein.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="431"/>
+        <location filename="../ckan_browser_dialog.py" line="442"/>
         <source>dlg_base_ttip_filter</source>
-        <translation type="unfinished">Checkbox auswählen llimitiert die Suche auf diese Kategorie. Doppelklick auf Kategorie listet alle Datensätze dieser Kategorie auf.</translation>
+        <translation>Checkbox auswählen llimitiert die Suche auf diese Kategorie. Doppelklick auf Kategorie listet alle Datensätze dieser Kategorie auf.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="434"/>
+        <location filename="../ckan_browser_dialog.py" line="445"/>
         <source>dlg_base_ttip_data_list</source>
-        <translation type="unfinished">Lädt die gewählten Daten herunter und versucht diese in QGIS anzuzeigen. Können die Daten nicht angezeigt werden, wird das Downloadverzeichnis geöffnet.</translation>
+        <translation>Lädt die gewählten Daten herunter und versucht diese in QGIS anzuzeigen. Können die Daten nicht angezeigt werden, wird das Downloadverzeichnis geöffnet.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="437"/>
+        <location filename="../ckan_browser_dialog.py" line="448"/>
         <source>dlg_base_ttip_resource</source>
-        <translation type="unfinished">URL der gewählten Ressource</translation>
+        <translation>URL der gewählten Ressource</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="149"/>
+        <location filename="../ckanconnector.py" line="150"/>
         <source>cc_url_error</source>
-        <translation type="unfinished">Fehler in URL&lt;br /&gt; {0} &lt;br /&gt;&lt;br /&gt;{1}</translation>
+        <translation>Fehler in URL&lt;br /&gt; {0} &lt;br /&gt;&lt;br /&gt;{1}</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="338"/>
+        <location filename="../ckanconnector.py" line="339"/>
         <source>cc_connection_timeout</source>
-        <translation type="unfinished">Zeitüberschreitung bei der Verbindung:&lt;br /&gt;&lt;br /&gt;{0}</translation>
+        <translation>Zeitüberschreitung bei der Verbindung:&lt;br /&gt;&lt;br /&gt;{0}</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="302"/>
+        <location filename="../ckanconnector.py" line="303"/>
         <source>cc_download_error</source>
-        <translation type="unfinished">Downloadfehler: {0}</translation>
+        <translation>Downloadfehler: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="107"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="113"/>
         <source>cc_api_not_accessible</source>
-        <translation type="unfinished">CKAN API nicht erreichbar</translation>
+        <translation>CKAN API nicht erreichbar</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="351"/>
+        <location filename="../ckanconnector.py" line="352"/>
         <source>cc_server_fault</source>
-        <translation type="unfinished">Serverfehler</translation>
+        <translation>Serverfehler</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="111"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="117"/>
         <source>cc_invalid_json</source>
-        <translation type="unfinished">Serverantwort ist kein gültiges JSON Objekt</translation>
+        <translation>Serverantwort ist kein gültiges JSON Objekt</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="385"/>
+        <location filename="../ckanconnector.py" line="386"/>
         <source>cc_wrong_api</source>
-        <translation type="unfinished">Es wird nur v3 unterstützt</translation>
+        <translation>Es wird nur v3 unterstützt</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_disclaimer.py" line="56"/>
         <source>py_disc_info_html</source>
-        <translation type="unfinished">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Helvetica Neue DeskInterface&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;&lt;h1&gt;Nutzungshinweis&lt;/h1&gt;&lt;p&gt;Es besteht die Möglichkeit, dass das Plugin nicht mit allen CKAN funktioniert, da die Metadaten der Plattformen unterschiedlich abgebildet werden. Unterstützt werden nur Server, die groups oder tags verwenden. &lt;a href=&quot;http://docs.ckan.org/en/latest/api/&quot;&gt;link auf CKAN docs&lt;/a&gt;&lt;br /&gt;Dieses Plugin funktioniert nur mit API-Verson 3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Helvetica Neue DeskInterface&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;&lt;h1&gt;Nutzungshinweis&lt;/h1&gt;&lt;p&gt;Es besteht die Möglichkeit, dass das Plugin nicht mit allen CKAN funktioniert, da die Metadaten der Plattformen unterschiedlich abgebildet werden. Unterstützt werden nur Server, die groups oder tags verwenden. &lt;a href=&quot;http://docs.ckan.org/en/latest/api/&quot;&gt;link auf CKAN docs&lt;/a&gt;&lt;br /&gt;Dieses Plugin funktioniert nur mit API-Verson 3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="92"/>
         <source>py_dlg_set_warn_urls_not_load</source>
-        <translation type="unfinished">Vorbereitete URLs konnten nicht geladen werden: {0}</translation>
+        <translation>Vorbereitete URLs konnten nicht geladen werden: {0}</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="121"/>
         <source>py_dlg_set_info_conn_succs</source>
-        <translation type="unfinished">Verbindung erfolgreich</translation>
+        <translation>Verbindung erfolgreich</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="148"/>
         <source>py_dlg_set_warn_cache_not_use</source>
-        <translation type="unfinished">Cache Verzeichnis nicht verwendbar</translation>
+        <translation>Cache Verzeichnis nicht verwendbar</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="156"/>
         <source>py_dlg_set_warn_ckan_url</source>
-        <translation type="unfinished">Bitte eine CKAN API angeben!</translation>
+        <translation>Bitte eine CKAN API angeben!</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="171"/>
         <source>dlg_set_tool_cache</source>
-        <translation type="unfinished">Geben Sie bitte einen Ort (Verzeichnis) an, wo heruntergeladene Daten gespeichert werden sollen.</translation>
+        <translation>Geben Sie bitte einen Ort (Verzeichnis) an, wo heruntergeladene Daten gespeichert werden sollen.</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="174"/>
         <source>dlg_set_tool_pre_urls</source>
-        <translation type="unfinished">Vordefinierte CKAN Beispiel URLs getesteter Server</translation>
+        <translation>Vordefinierte CKAN Beispiel URLs getesteter Server</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="177"/>
         <source>dlg_set_tool_api_url</source>
-        <translation type="unfinished">Wählen Sie bitte einen OpenData Server aus oder geben sie die URL zu einem anderen Server an.</translation>
+        <translation>Wählen Sie bitte einen OpenData Server aus oder geben sie die URL zu einem anderen Server an.</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.py" line="184"/>
@@ -501,12 +481,27 @@
     <message>
         <location filename="../ckan_browser.py" line="184"/>
         <source>ckan_browser_settings</source>
-        <translation type="unfinished">Einstellungen</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="131"/>
-        <source>dlg_dataprovders_server_has_no_apiurl</source>
-        <translation type="unfinished"></translation>
+        <location filename="../ckan_browser_dialog.py" line="96"/>
+        <source>py_dlg_base_current_server</source>
+        <translation>Aktiver Server: {}</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog.py" line="97"/>
+        <source>py_dlg_base_cache_path</source>
+        <translation>Cache Verzeichnis: {}</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="154"/>
+        <source>py_dlg_data_providers_no_server_selected</source>
+        <translation>Kein Server ausgewählt</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="158"/>
+        <source>py_dlg_data_providers_cannot_delete_sever_from_official_list</source>
+        <translation>Server aus der offiziellen CKAN Liste können nicht gelöscht werden</translation>
     </message>
 </context>
 </TS>

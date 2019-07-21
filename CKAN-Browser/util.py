@@ -53,7 +53,8 @@ class Util:
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('CKANBrowser', message)
+        #return QCoreApplication.translate('CKANBrowser', message, None)
+        return QCoreApplication.translate('self.util', message, None)
 
     def create_dir(self, dir_path):
         if not os.path.exists(dir_path):

@@ -26,7 +26,7 @@ import os
 from PyQt5 import QtGui, uic
 from PyQt5.QtCore import QTimer, Qt, QStringListModel, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor
-from PyQt5.QtWidgets import QDialog, QApplication, QListWidgetItem
+from PyQt5.QtWidgets import QDialog, QApplication, QListWidgetItem, QAction
 from .httpcall import HttpCall
 from .serverinstance import ServerInstance
 from .util import Util
@@ -55,9 +55,15 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         self.util = Util(self.settings, self.main_win)
         self.list_model = QStandardItemModel(self)
         self.list_model.itemChanged.connect(self.item_checked_changed)
+        self.IDC_listProviders.activated.connect(self.server_in_list_activated)
+        self.IDC_listProviders.clicked.connect(self.server_in_list_clicked)
         self.IDC_listProviders.setModel(self.list_model)
+        delete_custom_server_action = QAction('Delete', self.IDC_listProviders)
+        delete_custom_server_action.triggered.connect(self.delete_custom_server)
+        self.IDC_listProviders.addAction(delete_custom_server_action)
         # self.list_model.setHorizontalHeaderLabels(['CKAN Servers'])
         self.servers = []
+        self.row_server_selected_in_list = -1
         self.util.msg_log_debug('CKANBrowserDialogDataProviders constructor')
         # self.IDC_grpManualDataProvider.collapsed = True
         # self.IDC_grpManualDataProvider.setCollapsed(True)
@@ -142,6 +148,20 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
             self.__update_server_count()
             QApplication.restoreOverrideCursor()
 
+    def delete_custom_server(self):
+        self.util.msg_log_debug('delete context menu clicked')
+        if self.row_server_selected_in_list == -1:
+            self.util.dlg_information(self.util.tr('py_dlg_data_providers_no_server_selected'))
+            return
+        server = self.list_model.item(self.row_server_selected_in_list, 0)
+        if not server.data().is_custom:
+            self.util.dlg_information(self.util.tr('py_dlg_data_providers_cannot_delete_sever_from_official_list'))
+            return
+        self.servers.remove(server.data())
+        self.list_model.removeRow(self.row_server_selected_in_list)
+        self.row_server_selected_in_list = -1
+
+
     def searchTermChanged(self, text):
         results = []
         for s in self.servers:
@@ -167,6 +187,21 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                 self.list_model.appendRow(i)
         self.__update_server_count()
 
+    def server_in_list_activated(self, model_index):
+        self.util.msg_log_debug(u'server activated, model index: {}'.format(model_index))
+
+    def server_in_list_clicked(self, model_index):
+        self.util.msg_log_debug(
+            u'server clicked, col:{} row:{} data:{} model:{}'
+            .format(
+                model_index.column(),
+                model_index.row(),
+                model_index.data(),
+                model_index.model()
+            )
+        )
+        self.row_server_selected_in_list = model_index.row()
+
     def item_checked_changed(self, item):
         self.util.msg_log_debug(
             u'item changed, checked:{} item:{} item.data:{}'.format(
@@ -190,12 +225,12 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         self.util.msg_log_debug('save clicked')
         selected_servers = [s.settings_key for s in self.servers if s.selected]
         if len(selected_servers) < 1:
-            self.settings.save(self.settings.KEY_SELECTED_CKAN_SERVERS, '')
+            self.settings.selected_ckan_servers = ''
         else:
             self.util.msg_log_debug(u'selected servers: {}'.format(selected_servers))
             self.settings.selected_ckan_servers = '|'.join(selected_servers)
             self.settings.ckan_url = [s for s in self.servers if s.selected][0].api_url
-            self.settings.save()
+        self.settings.save()
 
     def __update_server_count(self):
         txt = self.IDC_lbInstanceCount.text().format(

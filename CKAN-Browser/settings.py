@@ -32,7 +32,8 @@ class Settings:
             self.cache_dir = ''
         self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/')
         self.selected_ckan_servers = qgis_settings.value(self.KEY_SELECTED_CKAN_SERVERS, '')
-        self.custom_servers = qgis_settings.value(self.KEY_CUSTOM_SERVERS, {'City of Toronto': 'https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/'})
+        #self.custom_servers = qgis_settings.value(self.KEY_CUSTOM_SERVERS, {'City of Toronto': 'https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/'})
+        self.custom_servers = qgis_settings.value(self.KEY_CUSTOM_SERVERS, {})
         self.authcfg = qgis_settings.value(self.KEY_AUTHCFG, '')
         self.auth_propagate = qgis_settings.value(self.KEY_AUTH_PROPAGATE, False, bool)
 

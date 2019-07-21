@@ -109,6 +109,9 @@
    </item>
    <item>
     <widget class="QListView" name="IDC_listProviders">
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>

@@ -32,7 +32,8 @@ LRELEASE = lrelease
 SOURCES = \
 	__init__.py \
 	ckan_browser.py \
-	ckan_browser_dialog.py
+	ckan_browser_dialog.py \
+	ckan_browser_dialog_dataproviders.py
 
 PLUGINNAME = CKANBrowser
 

@@ -64,8 +64,8 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
         self.settings = settings
         self.util = Util(self.settings, self.main_win)
 
-        self.IDC_lblVersion.setText(self.util.tr('py_dlg_base_version').format(self.settings.version))
-        self.IDC_lblSuchergebnisse.setText(self.util.tr('py_dlg_base_search_result'))
+        self.IDC_lblVersion.setText(self.IDC_lblVersion.text().format(self.settings.version))
+        #self.IDC_lblSuchergebnisse.setText(self.util.tr('py_dlg_base_search_result'))
         self.IDC_lblPage.setText(self.util.tr('py_dlg_base_page_1_1'))
 
         icon_path = self.util.resolve(u'icon-copy.png')
@@ -92,8 +92,8 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
     def window_loaded(self):
         try:
             self.settings.load()
-            self.IDC_lblApiUrl.setText(self.util.tr('py_dlg_base_server') + self.settings.ckan_url)
-            self.IDC_lblCacheDir.setText(self.util.tr('py_dlg_base_cache_path') + self.settings.cache_dir)
+            self.IDC_lblApiUrl.setText(self.util.tr('py_dlg_base_current_server').format(self.settings.ckan_url))
+            self.IDC_lblCacheDir.setText(self.util.tr('py_dlg_base_cache_path').format(self.settings.cache_dir))
             if self.timer is not None:
                 self.timer.stop()
                 self.timer = None
@@ -205,9 +205,10 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
 
         # self.current_page = 1
         self.page_count = int(math.ceil(self.result_count / self.settings.results_limit))
-        if self.result_count % self.settings.results_limit != 0:
-            self.page_count += 1
+        #if self.result_count % self.settings.results_limit != 0:
+        #    self.page_count += 1
         erg_text = self.util.tr(u'py_dlg_base_result_count').format(self.result_count)
+        self.util.msg_log_debug(erg_text)
         page_text = self.util.tr(u'py_dlg_base_page_count').format(self.current_page, self.page_count)
         self.IDC_lblSuchergebnisse.setText(erg_text)
         self.IDC_lblPage.setText(page_text)
@@ -220,6 +221,8 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
 
         for entry in results:
             title_txt = u'no title available'
+            if 'title' not in entry:
+                continue
             e = entry['title']
             if e is None:
                 title_txt = 'no title'
