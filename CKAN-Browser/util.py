@@ -529,6 +529,7 @@ class Util:
             subprocess.Popen(['xdg-open', file_path])
         elif os.name == 'nt' or sys.platform == 'win32':
             file_path = os.path.normpath(file_path)
+            self.msg_log_debug(u'normalized path: {}'.format(file_path))
             subprocess.Popen(['explorer', file_path])
 
     def str2bool(self, v):

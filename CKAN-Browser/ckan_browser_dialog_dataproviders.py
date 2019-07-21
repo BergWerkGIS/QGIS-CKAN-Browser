@@ -280,6 +280,13 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
             item.data().selected = False
             return
 
+        # deselect all available servers.
+        # currently selected one might not be visible
+        # because of current search criteria
+        for server in self.servers:
+            server.selected = False
+
+        # now work on server visible in the list
         for row in range(self.list_model.rowCount()):
             i = self.list_model.item(row, 0)
             if i != item and i.checkState() == Qt.Checked:
