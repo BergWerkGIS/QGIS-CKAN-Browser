@@ -528,6 +528,7 @@ class Util:
         elif sys.platform == 'linux' or sys.platform == 'linux2':
             subprocess.Popen(['xdg-open', file_path])
         elif os.name == 'nt' or sys.platform == 'win32':
+            file_path = os.path.normpath(file_path)
             subprocess.Popen(['explorer', file_path])
 
     def str2bool(self, v):
