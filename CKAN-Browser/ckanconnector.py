@@ -174,13 +174,24 @@ class CkanConnector:
         return 'chunked' == te
 
     def __file_name_from_service(self, url, cd, ct):
-        self.util.msg_log_debug(u'Content-Description: {0}\nContent-Type: {1}'.format(cd, ct))
+        self.util.msg_log_debug(
+            u'__file_name_from_service:\nurl: {}\nContent-Description: {}\nContent-Type: {}'
+            .format(url, cd, ct)
+        )
 
         cd = cd.lower() if cd else None
         ct = ct.lower() if ct else None
 
         if not cd:
-            return None
+            # return None
+            # try to get something out of the url
+            # and get rid of '?' and '&'
+            file_name = url[url.rfind("/") + 1:]
+            if file_name.find('?') > -1:
+                file_name = file_name[:file_name.find('?')]
+            if file_name.find('&') > -1:
+                file_name = file_name[:file_name.find('&')]
+            return file_name
 
         if 'attachment' in cd and 'filename=' in cd:
             file_name = cd.split('filename=')[1]
@@ -227,7 +238,7 @@ class CkanConnector:
                 u'download_resource response:\nex:{0}\nhdr:{1}\nok:{2}\nreason:{3}\nstcode:{4}\nstmsg:{5}\ncontent:{6}'
                 .format(
                     response.exception,
-                    response.headers,
+                    '\n'.join([u'{}: {}'.format(hdr, response.headers[hdr]) for hdr in response.headers]),
                     response.ok,
                     response.reason,
                     response.status_code,
@@ -244,8 +255,8 @@ class CkanConnector:
             # http://www.iana.org/assignments/cont-disp/cont-disp.xhtml
             file_name_from_service = self.__file_name_from_service(
                 url
-                , response.headers.get('content-disposition')
-                , response.headers.get('content-type')
+                , response.headers.get('Content-Disposition')
+                , response.headers.get('Content-Type')
             )
             self.util.msg_log_debug(u'file name from service: {0}'.format(file_name_from_service))
             if file_name_from_service:
@@ -253,20 +264,38 @@ class CkanConnector:
                 dest_file = os.path.join(os.path.dirname(dest_file), file_name_from_service)
 
             self.util.msg_log_debug(u'dest_file: {0}'.format(dest_file))
+
             # hack for WFS/WM(T)S Services, that don't specify the format as wms, wmts or wfs
             url_low = url.lower()
-            if 'wfs' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wfs'):
-                if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
+            self.util.msg_log_debug(u'url.lower(): {0}'.format(url.lower()))
+
+            if 'wfs' in url_low and 'getcapabilities' in url_low and not dest_file.endswith('.wfs'):
+                if dest_file.find('?') > -1:
+                    dest_file = dest_file[:dest_file.find('?')]
+                self.util.msg_log_debug('wfs: adding ".wfs"')
                 dest_file += '.wfs'
-            if 'wmts' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wmts'):
-                if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
+            if 'wmts' in url_low and 'getcapabilities' in url_low and not dest_file.endswith('.wmts'):
+                if dest_file.find('?') > -1:
+                    dest_file = dest_file[:dest_file.find('?')]
+                self.util.msg_log_debug('wmts: adding ".wmts"')
                 dest_file += '.wmts'
-            # we use extension wmts for wms too
-            if 'wms' in url_low and 'getcapabilities' in url_low and False is dest_file.endswith('.wmts'):
-                if string.find(dest_file, '?') > -1: dest_file = dest_file[:string.find(dest_file, '?')]
+            # !!!!! we use extension wmts for wms too !!!!
+            if 'wms' in url_low and 'getcapabilities' in url_low and not dest_file.endswith('.wmts'):
+                if dest_file.find('?') > -1:
+                    dest_file = dest_file[:dest_file.find('?')]
+                self.util.msg_log_debug('wms: adding ".wmts"')
                 dest_file += '.wmts'
 
-            self.util.msg_log_debug(u'dest_file: {0}'.format(dest_file))
+            # in case some query parameters still slipped through, once again: check for '?'
+            self.util.msg_log_debug(u'dest_file before final removal of "?" and "&": {0}'.format(dest_file))
+            file_name_without_extension, file_extension = os.path.splitext(dest_file)
+            self.util.msg_log_debug(u'file name:{}\n extension:{}'.format(file_name_without_extension, file_extension))
+            if dest_file.find('?') > -1:
+                dest_file = dest_file[:dest_file.find('?')] + file_extension
+            if dest_file.find('&') > -1:
+                dest_file = dest_file[:dest_file.find('&')] + file_extension
+
+            self.util.msg_log_debug(u'final dest_file: {0}'.format(dest_file))
 
             # if file name has been set from service, set again after above changes for wfs/wm(t)s
             if file_name_from_service:
@@ -276,7 +305,7 @@ class CkanConnector:
             #chunk_size = 1024
             chunk_size = None
             #http://docs.python-requests.org/en/latest/user/advanced/#chunk-encoded-requests
-            if self.__is_chunked(response.headers.get('transfer-encoding')):
+            if self.__is_chunked(response.headers.get(b'Transfer-Encoding')):
                 self.util.msg_log_debug('response is chunked')
                 chunk_size = None
 
@@ -290,7 +319,7 @@ class CkanConnector:
             #self.util.msg_log(u'{0}\n{1}\n\n\n{2}'.format(cte, dir(cte), cte.message))
             #return False, self.util.tr(u'cc_connection_timeout').format(cte.message)
         except IOError as e:
-            self.util.msg_log_debug("Can't retrieve {0} to {1}: {2}".format(url, dest_file, e))
+            self.util.msg_log_debug("download_resource, Can't retrieve {0} to {1}: {2}".format(url, dest_file, e))
             return False, self.util.tr(u'cc_download_error').format(e.strerror), None
         except NameError as ne:
             self.util.msg_log_debug(u'{0}'.format(ne))

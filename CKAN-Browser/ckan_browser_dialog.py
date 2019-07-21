@@ -344,8 +344,10 @@ class CKANBrowserDialog(QDialog, FORM_CLASS):
                 if file_size > 50 and QMessageBox.No == self.util.dlg_yes_no(self.util.tr(u'py_dlg_base_big_file').format(file_size)):
                     continue  # stop process if user does not want to download the file
                 if hdr_exception:
-                    self.util.dlg_warning(u'{}'.format(hdr_exception))
-                    continue
+                    # self.util.dlg_warning(u'{}'.format(hdr_exception))
+                    # continue
+                    # just log exception and continue, some servers dont support HEAD request
+                    self.util.msg_log_error(u'error getting size of response, HEAD request failed: {}'.format(hdr_exception))
 
                 self.util.msg_log_debug('setting wait cursor')
                 QApplication.setOverrideCursor(Qt.WaitCursor)

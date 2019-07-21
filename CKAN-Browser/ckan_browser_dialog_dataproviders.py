@@ -292,11 +292,14 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         selected_servers = [s.settings_key for s in self.servers if s.selected]
         if len(selected_servers) < 1:
             self.settings.selected_ckan_servers = ''
+            self.util.dlg_warning(self.util.tr('py_dlg_data_providers_no_server_selected'))
+            return
         else:
             self.util.msg_log_debug(u'selected servers: {}'.format(selected_servers))
             self.settings.selected_ckan_servers = '|'.join(selected_servers)
             self.settings.ckan_url = [s for s in self.servers if s.selected][0].api_url
         self.settings.save()
+        self.accept()
 
     def __update_server_count(self):
         txt = self.IDC_lbInstanceCount.text().format(

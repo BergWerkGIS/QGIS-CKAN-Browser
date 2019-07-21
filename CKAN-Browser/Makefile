@@ -61,8 +61,7 @@ EXTRAS = \
 	icon-settings.png \
 	icon-copy.png \
 	ckan_logo_big.png \
-	metadata.txt \
-	CKAN_APIs.json
+	metadata.txt
 
 COMPILED_RESOURCE_FILES = resources_rc.py
 

@@ -121,7 +121,7 @@
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="517"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="259"/>
@@ -190,98 +190,78 @@
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="371"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="90"/>
         <source>dlg_set_cache_path</source>
         <translation>Välimuistin hakemisto:</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="197"/>
-        <source>dlg_set_pre_api</source>
-        <translation>Esimerkki AvoinTieto (CKAN) palvelimesta:</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="83"/>
-        <source>dlg_set_ckan_api</source>
-        <translation>Nykyinen AvoinTieto (CKAN) palvelin:</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="226"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="125"/>
         <source>dlg_set_ellipsis</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="158"/>
-        <source>dlg_set__btn_test</source>
-        <translation>Testi yhteys</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="38"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="248"/>
         <source>dlg_set_btn_save</source>
         <translation>Tallenna</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="45"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="255"/>
         <source>dlg_set_btn_cancel</source>
         <translation>Peruuta</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="155"/>
-        <source>dlg_set_tool_test</source>
-        <translation>Testaa valittua URL:ia</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="346"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="65"/>
         <source>dlg_set_tool_cache</source>
         <translation>Valitse hakemisto jonne ladattu tieto tallennetaan.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="318"/>
-        <source>dlg_set_tool_pre_urls</source>
-        <translation>Testattujen CKAN palvelinten esivalitut URL:it</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="108"/>
-        <source>dlg_set_tool_api_url</source>
-        <translation>Ole hyvä ja valitse AvoinTieto palvelin tai lisää URL uuteen.</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="251"/>
-        <source>dlg_set_v3_only</source>
-        <translation>Ainoastaan v3 on tuettu</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="293"/>
-        <source>dlg_set_choose_pre</source>
-        <translation>Käytä</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="57"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="150"/>
         <source>Authentication</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="349"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="68"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="120"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="177"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="140"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="170"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="381"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="200"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Warning: &lt;/span&gt;if this option is enabled, the same authentication configuration will be implicitely propagated to &lt;span style=&quot; font-weight:600;&quot;&gt;all&lt;/span&gt; OGC layers (WMS, WFS ...) returned by this catalog, this may leak credentials to the result endpoint  if it is not supposed to use the same authentication configuration.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.ui" line="384"/>
+        <location filename="../ckan_browser_dialog_settings.ui" line="203"/>
         <source>Use the same authentication settings for all OGC layers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_settings.ui" line="38"/>
+        <source>dlg_settings_grp_cache_folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_settings.ui" line="144"/>
+        <source>dlg_settings_grp_authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_settings.ui" line="213"/>
+        <source>dlg_settings_grpbox_misc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_settings.ui" line="225"/>
+        <source>dlg_settings_chkbox_show_debug_info</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -303,7 +283,7 @@
     <message>
         <location filename="../util.py" line="243"/>
         <source>py_dlg_base_open_manager</source>
-        <translation type="unfinished">Tuntematon tiedostotyyppi. &lt;br /&gt;&lt;br /&gt; Ladattu: &lt;br /&gt;{0} &lt;br /&gt;&lt;br /&gt; Avoin hakemisto?&lt;br /&gt;</translation>
+        <translation>Tuntematon tiedostotyyppi. &lt;br /&gt;&lt;br /&gt; Ladattu: &lt;br /&gt;{0} &lt;br /&gt;&lt;br /&gt; Avoin hakemisto?&lt;br /&gt;</translation>
     </message>
 </context>
 <context>
@@ -354,37 +334,37 @@
         <translation>Tiedoston koko on {0} MB. Lataa siitä huolimatta?</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="378"/>
+        <location filename="../ckan_browser_dialog.py" line="380"/>
         <source>py_dlg_base_warn_not_extracted</source>
         <translation>Arkistoa ei voida purkaa:&lt;br /&gt;{0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="387"/>
+        <location filename="../ckan_browser_dialog.py" line="389"/>
         <source>py_dlg_base_open_manager</source>
         <translation>Tuntematon tiedostotyyppi. &lt;br /&gt;&lt;br /&gt; Ladattu: &lt;br /&gt;{0} &lt;br /&gt;&lt;br /&gt; Avoin hakemisto?&lt;br /&gt;</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="390"/>
+        <location filename="../ckan_browser_dialog.py" line="392"/>
         <source>py_dlg_base_lyr_not_loaded</source>
         <translation>Tasoa ei voida ladata:&lt;br /&gt;{0}&lt;br /&gt;{1}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="439"/>
+        <location filename="../ckan_browser_dialog.py" line="441"/>
         <source>dlg_base_ttip_search</source>
         <translation>Anna hakutermisi tähän.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="442"/>
+        <location filename="../ckan_browser_dialog.py" line="444"/>
         <source>dlg_base_ttip_filter</source>
         <translation>Aktivoi valintaruut rajoittaaksesi hakua tähän luokkaan. Tuplaklikkaus luokkassa listaa kaikki sen tietojoukot.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="445"/>
+        <location filename="../ckan_browser_dialog.py" line="447"/>
         <source>dlg_base_ttip_data_list</source>
         <translation>Lataa valitut tietojoukot ja yritä avata ne QGIS:ssä. Jos tietojoukkoja ei voida näyttää avataan hakemisto jossa ne ovat.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog.py" line="448"/>
+        <location filename="../ckan_browser_dialog.py" line="450"/>
         <source>dlg_base_ttip_resource</source>
         <translation>Valitun resurssin URL</translation>
     </message>
@@ -394,32 +374,32 @@
         <translation>Virhe saataessa URL&lt;br /&gt; {0} &lt;br /&gt;&lt;br /&gt;{1}</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="339"/>
+        <location filename="../ckanconnector.py" line="368"/>
         <source>cc_connection_timeout</source>
         <translation>Yhteyden aikakatkaisu:&lt;br /&gt;&lt;br /&gt;{0}</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="303"/>
+        <location filename="../ckanconnector.py" line="332"/>
         <source>cc_download_error</source>
         <translation>Latausvirhe: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="117"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="119"/>
         <source>cc_api_not_accessible</source>
         <translation>CKAN API ei ole käytettävissä</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="352"/>
+        <location filename="../ckanconnector.py" line="381"/>
         <source>cc_server_fault</source>
         <translation>Palvelinvirhe</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="121"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="123"/>
         <source>cc_invalid_json</source>
         <translation>Palvelimen vastaus ei ole oikeanlainen JSON objekti</translation>
     </message>
     <message>
-        <location filename="../ckanconnector.py" line="386"/>
+        <location filename="../ckanconnector.py" line="415"/>
         <source>cc_wrong_api</source>
         <translation>Ainoastaan v3 on tuettu</translation>
     </message>
@@ -429,42 +409,22 @@
         <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;.Helvetica Neue DeskInterface&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;&lt;h1&gt;Disclaimer&lt;/h1&gt;&lt;p&gt;EN Es besteht die Möglichkeit, dass das Plugin nicht mit allen CKAN funktioniert, da die Metadaten der Plattformen unterschiedlich abgebildet werden. Unterstützt werden nur Server, die groups oder tags verwenden. &lt;a href=&quot;http://docs.ckan.org/en/latest/api/&quot;&gt;link auf CKAN docs&lt;/a&gt;&lt;br /&gt;Dieses Plugin funktioniert nur mit API-Verson 3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="92"/>
-        <source>py_dlg_set_warn_urls_not_load</source>
-        <translation>Esivalittua URL:ia ei voitu ladata: {0}</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="121"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="222"/>
         <source>py_dlg_set_info_conn_succs</source>
         <translation>Yhteys onnistui</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="145"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="94"/>
         <source>py_dlg_set_warn_cache_not_use</source>
         <translation>Välimuistin hakemistoa ei voida käyttää</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="153"/>
-        <source>py_dlg_set_warn_ckan_url</source>
-        <translation>Ole ystävällinen ja määrittele CKAN API!</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="168"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="110"/>
         <source>dlg_set_tool_cache</source>
         <translation>Valitse hakemisto jonne ladattu tieto tallennetaan.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="171"/>
-        <source>dlg_set_tool_pre_urls</source>
-        <translation>Testattujen CKAN palvelinten esivalitut URL:it</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="174"/>
-        <source>dlg_set_tool_api_url</source>
-        <translation>Ole hyvä ja valitse AvoinTieto palvelin tai lisää URL uuteen.</translation>
-    </message>
-    <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="181"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="117"/>
         <source>Select Authentication</source>
         <translation type="unfinished"></translation>
     </message>
@@ -494,27 +454,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="159"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="297"/>
         <source>py_dlg_data_providers_no_server_selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="164"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="166"/>
         <source>py_dlg_data_providers_cannot_delete_sever_from_official_list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="235"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="237"/>
         <source>py_dlg_data_providers_custom_server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="235"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="237"/>
         <source>py_dlg_data_providers_name_custom_server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="247"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="249"/>
         <source>py_dlg_data_providers_custom_server_name_exists</source>
         <translation type="unfinished"></translation>
     </message>

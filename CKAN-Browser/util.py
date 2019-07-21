@@ -520,9 +520,10 @@ class Util:
 
     def open_in_manager(self, file_path):
         """http://stackoverflow.com/a/6631329/1504487"""
+        self.msg_log_debug(u'open_in_manager, platform: {}'.format(sys.platform))
         if sys.platform == 'darwin':
             subprocess.Popen(['open', file_path])
-        elif sys.platform == 'linux2':
+        elif sys.platform == 'linux' or sys.platform == 'linux2':
             subprocess.Popen(['xdg-open', file_path])
         elif os.name == 'nt':
             subprocess.Popen(['explorer', file_path])
