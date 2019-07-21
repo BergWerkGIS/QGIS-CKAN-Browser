@@ -404,7 +404,7 @@
         <translation>Latausvirhe: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="113"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="117"/>
         <source>cc_api_not_accessible</source>
         <translation>CKAN API ei ole käytettävissä</translation>
     </message>
@@ -414,7 +414,7 @@
         <translation>Palvelinvirhe</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="117"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="121"/>
         <source>cc_invalid_json</source>
         <translation>Palvelimen vastaus ei ole oikeanlainen JSON objekti</translation>
     </message>
@@ -439,32 +439,32 @@
         <translation>Yhteys onnistui</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="148"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="145"/>
         <source>py_dlg_set_warn_cache_not_use</source>
         <translation>Välimuistin hakemistoa ei voida käyttää</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="156"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="153"/>
         <source>py_dlg_set_warn_ckan_url</source>
         <translation>Ole ystävällinen ja määrittele CKAN API!</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="171"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="168"/>
         <source>dlg_set_tool_cache</source>
         <translation>Valitse hakemisto jonne ladattu tieto tallennetaan.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="174"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="171"/>
         <source>dlg_set_tool_pre_urls</source>
         <translation>Testattujen CKAN palvelinten esivalitut URL:it</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="177"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="174"/>
         <source>dlg_set_tool_api_url</source>
         <translation>Ole hyvä ja valitse AvoinTieto palvelin tai lisää URL uuteen.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="184"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="181"/>
         <source>Select Authentication</source>
         <translation type="unfinished"></translation>
     </message>
@@ -494,13 +494,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="154"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="159"/>
         <source>py_dlg_data_providers_no_server_selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="158"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="164"/>
         <source>py_dlg_data_providers_cannot_delete_sever_from_official_list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="235"/>
+        <source>py_dlg_data_providers_custom_server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="235"/>
+        <source>py_dlg_data_providers_name_custom_server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="247"/>
+        <source>py_dlg_data_providers_custom_server_name_exists</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

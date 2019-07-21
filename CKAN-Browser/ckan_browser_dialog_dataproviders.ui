@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>760</width>
-    <height>753</height>
+    <width>772</width>
+    <height>763</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -209,9 +209,43 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>IDC_bTestConnection</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogDataProviders</receiver>
+   <slot>btn_clicked_test_connection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>50</x>
+     <y>115</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>2</x>
+     <y>114</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>IDC_bAddConnection</sender>
+   <signal>clicked()</signal>
+   <receiver>CKANBrowserDialogDataProviders</receiver>
+   <slot>btn_clicked_add_connection()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>368</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>0</x>
+     <y>89</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>searchTermChanged(QString)</slot>
   <slot>save_btn_clicked()</slot>
+  <slot>btn_clicked_test_connection()</slot>
+  <slot>btn_clicked_add_connection()</slot>
  </slots>
 </ui>

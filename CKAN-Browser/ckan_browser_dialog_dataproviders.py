@@ -24,9 +24,10 @@ import json
 import os
 
 from PyQt5 import QtGui, uic
-from PyQt5.QtCore import QTimer, Qt, QStringListModel, QModelIndex
+from PyQt5.QtCore import QTimer, Qt, QStringListModel, QModelIndex, QObject, pyqtSignal, QEvent
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QColor
-from PyQt5.QtWidgets import QDialog, QApplication, QListWidgetItem, QAction
+from PyQt5.QtWidgets import QDialog, QApplication, QListWidgetItem, QAction, QInputDialog, QLineEdit
+from .ckanconnector import CkanConnector
 from .httpcall import HttpCall
 from .serverinstance import ServerInstance
 from .util import Util
@@ -53,6 +54,9 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         self.main_win = parent
         self.settings = settings
         self.util = Util(self.settings, self.main_win)
+        self.cc = CkanConnector(self.settings, self.util)
+
+        self.clickable(self.IDC_lbl_enter_dataprovider_url).connect(self.lbl_clicked_enter_data_provider_url)
         self.list_model = QStandardItemModel(self)
         self.list_model.itemChanged.connect(self.item_checked_changed)
         self.IDC_listProviders.activated.connect(self.server_in_list_activated)
@@ -82,8 +86,10 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
 
     def window_loaded(self):
         try:
-            self.timer.stop()
-            self.timer = None
+            if self.timer is not None:
+                self.timer.stop()
+                self.timer = None
+            self.list_model.clear()
             instances_url = 'https://raw.githubusercontent.com/ckan/ckan-instances/gh-pages/config/instances.json'
             self.util.msg_log_debug('before getting instances: ' + instances_url)
             http_call = HttpCall(self.settings, self.util)
@@ -119,6 +125,7 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                 self.settings.load()
                 selected_servers = self.settings.selected_ckan_servers.split('|')
                 self.servers = []
+                self.util.msg_log_debug(u'{} custom servers'.format(len(self.settings.custom_servers)))
                 for cs_name in self.settings.custom_servers:
                     url = self.settings.custom_servers[cs_name]
                     si = ServerInstance(cs_name, cs_name, url, url, custom_entry=True)
@@ -153,14 +160,25 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         if self.row_server_selected_in_list == -1:
             self.util.dlg_information(self.util.tr('py_dlg_data_providers_no_server_selected'))
             return
-        server = self.list_model.item(self.row_server_selected_in_list, 0)
-        if not server.data().is_custom:
+        server_to_remove_item = self.list_model.item(self.row_server_selected_in_list, 0)
+        server_to_remove = server_to_remove_item.data()
+        if not server_to_remove.is_custom:
             self.util.dlg_information(self.util.tr('py_dlg_data_providers_cannot_delete_sever_from_official_list'))
             return
-        self.servers.remove(server.data())
+        if server_to_remove.short_title in self.settings.custom_servers:
+            self.util.msg_log_debug(u'deleting custom server: {}'.format(server_to_remove))
+            del self.settings.custom_servers[server_to_remove.short_title]
+        else:
+            self.util.msg_log_debug(
+                u'unable to delete custom server, not found: {}\n{}'
+                .format(server_to_remove, self.settings.custom_servers)
+            )
+        self.servers.remove(server_to_remove)
         self.list_model.removeRow(self.row_server_selected_in_list)
         self.row_server_selected_in_list = -1
 
+    def lbl_clicked_enter_data_provider_url(self):
+        self.IDC_leManualUrl.setText('https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/')
 
     def searchTermChanged(self, text):
         results = []
@@ -186,6 +204,54 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                 i.setCheckState(Qt.Checked if result.selected else Qt.Unchecked)
                 self.list_model.appendRow(i)
         self.__update_server_count()
+
+    def btn_clicked_test_connection(self):
+        self.util.msg_log_debug('btn_clicked_test_connection')
+
+        api_url = self.IDC_leManualUrl.text()
+        self.util.msg_log_debug('testing URL: {0}'.format(api_url))
+
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        ok, result = self.cc.test_groups(api_url)
+        QApplication.restoreOverrideCursor()
+
+        if not ok:
+            self.util.dlg_warning(result)
+            return
+        else:
+            self.util.dlg_information(self.util.tr(u'py_dlg_set_info_conn_succs'))
+
+    def btn_clicked_add_connection(self):
+        self.util.msg_log_debug('btn_clicked_add_connection')
+
+        # let's do another sanity check if the provided url works
+        # might have changed since the user tested it
+        api_url = self.IDC_leManualUrl.text()
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        ok, result = self.cc.test_groups(api_url)
+        QApplication.restoreOverrideCursor()
+        if not ok:
+            self.util.dlg_warning(result)
+            return
+
+        server_name, ok_pressed = QInputDialog.getText(
+            self,
+            self.util.tr('py_dlg_data_providers_custom_server'),
+            self.util.tr('py_dlg_data_providers_name_custom_server'),
+            QLineEdit.Normal,
+            ""
+        )
+        if not ok_pressed or server_name is None or server_name.isspace() or server_name == '':
+            return
+
+        if server_name in self.settings.custom_servers:
+            self.util.dlg_warning(self.util.tr('py_dlg_data_providers_custom_server_name_exists').format(server_name))
+            return
+
+        self.settings.custom_servers[server_name] = api_url
+        self.settings.save()
+        QApplication.setOverrideCursor(Qt.WaitCursor)
+        self.window_loaded()
 
     def server_in_list_activated(self, model_index):
         self.util.msg_log_debug(u'server activated, model index: {}'.format(model_index))
@@ -238,3 +304,21 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
             len(self.servers)
         )
         self.IDC_lbInstanceCount.setText(txt)
+
+    def clickable(self, widget):
+        # from https://wiki.python.org/moin/PyQt/Making%20non-clickable%20widgets%20clickable
+        class Filter(QObject):
+            clicked = pyqtSignal()
+
+            def eventFilter(self, obj, event):
+                if obj == widget:
+                    if event.type() == QEvent.MouseButtonRelease:
+                        if obj.rect().contains(event.pos()):
+                            self.clicked.emit()
+                            # The developer can opt for .emit(obj) to get the object within the slot.
+                            return True
+                return False
+
+        widget_filter = Filter(widget)
+        widget.installEventFilter(widget_filter)
+        return widget_filter.clicked

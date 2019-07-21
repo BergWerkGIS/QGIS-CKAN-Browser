@@ -159,7 +159,7 @@
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="50"/>
         <source>dlg_dataproviders_lbl_enter_dataprovider_url</source>
-        <translation>CKAN API Endpoint</translation>
+        <translation>CKAN API Endpoint, eg: https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="63"/>
@@ -404,7 +404,7 @@
         <translation>Download error: {0}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="113"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="117"/>
         <source>cc_api_not_accessible</source>
         <translation>CKAN API not accessible</translation>
     </message>
@@ -414,7 +414,7 @@
         <translation>Server error</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="117"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="121"/>
         <source>cc_invalid_json</source>
         <translation>Server response is not a valid JSON Object</translation>
     </message>
@@ -439,32 +439,32 @@
         <translation>Connection successful</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="148"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="145"/>
         <source>py_dlg_set_warn_cache_not_use</source>
         <translation>Cache directory can not be used</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="156"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="153"/>
         <source>py_dlg_set_warn_ckan_url</source>
         <translation>Please define a CKAN API!</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="171"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="168"/>
         <source>dlg_set_tool_cache</source>
         <translation>Select a directory where downloaded data will be stored.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="174"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="171"/>
         <source>dlg_set_tool_pre_urls</source>
         <translation>Preselected URLs of tested CKAN servers</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="177"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="174"/>
         <source>dlg_set_tool_api_url</source>
         <translation>Please select an OpenData server or insert the URL to a new one.</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_settings.py" line="184"/>
+        <location filename="../ckan_browser_dialog_settings.py" line="181"/>
         <source>Select Authentication</source>
         <translation type="unfinished"></translation>
     </message>
@@ -494,14 +494,29 @@
         <translation>Cache Directory: {}</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="154"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="159"/>
         <source>py_dlg_data_providers_no_server_selected</source>
         <translation>No server selected</translation>
     </message>
     <message>
-        <location filename="../ckan_browser_dialog_dataproviders.py" line="158"/>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="164"/>
         <source>py_dlg_data_providers_cannot_delete_sever_from_official_list</source>
         <translation>Cannot delete server from official CKAN list</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="235"/>
+        <source>py_dlg_data_providers_custom_server</source>
+        <translation>Custom CKAN Server</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="235"/>
+        <source>py_dlg_data_providers_name_custom_server</source>
+        <translation>Name your CKAN Server:</translation>
+    </message>
+    <message>
+        <location filename="../ckan_browser_dialog_dataproviders.py" line="247"/>
+        <source>py_dlg_data_providers_custom_server_name_exists</source>
+        <translation>Server with this name already exists: {}</translation>
     </message>
 </context>
 </TS>

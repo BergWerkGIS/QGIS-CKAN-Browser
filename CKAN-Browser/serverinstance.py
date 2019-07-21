@@ -7,13 +7,13 @@ class ServerInstance:
         self.__title = title.strip()
         self.description = description.replace('\n', ' ').strip()
         new_line = '' if not self.__title or self.__title.isspace() or not self.description or self.description.isspace() else '\n'
+        self.short_title = title
         self.title = u'{}{}{}'.format(self.__title, new_line, self.description)
         self.url = url
         self.api_url = api_url
         self.selected = selected
         self.is_custom = custom_entry
-        # try with just the url for now, let's see how that goes
-        self.settings_key = self.url
+        self.settings_key = self.short_title + self.url
         self.last_search_result = 0
 
     def __repr__(self):

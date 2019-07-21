@@ -120,9 +120,6 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
         else:
             self.util.dlg_information(self.util.tr(u'py_dlg_set_info_conn_succs'))
 
-#         for entry in result:
-#             self.util.msg_log('Item: {0}'.format(entry))
-
 
     def pre_ckan_api(self):
         """select CKAN API from predefined file"""
