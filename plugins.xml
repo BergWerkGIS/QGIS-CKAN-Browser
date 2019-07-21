@@ -1,6 +1,6 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <plugins>
-    <pyqgis_plugin name="CKANBrowser" version="0.3.93">
+    <pyqgis_plugin name="CKAN-Browser" version="0.3.93">
         <description><![CDATA[Download and display CKAN enabled Open Data Portals]]></description>
         <version>0.3.93</version>
         <qgis_minimum_version>3.0.0</qgis_minimum_version>
