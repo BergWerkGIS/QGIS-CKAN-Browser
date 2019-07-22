@@ -2,7 +2,7 @@
 LRELEASE=$1
 LOCALES=$2
 
-
+echo ${LOCALES}
 for LOCALE in ${LOCALES}
 do
     echo "Processing: ${LOCALE}.ts"

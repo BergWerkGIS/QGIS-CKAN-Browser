@@ -56,7 +56,7 @@
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="299"/>
         <source>dlg_base_srch_rslt</source>
-        <translation type="unfinished">Résultats:</translation>
+        <translation>Résultats:</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="316"/>
@@ -91,7 +91,7 @@
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="408"/>
         <source>dlg_base_data_list</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Données trouvées:&lt;br /&gt;Choisir le jeu de données à télécharger.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Données trouvées:&lt;br /&gt;Choisir le jeu de données à télécharger.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="449"/>
