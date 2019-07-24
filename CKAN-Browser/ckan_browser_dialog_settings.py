@@ -96,6 +96,7 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
             )
             return
 
+        self.settings.cache_dir = cache_dir
         self.settings.debug = self.IDC_chkbox_show_debug_info.isChecked()
 
         authcfg = self.IDC_leAuthCfg.text()
