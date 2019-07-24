@@ -121,7 +121,7 @@
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="517"/>
         <source>?</source>
-        <translation type="unfinished">?</translation>
+        <translation>?</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="259"/>

@@ -24,7 +24,7 @@
 
 
 #Add iso code for any locales you want to support here (space separated)
-LOCALES = CKANBrowser_en CKANBrowser_de CKANBrowser_fi CKANBrowser_fr CKANBrowser_ja
+LOCALES = 'CKANBrowser_en CKANBrowser_de CKANBrowser_fi CKANBrowser_fr CKANBrowser_ja'
 
 LRELEASE = lrelease
 
@@ -179,6 +179,7 @@ transup:
 	@echo "------------------------------------------------"
 	@echo "Updating translation files with any new strings."
 	@echo "------------------------------------------------"
+	@echo $(LOCALES)
 	@chmod +x scripts/update-strings.sh
 	@scripts/update-strings.sh $(LOCALES)
 
@@ -187,6 +188,7 @@ transcompile:
 	@echo "----------------------------------------"
 	@echo "Compiled translation files to .qm files."
 	@echo "----------------------------------------"
+	@echo $(LOCALES)
 	@chmod +x scripts/compile-strings.sh
 	@scripts/compile-strings.sh $(LRELEASE) $(LOCALES)
 

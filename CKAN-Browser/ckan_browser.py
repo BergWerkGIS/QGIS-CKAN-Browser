@@ -23,15 +23,12 @@
 from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
-# Initialize Qt resources from file resources.py
-#import resources_rc
-# Import the code for the dialog
+from qgis.core import QgsMessageLog, Qgis
 from .ckan_browser_dialog import CKANBrowserDialog
 from .ckan_browser_dialog_settings import CKANBrowserDialogSettings
 import os.path
 from .settings import Settings
 from .util import Util
-
 
 
 class CKANBrowser:
@@ -45,41 +42,63 @@ class CKANBrowser:
             application at run time.
         :type iface: QgsInterface
         """
+        QgsMessageLog.logMessage('__init__', 'CKAN-Browser', Qgis.Info)
         QSettings().setValue("ckan_browser/isopen", False)
-        # Save reference to the QGIS interface
         self.iface = iface
+
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
+        QgsMessageLog.logMessage(u'plugin directory: {}'.format(self.plugin_dir), 'CKAN-Browser', Qgis.Info)
+
         # initialize locale
         locale = QSettings().value('locale/userLocale')[0:2]
+        QgsMessageLog.logMessage(u'locale: {}'.format(locale), 'CKAN-Browser', Qgis.Info)
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
             'CKANBrowser_{}.qm'.format(locale))
         
-        # load english file for testing
-#         locale_path = os.path.join(
-#             self.plugin_dir,
-#             'i18n',
-#             'CKANBrowser_en.qm')
-        
+        QgsMessageLog.logMessage(u'locale_path: {}'.format(locale_path), 'CKAN-Browser', Qgis.Info)
+
+        locale_path_en = os.path.join(
+            self.plugin_dir,
+            'i18n',
+            'CKANBrowser_en.qm'
+        )
+
+        # if we don't have translation for current locale, completely switch to English
         if not os.path.exists(locale_path):
-            locale_path = os.path.join(
-                self.plugin_dir,
-                'i18n',
-                'CKANBrowser_en.qm')
-        
+            locale = 'en'
+            locale_path = locale_path_en
+
+        # if locale is not 'en' then additionally load 'en' as fallback for untranslated elements.
+        # !!! this has to be done before(!) adding the actual locale:
+        # https://doc.qt.io/qt-5/qcoreapplication.html#installTranslator
+        # "Translations are searched for in the reverse order in which they were installed, so the most recently
+        # installed translation file is searched first and the first translation file installed is searched last."
+        if locale != 'en':
+            QgsMessageLog.logMessage(u'loading "en" fallback: {}'.format(locale_path_en), 'CKAN-Browser', Qgis.Info)
+            self.translator_en = QTranslator()
+            self.translator_en.load(locale_path_en)
+            if not QCoreApplication.installTranslator(self.translator_en):
+                QgsMessageLog.logMessage(u'could not install translator: {}'.format(locale_path_en), 'CKAN-Browser', Qgis.Critical)
+            else:
+                QgsMessageLog.logMessage(u'locale "en" installed', 'CKAN-Browser', Qgis.Info)
+
         if os.path.exists(locale_path):
             self.translator = QTranslator()
+
+            # load translations according to locale
             self.translator.load(locale_path)
 
-            if qVersion() > '4.3.3':
-                QCoreApplication.installTranslator(self.translator)
+            if not QCoreApplication.installTranslator(self.translator):
+                QgsMessageLog.logMessage(u'could not install translator: {}'.format(locale_path), 'CKAN-Browser', Qgis.Critical)
+            else:
+                QgsMessageLog.logMessage(u'locale "{}" installed'.format(locale), 'CKAN-Browser', Qgis.Info)
 
         self.settings = Settings()
         self.settings.load()
         self.util = Util(self.settings, self.iface.mainWindow())
-        self.util.msg_log_debug('__init__')
 
         # TODO ping API
 

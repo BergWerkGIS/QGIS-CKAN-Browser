@@ -146,21 +146,13 @@ class CkanConnector:
         except:
             return False, self.util.tr(u'cc_url_error').format(url, sys.exc_info()[1]), Exception(self.util.tr(u'cc_url_error'))
 
-        # HACK
-        # headers and their values are returned as strings like this:
-        # "b'95140771'"
-        # how to fix this properly???
-        if "b'Content-Length'" not in request_head.headers:
-            self.util.msg_log_debug(u'No content-length in response header! Returning 0.')
+        if 'Content-Length' not in request_head.headers:
+            self.util.msg_log_warning(u'No content-length in response header! Returning 0.')
             for h in request_head.headers:
                 self.util.msg_log_debug(u'{}'.format(h))
             return True, 0, None
 
-        # HACK
-        # headers are returned as strings like this: "b'95140771'"
-        # how to fix this properly???
-        #content_length = request_head.headers[b'content-length']
-        content_length = request_head.headers["b'Content-Length'"].replace('b', '').replace("'", '')
+        content_length = request_head.headers['Content-Length']
         file_size = int(content_length) / 1000000  # divide to get MB
 
         self.util.msg_log_debug(u'Content-Length: {0} MB'.format(file_size))
