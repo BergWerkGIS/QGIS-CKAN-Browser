@@ -76,14 +76,14 @@ After successful install there is a new toolbar available (click on `Settings`):
 4. List of data sets found, click to get more details in `5`, `6` and `7`
 5. Description of selected data set (**if provided by server**)
 6. Resources associated with selected data set (**if supported by server**)
-  6.1. Click on resource to see resource URL `7` and copy to clipboard in case automatic download does not work
-  6.2. Check the box of the resource (or several, **if supported by server**) to select for download
+6.1. Click on resource to see resource URL `7` and copy to clipboard in case automatic download does not work
+6.2. Check the box of the resource (or several, **if supported by server**) to select for download
 7. Resource url and copy url button if the resource cannot be downloaded (eg link to webpage or an unsupported file format)
 8. `Load Data` to download the selected resources and automatically open them
 9. List all data available sets
 10. List of categories/groups available on the selected CKAN server (**if supported by server**)
-  10.1. Check to limit your search to one or several group(s).
-  10.2. Double click on a group to get all data sets associated with that group
+10.1. Check to limit your search to one or several group(s).
+10.2. Double click on a group to get all data sets associated with that group
 
 ![Open Data (CKAN) Browser](img/open-data-ckan-browser.png?raw=true)
 
@@ -99,6 +99,6 @@ Custom CKAN server instances can be added manually as well.
 3. If the connection succeeded, name the instance and add it to the list
 4. To select an instance for use check the box
 5. Custom instances are marked by a blue background.
-  5.1. Right click on a custom instance brings up the `Delete` context menu to remove the instance from the list. **Only custom instances can be deleted.**
+5.1. Right click on a custom instance brings up the `Delete` context menu to remove the instance from the list. **Only custom instances can be deleted.**
 
 ![Custom CKAN Server instances](img/ckan-instances.png)
