@@ -4,6 +4,8 @@ from PyQt5.QtCore import QSettings
 import os
 import configparser
 
+from qgis.core import QgsMessageLog, Qgis
+
 
 class Settings:
 
@@ -31,7 +33,7 @@ class Settings:
         self.cache_dir = qgis_settings.value(self.KEY_CACHE_DIR, '')
         if self.cache_dir is None:
             self.cache_dir = ''
-        self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/')
+++        self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/')
         self.selected_ckan_servers = qgis_settings.value(self.KEY_SELECTED_CKAN_SERVERS, '')
         self.custom_servers = qgis_settings.value(self.KEY_CUSTOM_SERVERS, {})
         self.debug = qgis_settings.value(self.KEY_SHOW_DEBUG_INFO, False, bool)
@@ -47,31 +49,6 @@ class Settings:
         qgis_settings.setValue(self.KEY_SELECTED_CKAN_SERVERS, self.selected_ckan_servers)
         qgis_settings.setValue(self.KEY_CUSTOM_SERVERS, self.custom_servers)
         qgis_settings.setValue(self.KEY_SHOW_DEBUG_INFO, self.debug)
-
-    def get_proxies(self):
-        s = QSettings()
-        # if user has never clicked on proxy settings in GUI,
-        # this settings does not even exist -> default to 'false'
-        proxy_enabled = s.value('proxy/proxyEnabled', 'false')
-        proxy_type = s.value('proxy/proxyType', '')
-        proxy_host = s.value('proxy/proxyHost', '')
-        proxy_port = s.value('proxy/proxyPort', '')
-        proxy_user = s.value('proxy/proxyUser', None)
-        proxy_password = s.value('proxy/proxyPassword', None)
-        if proxy_enabled == 'false' or not proxy_enabled:
-            return False, None
-        if proxy_type == 'HttpProxy':
-            proxy_string = ''
-            if proxy_user is not None and proxy_password is not None\
-                    and proxy_user != '' and proxy_password != '':
-                proxy_string += proxy_user + ':' + proxy_password + '@'
-            proxy_string += proxy_host + ':' + proxy_port
-            #print proxy_string
-            return True, {
-                'http': 'http://' + proxy_string,
-                'https': 'https://' + proxy_string
-            }
-
 
     def _determine_version(self):
         """http://gis.stackexchange.com/a/169266/8673"""
