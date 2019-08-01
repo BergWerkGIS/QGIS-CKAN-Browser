@@ -222,7 +222,8 @@ class CkanConnector:
                 , headers=self.ua_chrome
                 , verify=False
                 , stream=True
-                , proxies=self.settings.get_proxies()[1]
+                # not needed anymore, as we use QgsNetworkAccessManager.instance() now
+                #, proxies=self.settings.get_proxies()[1]
                 , timeout=self.settings.request_timeout
             )
 
@@ -332,7 +333,8 @@ class CkanConnector:
                 url
                 , headers=self.ua_chrome
                 , verify=False
-                , proxies=self.settings.get_proxies()[1]
+                # not needed anymore, as we use QgsNetworkAccessManager.instance() now
+                #, proxies=self.settings.get_proxies()[1]
                 , timeout=self.settings.request_timeout
             )
 

@@ -98,7 +98,8 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
                 # , headers=self.ua_chrome
                 , verify=False
                 , stream=True
-                , proxies=self.settings.get_proxies()[1]
+                # not needed anymore, as we use QgsNetworkAccessManager.instance() now
+                #, proxies=self.settings.get_proxies()[1]
                 , timeout=self.settings.request_timeout
             )
 
@@ -178,7 +179,7 @@ class CKANBrowserDialogDataProviders(QDialog, FORM_CLASS):
         self.row_server_selected_in_list = -1
 
     def lbl_clicked_enter_data_provider_url(self):
-        self.IDC_leManualUrl.setText('https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/')
+        self.IDC_leManualUrl.setText('https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/')
 
     def searchTermChanged(self, text):
         results = []

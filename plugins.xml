@@ -2,7 +2,7 @@
 <plugins>
     <pyqgis_plugin name="CKAN-Browser" version="0.3.94">
         <description><![CDATA[Download and display CKAN enabled Open Data Portals]]></description>
-        <version>0.3.94</version>
+        <version>0.3.95</version>
         <qgis_minimum_version>3.0.0</qgis_minimum_version>
         <qgis_maximum_version>3.99.0</qgis_maximum_version>
         <homepage>https://github.com/BergWerkGIS/QGIS-CKAN-Browser</homepage>

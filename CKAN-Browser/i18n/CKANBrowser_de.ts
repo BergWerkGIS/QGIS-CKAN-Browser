@@ -159,7 +159,7 @@
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="50"/>
         <source>dlg_dataproviders_lbl_enter_dataprovider_url</source>
-        <translation>CKAN API Endpunkt, z.B. https://ckan0.cf.opendata.inter.sandbox-toronto.ca/api/3/</translation>
+        <translation>CKAN API Endpunkt, z.B. https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="63"/>
