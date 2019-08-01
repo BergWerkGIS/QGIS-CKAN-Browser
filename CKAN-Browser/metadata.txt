@@ -1,17 +1,9 @@
-# This file contains metadata for your plugin. Since 
-# version 2.0 of QGIS this is the proper way to supply 
-# information about a plugin. The old method of 
-# embedding metadata in __init__.py will 
-# is no longer supported since version 2.0.
-
-# This file should be included when you package your plugin.# Mandatory items:
-
 [general]
 name=CKAN-Browser
 qgisMinimumVersion=3.0
 about=Download and display Open Data from CKAN Metadata Servers
 description=Download and display Open Data from CKAN Metadata Servers
-version=0.3.94
+version=0.3.95
 author=BergWerkGIS
 email=wb@BergWerk-GIS.at
 
@@ -20,9 +12,45 @@ email=wb@BergWerk-GIS.at
 # Optional items:
 
 # Uncomment the following line and add your changelog:
-changelog=v0.3.3 (2017-03-11)
-* Fix https://open.nrw/api/3 WMS https://open.nrw/api/3WMS https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/13
+changelog=v0.3.90 - v0.3.96 (aka v0.4-RC1 - RC6) (Mai/June/July/August 2019)
+    * experimental upgrade to QGIS 3.x https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/20
+    * add new custom CKAN server instance directly from the main dialog https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/22
+    * trimmed down settings dialog
+    * CKAN server list gets prepopulated with entries from https://ckan.org/about/instances/
+    * fix proxy error when using any proxy setting except HTTP-Proxy https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/24
+    * QGIS Authentication Manager Integration https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/14 https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/15
 
+  v0.3.3 (2017-03-11)
+    * Fix https://open.nrw/api/3 WMS https://open.nrw/api/3WMS https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/13
+
+  v0.3.3 (2017-03-11)
+    * Fix https://open.nrw/api/3 WMS https://open.nrw/api/3WMS https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/13
+
+  v0.3.2 (2017-03-02)
+    * Merge #12 to add server of the State of Alagoas , Brazil.
+    * Remove deprecated server: "Open Data Kärnten" "http://ckan.data.ktn.gv.at/api/3/"
+    * Remove deprecated server: "Open Government Data Graz": http://ckan.data.graz.gv.at/api/3/
+
+  v0.3.1 (2016-05-25)
+    * Finnish translation by Kari Salovaara
+
+  v0.3.0 (2016-05-21)
+    * data.gv.at WFS fix
+    * remove new lines in resource urls
+    * Error loading resource with ? in its location https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/10
+    * ProxySchemeUnknown error blocks service connection https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/11
+
+  v0.2.9 (2016-02-11)
+    * Japanese translation by https://github.com/yoichigmf https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/8
+    * Support for proxies with login/password https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/5
+    * Extracting of geodata containing non ascii-characters https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/3
+
+  v0.2.8 (2016-01-27)
+    * First public release
+    * minor fixes for WM(T)S, WFS
+
+  v0.0.1 -> v0.2.7 (2015 - January 2016)
+    * internal test versions
 
 
 # Tags are comma separated with spaces allowed
