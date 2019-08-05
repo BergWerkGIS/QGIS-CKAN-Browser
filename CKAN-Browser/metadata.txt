@@ -3,7 +3,7 @@ name=CKAN-Browser
 qgisMinimumVersion=3.0
 about=Download and display Open Data from CKAN Metadata Servers
 description=Download and display Open Data from CKAN Metadata Servers
-version=0.3.95
+version=0.3.96
 author=BergWerkGIS
 email=wb@BergWerk-GIS.at
 
@@ -12,13 +12,15 @@ email=wb@BergWerk-GIS.at
 # Optional items:
 
 # Uncomment the following line and add your changelog:
-changelog=v0.3.90 - v0.3.96 (aka v0.4-RC1 - RC6) (Mai/June/July/August 2019)
+changelog=v0.4.0 (2019-08-??) Final release for QGIS 3.x
+   v0.3.90 - v0.3.96 (aka v0.4-RC1 - RC6) (Mai/June/July/August 2019)
     * experimental upgrade to QGIS 3.x https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/20
     * add new custom CKAN server instance directly from the main dialog https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/22
     * trimmed down settings dialog
     * CKAN server list gets prepopulated with entries from https://ckan.org/about/instances/
     * fix proxy error when using any proxy setting except HTTP-Proxy https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/24
     * QGIS Authentication Manager Integration https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/14 https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/15
+    * Update of French translation by https://github.com/4estone https://github.com/BergWerkGIS/QGIS-CKAN-Browser/pull/26
 
   v0.3.3 (2017-03-11)
     * Fix https://open.nrw/api/3 WMS https://open.nrw/api/3WMS https://github.com/BergWerkGIS/QGIS-CKAN-Browser/issues/13
