@@ -126,22 +126,22 @@
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="259"/>
         <source>dlg_base_btn_select_dataprovider</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner un serveur CKAN</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="208"/>
         <source>dlg_base_current_server</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveur courrant</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="230"/>
         <source>dlg_base_lbl_cache_dir</source>
-        <translation type="unfinished"></translation>
+        <translation>Répertoire de cache</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_base.ui" line="252"/>
         <source>dlg_base_lbl_plugin_version</source>
-        <translation type="unfinished"></translation>
+        <translation>Version du plugin : {}</translation>
     </message>
 </context>
 <context>
@@ -149,37 +149,37 @@
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="26"/>
         <source>dlg_dataproviders_title</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveurs CKAN</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="38"/>
         <source>dlg_dataproviders_grp_manual</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un nouveau serveur CKAN</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="50"/>
         <source>dlg_dataproviders_lbl_enter_dataprovider_url</source>
-        <translation type="unfinished"></translation>
+        <translation>CKAN API Endpoint, ex: https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="63"/>
         <source>dlg_dataproviders_btn_test_connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Test connection</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="70"/>
         <source>dlg_dataproviders_btn_add_connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajout du serveur CKAN à la liste</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="96"/>
         <source>dlg_dataproviders_lbl_search_for_provider</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche de serveurs CKAN - liste fournie par https://ckan.org/about/instances/</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_dataproviders.ui" line="106"/>
         <source>dlg_dataproviders_lbl_nr_of_instances</source>
-        <translation type="unfinished"></translation>
+        <translation>{} / {} sélectionnable (les autres n&apos;ont pas d&apos;URL API définie)</translation>
     </message>
 </context>
 <context>
@@ -222,47 +222,47 @@
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="150"/>
         <source>Authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Authentification</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="177"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="170"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Editer</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="200"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Warning: &lt;/span&gt;if this option is enabled, the same authentication configuration will be implicitely propagated to &lt;span style=&quot; font-weight:600;&quot;&gt;all&lt;/span&gt; OGC layers (WMS, WFS ...) returned by this catalog, this may leak credentials to the result endpoint  if it is not supposed to use the same authentication configuration.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Avertissement: &lt;/span&gt;si cette option est active,la même authentification sera affectée à &lt;span style=&quot; font-weight:600;&quot;&gt;toutes&lt;/span&gt; les couches OGC  (WMS, WFS ...) présentes dans le catalogue, cela peut occasioner unefuite des informations d&apos;identification si ik n&apos;est pas supposé qu&apos;elles utilisent la même configuration d&apos;autentification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="203"/>
         <source>Use the same authentication settings for all OGC layers</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser la même authentification pour toutes les couches OGC</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="38"/>
         <source>dlg_settings_grp_cache_folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Répertoire de cache</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="144"/>
         <source>dlg_settings_grp_authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres d&apos;authentification</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="213"/>
         <source>dlg_settings_grpbox_misc</source>
-        <translation type="unfinished"></translation>
+        <translation>Divers</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_settings.ui" line="225"/>
         <source>dlg_settings_chkbox_show_debug_info</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les informations de debugage dans le panneau &apos;Journal des messages&apos;</translation>
     </message>
 </context>
 <context>
@@ -270,12 +270,12 @@
     <message>
         <location filename="../ckan_browser_dialog_disclaimer.ui" line="32"/>
         <source>dlg_dsc_dlg_title</source>
-        <translation type="unfinished">Avertissement</translation>
+        <translation>Avertissement</translation>
     </message>
     <message>
         <location filename="../ckan_browser_dialog_disclaimer.ui" line="70"/>
         <source>dlg_dsc_title</source>
-        <translation type="unfinished">CKAN Browser</translation>
+        <translation>CKAN Browser</translation>
     </message>
 </context>
 <context>
