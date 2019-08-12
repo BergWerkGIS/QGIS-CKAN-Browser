@@ -33,7 +33,7 @@ class Settings:
         self.cache_dir = qgis_settings.value(self.KEY_CACHE_DIR, '')
         if self.cache_dir is None:
             self.cache_dir = ''
-++        self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/')
+        self.ckan_url = qgis_settings.value(self.KEY_CKAN_API, 'https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/')
         self.selected_ckan_servers = qgis_settings.value(self.KEY_SELECTED_CKAN_SERVERS, '')
         self.custom_servers = qgis_settings.value(self.KEY_CUSTOM_SERVERS, {})
         self.debug = qgis_settings.value(self.KEY_SHOW_DEBUG_INFO, False, bool)
