@@ -29,11 +29,7 @@ from collections import OrderedDict
 from .util import Util
 from .ckanconnector import CkanConnector
 import json
-
-try:
-    from qgis.gui import QgsAuthConfigSelect
-except ImportError:
-    QgsAuthConfigSelect = None
+from qgis.gui import QgsAuthConfigSelect
 
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -58,18 +54,11 @@ class CKANBrowserDialogSettings(QDialog, FORM_CLASS):
         self.IDC_leCacheDir.setText(self.settings.cache_dir)
         self.IDC_chkbox_show_debug_info.setChecked(self.settings.debug)
 
-        if QgsAuthConfigSelect is None:
-            self.IDC_leAuthCfg.hide()
-            self.IDC_bAuthCfgClear.hide()
-            self.IDC_bAuthCfgEdit.hide()
-            self.IDC_lblAuthCfg.hide()
-            self.IDC_cbAuthPropagate.hide()
+        if self.settings.authcfg:
+            self.IDC_leAuthCfg.setText(self.settings.authcfg)
+            self.IDC_cbAuthPropagate.setChecked(self.settings.auth_propagate)
         else:
-            if self.settings.authcfg:
-                self.IDC_leAuthCfg.setText(self.settings.authcfg)
-                self.IDC_cbAuthPropagate.setChecked(self.settings.auth_propagate)
-            else:
-                self.IDC_cbAuthPropagate.setChecked(False)
+            self.IDC_cbAuthPropagate.setChecked(False)
 
         self.cc = CkanConnector(self.settings, self.util)
 
